@@ -6,7 +6,7 @@ var config = {
   development: {
     root: rootPath,
     app: {
-      name: 'expressalbert'
+      name: 'albert'
     },
     port: process.env.PORT || 3000,
     db: 'mongodb://localhost:32768/albert'
@@ -15,7 +15,7 @@ var config = {
   test: {
     root: rootPath,
     app: {
-      name: 'expressalbert'
+      name: 'albert'
     },
     port: process.env.PORT || 3000,
     db: 'mongodb://localhost:32768/albert'
@@ -24,7 +24,7 @@ var config = {
   production: {
     root: rootPath,
     app: {
-      name: 'expressalbert'
+      name: 'albert'
     },
     port: process.env.PORT || 3000,
     db: 'mongodb://localhost:32768/albert'
