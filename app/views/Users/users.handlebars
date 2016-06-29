@@ -41,6 +41,8 @@
         <th>Lastname</th>
         <th>Username</th>
         <th>Email</th>
+        <th>Phone</th>
+        <th>Edit</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -52,10 +54,11 @@
         <td>{{username}}</td>
         <td><a href="mailto:{{email}}">{{email}}</a></td>
         <td>{{phone}}</td>
+        <td><a href="/users/{{_id}}/update" class="text-center btn btn-primary">Edit</a></td>
         <td>
-            <form method="POST" action="/users/{{_id}}">
+            <form method="POST" action="/users/{{_id}}/delete">
                 <input type="hidden" name="id" value="{{_id}}">
-                <input type="submit" value="Delete">
+                <input class="btn btn-secondary" type="submit" value="Delete">
                 <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
                 <input type="hidden" name="_csrf" value="{_csrf}">
                 <input type="hidden" name="_method" value="DELETE"> 

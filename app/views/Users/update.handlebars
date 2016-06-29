@@ -1,30 +1,30 @@
 <div class="row">
     <div class="col-sm-4"></div>
-    <div class="col-sm-6"><h1>New User</h1></div>
+    <div class="col-sm-6"><h1>Edit User</h1></div>
 </div>
 <br>
-<form method="POST" action="/users/new">
+<form method="POST" action="/users/{{user._id}}/update">
     <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="username-input" class="col-sm-2">Username</label>
         <div class="col-sm-6">
-            <input type="text" name="username" class="form-control" id="username-input" placeholder="Username" autofocus>
+            <input type="text" name="username" class="form-control" id="username-input" value="{{user.username}}">
         </div>
     </div>
 
-    <div class="form-group row">
+    {{!-- <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="password-input" class="col-sm-2">Password</label>
         <div class="col-sm-6">
-            <input type="password" name="password" class="form-control" id="password-input" placeholder="Password">
+            <input type="password" name="password" class="form-control" id="password-input" value="{{user.password}}">
         </div>
-    </div>
+    </div> --}}
 
     <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="first-name-input" class="col-sm-2">First Name</label>
         <div class="col-sm-6">
-            <input type="text" name="first_name" class="form-control" id="first-name-input" placeholder="First Name">
+            <input type="text" name="first_name" class="form-control" id="first-name-input" value="{{user.first_name}}">
         </div>
     </div>
 
@@ -32,7 +32,7 @@
         <div class="col-sm-2"></div>
         <label for="last-name-input" class="col-sm-2">Last Name</label>
         <div class="col-sm-6">
-            <input type="text" name="last_name" class="form-control" id="last-name-input" placeholder="Last Name">
+            <input type="text" name="last_name" class="form-control" id="last-name-input" value="{{user.last_name}}">
         </div>
     </div>
 
@@ -40,7 +40,7 @@
         <div class="col-sm-2"></div>
         <label for="email-input" class="col-sm-2">Email</label>
         <div class="col-sm-6">
-            <input type="email" name="email" class="form-control" id="email-input" placeholder="Email">
+            <input type="email" name="email" class="form-control" id="email-input" value="{{user.email}}">
         </div>
     </div>
 
@@ -48,13 +48,13 @@
         <div class="col-sm-2"></div>
         <label for="phone-input" class="col-sm-2">Phone</label>
         <div class="col-sm-6">
-            <input type="text" name="phone" class="form-control" id="phone-input" placeholder="Phone (ex: 123-456-7890)">
+            <input type="text" name="phone" class="form-control" id="phone-input" value="{{user.phone}}">
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-4"></div>
-        <button type="submit" class="btn btn-primary col-sm-6">Create User</button>
+        <button type="submit" class="btn btn-primary col-sm-6">Update User</button>
     </div>
 
 </form>

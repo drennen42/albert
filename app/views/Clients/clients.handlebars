@@ -6,15 +6,17 @@
         <th>Firstname</th>
         <th>Lastname</th>
         <th>Email</th>
+        <th>Events</th>
         <th>Delete</th>
       </tr>
     </thead>
     <tbody>
     {{#each clients}}
       <tr>
-        <td>{{first_name}}</td>
+        <td><a href="/clients/{{_id}}">{{first_name}}</a></td>
         <td>{{last_name}}</td>
         <td>{{email}}</td>
+        <td><a class="btn btn-primary" href="/clients/{{_id}}/events" role="button">Events</a></td>
         <td>
             <form method="POST" action="/clients/{{_id}}">
                 <input type="hidden" name="id" value="{{_id}}">

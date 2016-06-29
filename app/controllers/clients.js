@@ -1,7 +1,8 @@
 var express = require('express'),
   router = express.Router(),
   mongoose = require('mongoose'),
-  Client = mongoose.model('client');
+  Client = mongoose.model('client'),
+  Event = mongoose.model('event');
 
 module.exports = function (app) {
   app.use('/', router);
@@ -53,4 +54,17 @@ router.post('/clients/:id', function (req, res, next) {
   });
     
   res.redirect('/clients');
+});
+
+router.get('/clients/:id/events', function(req, res, next) {
+  Client.findOne({_id: req.params.id}, function(err, client) {
+    if (err)
+      res.send(err);
+    Event.find({client: req.params.id}, function (err, events) {
+      if (err)
+        res.send(err)
+
+      res.render('Events/events', {events});
+    })
+  });
 });

@@ -20,9 +20,10 @@ router.post('/users/new', function (req, res, next) {
     username = req.body.username,
     last_name = req.body.last_name,
     email = req.body.email,
+    phone = req.body.phone,
     password = req.body.password;
     
-  var newUser = new User({first_name: first_name, last_name: last_name, username: username, email: email, password: password});
+  var newUser = new User({first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
     
   newUser.save(function (err) {
     if (err) {
@@ -33,19 +34,42 @@ router.post('/users/new', function (req, res, next) {
   });
 });
 
-router.post('/users/:id', function (req, res, next) {
-  console.log('inside the delete function');
+router.post('/users/:id/delete', function (req, res, next) {
 
   // User.findById({id: req.params.id}).remove().exec();
 
   User.findByIdAndRemove(req.params.id, function(err) {
     if (err)
       res.send(err);
-
-    console.log('User removed from the locker!: ');
+    res.send('User removed!');
+    console.log('User removed!');
   });
     
   res.redirect('/users');
+});
+
+router.get('/users/:id/update', function (req, res, next) {
+  User.findById(req.params.id, function(err, user) {
+    if (err)
+      res.send(err)
+    res.render('Users/update', {user});
+  });
+});
+
+router.post('/users/:id/update', function (req, res, next) {
+  var first_name = req.body.first_name,
+    username = req.body.username,
+    last_name = req.body.last_name,
+    email = req.body.email,
+    phone = req.body.phone;
+    // password = req.body.password;
+    
+  User.findOneAndUpdate({_id: req.params.id}, {first_name: first_name, last_name: last_name, username: username, email: email, phone: phone}, function (err, user) {
+    if (err)
+      res.send(err)
+
+    res.redirect('/users/' + req.params.id);
+  });
 });
 
 router.get('/users/new', function (req, res, next) {
@@ -59,9 +83,6 @@ router.get('/users/:id', function(req, res, next) {
     if (err)
       res.send(err);
     req.session.user = user;
-    console.log('session obj: ', req.session);
-
-    console.log('current user: ', [user.first_name, user.last_name, user.email, user.username]);
 
     res.render('Users/show', {user});
   });

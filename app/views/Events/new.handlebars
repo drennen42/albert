@@ -8,47 +8,51 @@
         <div class="col-sm-2"></div>
         <label for="event-name-input" class="col-sm-2">Event Name</label>
         <div class="col-sm-6">
-            <input type="text" name="name" class="form-control" id="event-name-input" placeholder="Event Name">
+            <input type="text" name="name" class="form-control" id="event-name-input" placeholder="Event Name" autofocus>
         </div>
+        <div class="col-sm-2"></div>
     </div>
 
     <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="client-input" class="col-sm-2">Client</label>
         <div class="col-sm-6">
-            <select name="client" class="form-control" id="client-input" placeholder="Client">
-                <option value="">Select Client</option>
+            <select name="client" data-placeholder="Choose a client" class="chosen-select form-control" id="client-input" placeholder="Client">
+                <option value=""></option>
                 {{#each clients}}
-                    <option value={{_id}}>{{first_name}} {{last_name}}</option>
+                    <option value="{{_id}}">{{first_name}} {{last_name}}</option>
                 {{/each}}
             </select>
         </div>
+        <div class="col-sm-2"></div>
     </div>
 
     <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="game-input" class="col-sm-2">Games</label>
         <div class="col-sm-6">
-            <select multiple class="form-control" name="games">
-            <option></option>
+            <select data-placeholder="Choose some games" class="chosen-select form-control" name="games" multiple>
+            <option value=""></option>
             {{#each games}}
                 <option value="{{_id}}">{{name}}</option>
             {{/each}}
             </select>
         </div>
+        <div class="col-sm-2"></div>
     </div>
 
     <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="workers-input" class="col-sm-2">Workers</label>
         <div class="col-sm-6">
-            <select multiple class="form-control" name="workers">
-            <option></option>
+            <select multiple data-placeholder="Choose some workers" class="form-control chosen-select" name="workers">
+            <option value=""></option>
             {{#each workers}}
-                <option value="{{_id}}">{{first_name}} {{last_name}}</option>
+                <option value="{{_id}}">{{first_name}} {{last_name}}></option>
             {{/each}}
             </select>
         </div>
+        <div class="col-sm-2"></div>
     </div>
 
     <div class="form-group row">
@@ -57,6 +61,7 @@
         <div class="col-sm-6">
             <input type="text" name="hostname" class="form-control" id="event-hostname-input" placeholder="Name of main contact">
         </div>
+        <div class="col-sm-2"></div>
     </div>
 
     <div class="form-group row">
@@ -65,6 +70,7 @@
         <div class="col-sm-6">
             <input type="text" name="num_employees" class="form-control" id="num-employees-input" placeholder="# of Employees">
         </div>
+        <div class="col-sm-2"></div>
     </div>
 
     <div class="row">
