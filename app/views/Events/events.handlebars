@@ -1,0 +1,65 @@
+{{!-- 
+	<form method="POST" action="/event">
+	    <input name="name" placeholder="Event Name"><br>
+	    <input name="num_employees" placeholder="Number of Employees"><br>
+	    <input type="hidden" name="_csrf" value="{_csrf}">
+	    <input type="submit" value="Save">
+	</form>
+
+
+
+    <fieldset>
+        <legend>Event List</legend>
+        <ul class="nm-np inline">
+            {{#each events}}
+                <li>
+                    <form method="POST" action="/event">
+                        <input type="hidden" name="item_id" value="{.id}">
+
+                        <h3 class="nm-np">{{name}}</h3>
+                        <h4 class="nm-np">{{num_employees}}</h4>
+                        <h5 class="nm-np tiny">ID: {{_id}}</h5>
+
+                         <input type="submit" value="Delete">
+                        <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
+                        <input type="hidden" name="_csrf" value="{_csrf}">
+                        <input type="hidden" name="_method" value="DELETE"> 
+                    </form>
+                </li>
+            {{/each}}
+        </ul>
+    </fieldset> --}}
+
+
+<div class="container">
+  <h2>Events</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Client</th>
+        <th>Name</th>
+        <th>Number of Employees</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each events}}
+      <tr>
+        <td>{{client}}</td>
+        <td><a href="/events/{{_id}}"> {{name}}</a></td>
+        <td>{{num_employees}}</td>
+        <td>
+            <form method="POST" action="/events/{{_id}}">
+                <input type="hidden" name="id" value="{{_id}}">
+                <input type="submit" value="Delete">
+                <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
+                <input type="hidden" name="_csrf" value="{_csrf}">
+                <input type="hidden" name="_method" value="DELETE"> 
+            </form>
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+  <a href="/events/new" class="text-center new-event">Create an Event </a>
+</div>

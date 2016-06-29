@@ -1,0 +1,45 @@
+<div class="container">
+  <h2>{{event.name}} </h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Client</th>
+        <th>Hostname</th>
+        <th>Games</th>
+        <th>Workers</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{event.name}}</td>
+        <td>{{event.client.first_name}}</td>
+        <td>{{event.hostname}}</td>
+        <td>
+          <table>
+            {{#each event.games}}
+            <tr><td>{{name}}</td></tr>
+            {{/each}}
+          </table>
+        </td>
+        <td>
+          <table>
+            {{#each event.workers}}
+            <tr><td>{{first_name}} {{last_name}}</td></tr>
+            {{/each}}
+            </table>
+        </td>
+        <td>
+            <form method="POST" action="/events/{{_id}}">
+                <input type="hidden" name="id" value="{{_id}}">
+                <input type="submit" value="Delete">
+                <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
+                <input type="hidden" name="_csrf" value="{_csrf}">
+                <input type="hidden" name="_method" value="DELETE"> 
+            </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

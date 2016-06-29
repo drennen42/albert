@@ -1,0 +1,69 @@
+
+{{!-- <form method="POST" action="/user">
+    <input name="first_name" placeholder="First Name"><br>
+    <input name="last_name" placeholder="Last Name"><br>
+    <input name="username" placeholder="Username"><br>
+    <input name="email" placeholder="Email"><br>
+    <input type="hidden" name="_csrf" value="{_csrf}">
+    <input type="submit" value="Save">
+</form>
+<br>
+<br> --}}
+
+{{!-- <form class="form-inline" method="POST" action="/users/new">
+    <div class="form-group">
+        <label for="username-input">Userame</label>
+        <input type="text" name="username" class="form-control" id="username-input" placeholder="Username">
+    </div>
+    <div class="form-group">
+        <label for="first-name-input">First Name</label>
+        <input type="text" name="first_name" class="form-control" id="first-name-input" placeholder="First Name">
+    </div>
+    <div class="form-group">
+        <label for="last-name-input">Last Name</label>
+        <input type="text" name="last_name" class="form-control" id="last-name-input" placeholder="Last Name">
+    </div>
+    <div class="form-group">
+        <label for="email-input">Email</label>
+        <input type="email" name="email" class="form-control" id="email-input" placeholder="jane.doe@example.com">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create User</button>
+</form> --}}
+
+{{!-- {{#if users}} --}}
+<div class="container">
+  <h2>Users</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each users}}
+      <tr>
+        <td><a href="/users/{{id}}"> {{first_name}}</a></td>
+        <td>{{last_name}}</td>
+        <td>{{username}}</td>
+        <td><a href="mailto:{{email}}">{{email}}</a></td>
+        <td>{{phone}}</td>
+        <td>
+            <form method="POST" action="/users/{{_id}}">
+                <input type="hidden" name="id" value="{{_id}}">
+                <input type="submit" value="Delete">
+                <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
+                <input type="hidden" name="_csrf" value="{_csrf}">
+                <input type="hidden" name="_method" value="DELETE"> 
+            </form>
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+  <a href="/users/new" class="text-center new-event btn btn-primary">Create User</a>
+</div>

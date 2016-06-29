@@ -1,0 +1,31 @@
+<div class="container">
+  <h2>{{user.first_name}} {{user.last_name}}</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{user.first_name}}</td>
+        <td>{{user.last_name}}</td>
+        <td>{{user.username}}</td>
+        <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
+        <td>
+            <form method="POST" action="/user/{{_id}}">
+                <input type="hidden" name="id" value="{{_id}}">
+                <input type="submit" value="Delete">
+                <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
+                <input type="hidden" name="_csrf" value="{_csrf}">
+                <input type="hidden" name="_method" value="DELETE"> 
+            </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

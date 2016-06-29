@@ -1,0 +1,28 @@
+<div class="container">
+  <h2>Casino Games</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each casinoGames}}
+      <tr>
+        <td><a href="/casinoGames/{{name}}"> {{name}}</a></td>
+        <td>
+            <form method="POST" action="/casinoGames/{{_id}}">
+                <input type="hidden" name="id" value="{{_id}}">
+                <input type="submit" value="Delete">
+                <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
+                <input type="hidden" name="_csrf" value="{_csrf}">
+                <input type="hidden" name="_method" value="DELETE"> 
+            </form>
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+  <a href="/casinoGames/new" class="text-center new-casinoGame btn btn-primary">Create a casino Game </a>
+</div>

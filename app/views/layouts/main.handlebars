@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Scheduling Made EZ</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script type="text/javascript" src="/js/middleware/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/middleware/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/main.js"></script>
+  {{#if ENV_DEVELOPMENT}}
+    <script src="http://localhost:35729/livereload.js"></script>
+  {{/if}}
+</head>
+<body>
+<div class="alert-danger" style="text-align:center">{{> error tagName="h1" }}</div>
+  {{> navbar }}
+
+  {{{body}}}
+
+
+  </body>
+</html>
