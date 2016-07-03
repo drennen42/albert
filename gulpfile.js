@@ -2,7 +2,8 @@ var gulp = require('gulp'),
   nodemon = require('gulp-nodemon'),
   plumber = require('gulp-plumber'),
   livereload = require('gulp-livereload'),
-  sass = require('gulp-sass');
+  sass = require('gulp-sass'),
+  browserSync = require('browser-sync').create();
 
 gulp.task('sass', function () {
   gulp.src('./public/css/*.scss')
@@ -31,6 +32,12 @@ gulp.task('develop', function () {
     this.stdout.pipe(process.stdout);
     this.stderr.pipe(process.stderr);
   });
+});
+
+gulp.task('browser-sync', function() {
+    browserSync.init({
+        proxy: "localhost:3000"
+    });
 });
 
 gulp.task('default', [

@@ -1,11 +1,48 @@
 var express = require('express'),
   router = express.Router(),
   mongoose = require('mongoose'),
+  nodemailer = require('nodemailer'),
   User = mongoose.model('user');
+
+function sendEmail(recipient, subject, text, body) {
+  var transporter = nodemailer.createTransport('smtps://sched.made.ez%40gmail.com:A1b3rt123@smtp.gmail.com'),
+
+  // setup e-mail data with unicode symbols
+  mailOptions = {
+      from: '"Scheduling Made EZ" <sched.made.ez@gmail.com>', // sender address
+      // to: 'drennen42@gmail.com', // list of receivers
+      // subject: 'There Are New Events On The Horizon!', // Subject line
+      // text: 'Hello world 🐴', // plaintext body
+      // html: '<b>Hello world 🐴</b>' // html body
+      to: recipient,
+      subject: subject,
+      text: text,
+      html: body
+  };
+
+  console.log('******** clicked the send email button!!!!!!!!!!');
+  transporter.sendMail(mailOptions, function(error, info){
+      if(error){
+          return console.log(error);
+      }
+      console.log('Message sent: ' + info.response);
+  });
+};
+
 
 module.exports = function (app) {
   app.use('/', router);
 };
+
+router.get('/users/:id/sendEmail', function(req, res, next) {
+  User.findById(req.params.id, function(err, user) {
+    if (err)
+      res.send(err)
+    console.log('send email triggered for: ', user);
+    sendEmail(user.email, 'This is a test email from Scheduling Made EZ', 'Hello, ' + user.first_name + '!', '<b>Hello, ' + user.first_name + '!</b>');
+    res.redirect('/users/' + newUser._id);
+  });
+});
 
 router.get('/users', function (req, res, next) {
   User.find( function (err, users) {
@@ -75,8 +112,6 @@ router.post('/users/:id/update', function (req, res, next) {
 router.get('/users/new', function (req, res, next) {
   res.render('Users/new');
 });
-
-
 
 router.get('/users/:id', function(req, res, next) {
   User.findOne({_id: req.params.id}, function(err, user) {

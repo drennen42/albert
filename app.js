@@ -20,7 +20,21 @@ var app = express();
 
 require('./config/express')(app, config);
 
-app.listen(config.port, function () {
+app.listen(config.port, '0.0.0.0', function () {
   console.log('Express server listening on port ' + config.port);
 });
 
+
+	// Nodemailer setup
+	
+
+	// send mail with defined transport object
+	// $('[data-js~="send-email-btn"]').on('click', function(evt) {
+	// 	console.log('******** clicked the send email button!!!!!!!!!!');
+	// 	transporter.sendMail(mailOptions, function(error, info){
+	// 	    if(error){
+	// 	        return console.log(error);
+	// 	    }
+	// 	    console.log('Message sent: ' + info.response);
+	// 	});
+	// });

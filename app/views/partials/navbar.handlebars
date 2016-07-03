@@ -38,8 +38,8 @@
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
           </form> --}}
-          {{#if user._id}}
-            <li><a href="/users/{{user._id}}">{{user.username}}</a></li>
+          {{#if sessUser._id}}
+            <li><a href="/users/{{sessUser._id}}">{{sessUser.username}}</a></li>
           {{else}}
             <li><a href="/login">Login</a></li>
           {{/if}}

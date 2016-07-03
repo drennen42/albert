@@ -34,7 +34,7 @@
             <select data-placeholder="Choose some games" class="chosen-select form-control" name="games" multiple>
             <option value=""></option>
             {{#each games}}
-                <option value="{{_id}}">{{name}}</option>
+                <option value={{_id}}>{{name}}</option>
             {{/each}}
             </select>
         </div>
@@ -48,7 +48,7 @@
             <select multiple data-placeholder="Choose some workers" class="form-control chosen-select" name="workers">
             <option value=""></option>
             {{#each workers}}
-                <option value="{{_id}}">{{first_name}} {{last_name}}></option>
+                <option value={{_id}}>{{first_name}} {{last_name}}</option>
             {{/each}}
             </select>
         </div>
