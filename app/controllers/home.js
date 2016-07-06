@@ -8,21 +8,23 @@ module.exports = function (app) {
 };
 
 router.get('/', function (req, res, next) {
-    if (req.session.user) {
-      User.findOne({username: req.body.username}, function(err, user) {
-        res.render('index', {
-          title: 'Sheduling Made Easy',
-          user: user
-        });
-      });
+    // if (req.session.user) {
+    //   console.log('session user: ', req.session.user);
+    //   // User.findOne({username: req.body.username}, function(err, user) {
+    //   User.findOne(req.session.user, function(err, sessUser) {
+    //     res.render('index', {
+    //       title: 'Sheduling Made Easy',
+    //       sessUser: sessUser
+    //     });
+    //   });
 
-    } else {
+    // } else {
       res.render('index', {
         title: 'Sheduling Made Easy'
       });
       // req.session.error = 'Access denied!';
       // res.redirect('/login');
-    }
+    // }
 });
 
 router.get('/login', function (req, res, next) {
@@ -49,3 +51,8 @@ router.post('/login', function (req, res, next) {
     // });
   });
 });
+
+router.get('/logout', function (req, res, next) {
+  req.session.user = '';
+  res.redirect('/');
+})

@@ -3,18 +3,34 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Client</th>
         <th>Name</th>
-        <th>Number of Employees</th>
+        <th>Client</th>
+        <th>Games</th>
+        <th># of Employees</th>
+        <th>Workers</th>
         <th>Delete</th>
       </tr>
     </thead>
     <tbody>
     {{#each events}}
       <tr>
-        <td>{{client}}</td>
         <td><a href="/events/{{_id}}"> {{name}}</a></td>
+        <td><a href="/users/{{_id}}">{{client.first_name}}</a></td>
+        <td>
+          <table>
+            {{#each games}}
+            <tr><td><a href="/casinoGames/{{name}}">{{name}}</a></td></tr>
+            {{/each}}
+          </table>
+        </td>
         <td>{{num_employees}}</td>
+         <td>
+          <table>
+            {{#each workers}}
+            <tr><td><a href="/users/{{_id}}">{{first_name}} {{last_name}}</a></td></tr>
+            {{/each}}
+            </table>
+        </td>
         <td>
             <form method="POST" action="/events/{{_id}}">
                 <input type="hidden" name="id" value="{{_id}}">

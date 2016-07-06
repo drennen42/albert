@@ -1,5 +1,6 @@
 var express = require('express'),
   router = express.Router(),
+  $ = require('jquery'),
   mongoose = require('mongoose'),
   nodemailer = require('nodemailer'),
   User = mongoose.model('user');
@@ -20,7 +21,6 @@ function sendEmail(recipient, subject, text, body) {
       html: body
   };
 
-  console.log('******** clicked the send email button!!!!!!!!!!');
   transporter.sendMail(mailOptions, function(error, info){
       if(error){
           return console.log(error);
@@ -36,11 +36,24 @@ module.exports = function (app) {
 
 router.get('/users/:id/sendEmail', function(req, res, next) {
   User.findById(req.params.id, function(err, user) {
+    var emailBody = `<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></head>
+<div class="container">
+  <div class="navbar" style="border: 2px solid black; margin: 10px; width:95%">
+    <p style="text-align: center; font-size:20px; color: red; vertical-align: middle;">Scheduling Made EZ</p>
+  </div>
+  <div class="main" style="margin-top: 10px; width:100%;">
+    <div style="width:100%;"><span style="font-size: 20px; text-align: center; color: blue; margin:10px;">This is a test email sent from Scheduling Made EZ!!</span></div>
+    <div style="width:100%; margin-top:10px"><span style="border: 2px solid black; margin:10px;">A Picture Could Go Here</span></div>
+    <div style="width:100%; margin-top:10px;"><span style="border: 2px solid black; margin:10px;">And Another Here</span></div>
+    <div style="width:100%; margin-top:10px;"><span style="border: 2px solid black; margin:10px;">As many as you want</span></div>
+  </div>
+  <div style="margin:10px;"><button type="button"><a href="http://10.0.0.31:3001" class="btn btn-primary">Visit S.M.EZ</a></button></div>
+</div>`;
     if (err)
       res.send(err)
-    console.log('send email triggered for: ', user);
-    sendEmail(user.email, 'This is a test email from Scheduling Made EZ', 'Hello, ' + user.first_name + '!', '<b>Hello, ' + user.first_name + '!</b>');
-    res.redirect('/users/' + newUser._id);
+    // console.log('send email triggered for: ', user);
+    sendEmail(user.email, 'This is a test email from Scheduling Made EZ', 'Hello, ' + user.first_name + '!', '<b>Hello, ' + user.first_name + '!</b>' + emailBody);
+    res.redirect('/users/' + user._id);
   });
 });
 
@@ -60,7 +73,7 @@ router.post('/users/new', function (req, res, next) {
     phone = req.body.phone,
     password = req.body.password;
     
-  var newUser = new User({first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
+  var newUser = new User({isAdmin: false, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
     
   newUser.save(function (err) {
     if (err) {
@@ -72,8 +85,14 @@ router.post('/users/new', function (req, res, next) {
 });
 
 router.post('/users/:id/delete', function (req, res, next) {
-
-  // User.findById({id: req.params.id}).remove().exec();
+  User.findById({id: req.params.id}, function(err, user) {
+    if (err)
+      res.send(err)
+    if (req.session.user._id != user._id && req.session.user.is_admin == false) {
+      res.send('Unauthorized!!');
+      res.redirect('/users');
+    }
+  });
 
   User.findByIdAndRemove(req.params.id, function(err) {
     if (err)
@@ -98,10 +117,11 @@ router.post('/users/:id/update', function (req, res, next) {
     username = req.body.username,
     last_name = req.body.last_name,
     email = req.body.email,
-    phone = req.body.phone;
+    phone = req.body.phone,
+    is_admin = (req.body.is_admin == "true") ? true : false;
     // password = req.body.password;
     
-  User.findOneAndUpdate({_id: req.params.id}, {first_name: first_name, last_name: last_name, username: username, email: email, phone: phone}, function (err, user) {
+  User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone}, function (err, user) {
     if (err)
       res.send(err)
 
@@ -117,8 +137,6 @@ router.get('/users/:id', function(req, res, next) {
   User.findOne({_id: req.params.id}, function(err, user) {
     if (err)
       res.send(err);
-    req.session.user = user;
-
     res.render('Users/show', {user});
   });
 });

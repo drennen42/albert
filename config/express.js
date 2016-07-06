@@ -58,6 +58,29 @@ module.exports = function(app, config) {
     next();
   });
 
+  function getSessUser(req, res, next) {
+    if (req.method === 'GET' || req.method == 'POST') { 
+      if (req.session.user) {
+        app.locals.SESS_USER = req.session.user;
+        // User.findOne({username: req.body.username}, function(err, user) {
+        // User.findOne(req.session.user, function(err, sessUser) {
+        // res.render('partials/navbar', {
+        //   title: 'Sheduling Made Easy',
+        //   sessUser: req.session.user
+        // });
+      // };
+
+        next();
+      } else {
+        app.locals.SESS_USER = '';
+        console.log('no session user');
+        next();
+      };
+    };
+  };
+
+  app.use(getSessUser);
+
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function (controller) {
     require(controller)(app);

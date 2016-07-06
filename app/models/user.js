@@ -3,15 +3,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-/*
-	Users will have:
-	1. first_name
-    2. last_name
-    3. phone_num
-*/
-
-
 var UserSchema = new Schema({
+    is_admin: Boolean,
     username: String,
     first_name: String,
     last_name: String,

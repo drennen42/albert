@@ -1,5 +1,6 @@
 <div class="container">
   <h2>{{user.first_name}} {{user.last_name}}</h2>
+  <h1>{{SESS_USER.first_name}}</h1>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -9,6 +10,7 @@
         <th>Email</th>
         <th>Phone</th>
         <th>Send Email</th>
+        <th>Edit</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -20,10 +22,11 @@
         <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
         <td>{{user.phone}}</td>
         <td><a href="/users/{{user._id}}/sendEmail" class="btn btn-primary" data-js="send-email-btn">Send Email</a></td>
+        <td><a href="/users/{{user._id}}/update" class="btn btn-primary">Edit</a></td>
         <td>
             <form method="POST" action="/user/{{user._id}}">
                 <input type="hidden" name="id" value="{{user._id}}">
-                <input type="submit" value="Delete">
+                <input class="btn btn-danger" type="submit" value="Delete">
                 <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
                 <input type="hidden" name="_csrf" value="{_csrf}">
                 <input type="hidden" name="_method" value="DELETE"> 

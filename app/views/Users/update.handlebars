@@ -12,12 +12,25 @@
         </div>
     </div>
 
-    {{!-- <div class="form-group row">
+    <div class="form-group row">
         <div class="col-sm-2"></div>
-        <label for="password-input" class="col-sm-2">Password</label>
+        <label for="make-admin-input" class="col-sm-2">Is Admin?</label>
         <div class="col-sm-6">
-            <input type="password" name="password" class="form-control" id="password-input" value="{{user.password}}">
+            {{!-- <input type="checkbox" name="isAdmin" class="form-control" id="make-admin-input" value="true"> --}}
+            {{#if user.is_admin}}
+            <input type="checkbox" id="make-admin-input" name="is_admin" value="true" checked>&nbsp;Yes
+            {{else}}
+            <input type="checkbox" id="make-admin-input" name="is_admin" value="true">&nbsp;Yes
+            {{/if}}
+            {{!-- <input type="radio" id="make-admin-input" name="is_admin" value="false">&nbsp;No --}}
         </div>
+    </div>
+
+    {{!-- <div class="checkbox">
+      <label>
+        <input type="checkbox" value="">
+        Option one is this and that&mdash;be sure to include why it's great
+      </label>
     </div> --}}
 
     <div class="form-group row">
