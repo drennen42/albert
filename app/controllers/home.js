@@ -40,7 +40,6 @@ router.post('/login', function (req, res, next) {
       console.log('found user: ', user);
       req.session.user = user;
       console.log('request session: ', req.session);
-      // res.render('Users/show', {user});
       res.redirect('/users/' + user._id);
     }
     // user.password.verifyPassword(req.params.password, function(err, valid) {

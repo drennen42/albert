@@ -1,3 +1,4 @@
+<script type="text/javascript" src="/js/clients/clients.js"></script>
 <div class="row">
     <div class="col-sm-4"></div>
     <div class="col-sm-6"><h1>New Client</h1></div>
@@ -7,9 +8,18 @@
 <form method="POST" action="/clients/new">
     <div class="form-group row">
     <div class="col-sm-2"></div>
+        <label for="company-input" class="col-sm-2">Company</label>
+        <div class="col-sm-6">
+            <input type="text" name="company" class="form-control" id="company-input" placeholder="Company" autofocus>
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
         <label for="first-name-input" class="col-sm-2">First Name</label>
         <div class="col-sm-6">
-            <input type="text" name="first_name" class="form-control" id="first-name-input" placeholder="First Name" autofocus>
+            <input type="text" name="first_name" class="form-control" id="first-name-input" placeholder="First Name">
         </div>
     </div>
 
@@ -26,6 +36,108 @@
         <label for="email-input" class="col-sm-2">Email</label>
         <div class="col-sm-6">
             <input type="email" name="email" class="form-control" id="email-input" placeholder="Email">
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="primary-contact-num-input" class="col-sm-2">Primary Contact Number</label>
+        <div class="col-sm-6">
+            <input type="text" name="primary_contact_phone" class="form-control" id="primary-contact-num-input" placeholder="Primary Contact Number">
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="day-of-phone-input" class="col-sm-2">Day-of Contact Number</label>
+        <div class="col-sm-6">
+            <input type="text" name="day_of_phone" class="form-control" id="day-of-phone-input" placeholder="Day-of Contact Number">
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="address-street-input" class="col-sm-2">Street Address</label>
+        <div class="col-sm-6">
+            <input type="text" name="address_street" class="form-control" id="address-street-input" placeholder="Street Address">
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="address-city-input" class="col-sm-2">City</label>
+        <div class="col-sm-6">
+            <input type="text" name="address_city" class="form-control" id="address-city-input" placeholder="City">
+        </div>
+    </div>
+
+{{!--     <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="address-state-input" class="col-sm-2">State</label>
+        <div class="col-sm-6">
+            <input type="text" name="address_state" class="form-control" id="address-state-input" placeholder="State">
+        </div>
+    </div> --}}
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="address-state-input" class="col-sm-2">State</label>
+        <div class="col-sm-6">
+            <select name="address_state" data-placeholder="Choose a state" class="chosen-select form-control" id="address-state-input" placeholder="State">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="address-zip-input" class="col-sm-2">Zipcode</label>
+        <div class="col-sm-6">
+            <input type="text" name="address_zip" class="form-control" id="address-zip-input" placeholder="Zipcode">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <label for="billing-address-same-input" class="col-sm-2">Billing Address Same?</label>
+        <div class="col-sm-6">
+            {{!-- <input type="checkbox" name="isAdmin" class="form-control" id="make-admin-input" value="true"> --}}
+            <input type="checkbox" id="billing-address-same-input" name="billing-address-same" value="true">&nbsp;Yes
+            {{!-- <input type="radio" id="make-admin-input" name="is_admin" value="false">&nbsp;No --}}
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="billing-street-input" class="col-sm-2">Billing Street</label>
+        <div class="col-sm-6">
+            <input type="text" name="billing_street" class="form-control" id="billing-street-input" placeholder="Billing Street Address">
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="billing-city-input" class="col-sm-2">Billing City</label>
+        <div class="col-sm-6">
+            <input type="text" name="billing_city" class="form-control" id="billing-city-input" placeholder="Billing City">
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="billing-state-input" class="col-sm-2">State</label>
+        <div class="col-sm-6">
+            <select name="billing_state" data-placeholder="Choose a state" class="chosen-select form-control" id="billing-state-input" placeholder="State">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="billing-zip-input" class="col-sm-2">Zipcode</label>
+        <div class="col-sm-6">
+            <input type="text" name="billing_zip" class="form-control" id="billing-zip-input" placeholder="Zipcode">
         </div>
     </div>
 

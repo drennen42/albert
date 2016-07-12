@@ -15,6 +15,48 @@
 
     <div class="form-group row">
         <div class="col-sm-2"></div>
+        <label for="description-input" class="col-sm-2">Description</label>
+        <div class="col-sm-6">
+            <input type="textarea" name="description" class="form-control" id="description-input" placeholder="What's goin on?">
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <label for="start-date-input" class="col-sm-2">Start</label>
+        <div class="col-sm-3">
+            <input type="date" name="start_date_date" class="form-control" id="start-date-input">
+        </div>
+        <div class="col-sm-3">
+            <input type="time" name="start_date_time" class="form-control" id="start-date-input">
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <label for="end-date-input" class="col-sm-2">End</label>
+        <div class="col-sm-3">
+            <input type="date" name="end_date_date" class="form-control" id="end-date-input">
+        </div>
+        <div class="col-sm-3">
+            <input type="time" name="end_date_time" class="form-control" id="end-date-input">
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <label for="location-input" class="col-sm-2">Location</label>
+        <div class="col-sm-6">
+            <input type="text" name="location" class="form-control" placeholder="Full location address. Ex: 123 Fake St, Unrealtown, IL 66666" id="location-input">
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
         <label for="client-input" class="col-sm-2">Client</label>
         <div class="col-sm-6">
             <select name="client" data-placeholder="Choose a client" class="chosen-select form-control" id="client-input" placeholder="Client">
@@ -64,14 +106,14 @@
         <div class="col-sm-2"></div>
     </div>
 
-    <div class="form-group row">
+    {{!-- <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="num-employees-input" class="col-sm-2"># of Employees</label>
         <div class="col-sm-6">
             <input type="text" name="num_employees" class="form-control" id="num-employees-input" placeholder="# of Employees">
         </div>
         <div class="col-sm-2"></div>
-    </div>
+    </div> --}}
 
     <div class="row">
         <div class="col-sm-4"></div>

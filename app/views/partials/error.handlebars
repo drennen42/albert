@@ -1,5 +1,5 @@
-
-  {{ message }}
+{{#each err}}
+  {{ message }}<br>
   {{ error.status }}
   {{ error.stack }}  
-
+{{/each}}

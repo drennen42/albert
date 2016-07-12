@@ -3,8 +3,10 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>When</th>
         <th>Name</th>
         <th>Client</th>
+        <th>Description</th>
         <th>Hostname</th>
         <th>Games</th>
         <th>Workers</th>
@@ -13,8 +15,10 @@
     </thead>
     <tbody>
       <tr>
+        <td>{{event.start_date}}</td>
         <td>{{event.name}}</td>
         <td>{{event.client.first_name}}</td>
+        <td>{{event.description}}</td>
         <td>{{event.hostname}}</td>
         <td>
           <table>

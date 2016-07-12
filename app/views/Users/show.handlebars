@@ -9,6 +9,10 @@
         <th>Username</th>
         <th>Email</th>
         <th>Phone</th>
+        <th>Games</th>
+        {{#if SESS_USER.is_admin}}
+        <th>Rank</th>
+        {{/if}}
         <th>Send Email</th>
         <th>Edit</th>
         <th>Delete</th>
@@ -21,7 +25,17 @@
         <td>{{user.username}}</td>
         <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
         <td>{{user.phone}}</td>
+        <td>
+          <table>
+          {{#each games}}
+            <tr><td><a href="/casinoGames/{{name}}">{{name}}</a></td></tr>
+          {{/each}}
+          </table>
+        </td>
+        {{#if SESS_USER.is_admin}}
+        <td>{{user.rank}}</td>
         <td><a href="/users/{{user._id}}/sendEmail" class="btn btn-primary" data-js="send-email-btn">Send Email</a></td>
+        {{/if}}
         <td><a href="/users/{{user._id}}/update" class="btn btn-primary">Edit</a></td>
         <td>
             <form method="POST" action="/user/{{user._id}}">

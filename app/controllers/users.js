@@ -3,7 +3,8 @@ var express = require('express'),
   $ = require('jquery'),
   mongoose = require('mongoose'),
   nodemailer = require('nodemailer'),
-  User = mongoose.model('user');
+  User = mongoose.model('user'),
+  CasinoGame = mongoose.model('casinoGame');
 
 function sendEmail(recipient, subject, text, body) {
   var transporter = nodemailer.createTransport('smtps://sched.made.ez%40gmail.com:A1b3rt123@smtp.gmail.com'),
@@ -71,9 +72,12 @@ router.post('/users/new', function (req, res, next) {
     last_name = req.body.last_name,
     email = req.body.email,
     phone = req.body.phone,
+    games = req.body.games,
+    rank = req.body.rank,
+    active = (req.body.active == "true") ? true : false,
     password = req.body.password;
     
-  var newUser = new User({isAdmin: false, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
+  var newUser = new User({isAdmin: false, active: active, games: games, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
     
   newUser.save(function (err) {
     if (err) {
@@ -105,10 +109,25 @@ router.post('/users/:id/delete', function (req, res, next) {
 });
 
 router.get('/users/:id/update', function (req, res, next) {
+  var selectedGames = [],
+    otherGames = [];
   User.findById(req.params.id, function(err, user) {
-    if (err)
-      res.send(err)
-    res.render('Users/update', {user});
+    if (err) res.send(err);
+    for (var i = 0; i < user.games.length; i++) {
+      CasinoGame.findById(user.games[i], function(err, game) {
+        if (err) return next(err);
+        selectedGames.push(game);
+      });
+    }
+    CasinoGame.find( function (err, casinoGames) {
+      if (err) return next(err);
+      for (var i = 0; i < casinoGames.length; i++) {
+        if (!(!!selectedGames[i] && !!selectedGames.indexOf(casinoGames[i]))) {
+          otherGames.push(casinoGames[i]);
+        };
+      };
+      res.render('Users/update', {user: user, games: otherGames, selectedGames: selectedGames});
+    });
   });
 });
 
@@ -118,10 +137,13 @@ router.post('/users/:id/update', function (req, res, next) {
     last_name = req.body.last_name,
     email = req.body.email,
     phone = req.body.phone,
-    is_admin = (req.body.is_admin == "true") ? true : false;
+    games = req.body.games,
+    rank = req.body.rank,
+    is_admin = (req.body.is_admin == "true") ? true : false,
+    active = (req.body.active == "true") ? true : false;
     // password = req.body.password;
     
-  User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone}, function (err, user) {
+  User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
     if (err)
       res.send(err)
 
@@ -130,13 +152,24 @@ router.post('/users/:id/update', function (req, res, next) {
 });
 
 router.get('/users/new', function (req, res, next) {
-  res.render('Users/new');
+  CasinoGame.find( function (err, casinoGames) {
+      if (err) return next(err);
+      res.render('Users/new', {games: casinoGames});
+  });
 });
 
 router.get('/users/:id', function(req, res, next) {
+  var games = [];
   User.findOne({_id: req.params.id}, function(err, user) {
-    if (err)
-      res.send(err);
-    res.render('Users/show', {user});
+    if (err) res.send(err);
+    for (var i = 0; i < user.games.length; i++) {
+      console.log('user game[i]: ', user.games[i]);
+      CasinoGame.findById(user.games[i], function(err, game) {
+        if (err) return next(err);
+        games.push(game);
+      });
+    }
+
+    res.render('Users/show', {user: user, games: games});
   });
 });

@@ -9,7 +9,10 @@ var UserSchema = new Schema({
     first_name: String,
     last_name: String,
     email: String,
+    rank: String,
+    active: Boolean,
     password: {type: String, required: true, bcrypt: true},
+    games: [{ type: Schema.Types.ObjectId, ref: 'casinoGame' }],
     phone: {
         type: String,
         validate: {
