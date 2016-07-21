@@ -12,10 +12,25 @@ module.exports = function (app) {
   app.use('/', router);
 };
 
-router.get('/calendar', function(req,res,next) {
-	listCalEvents();
+// router.get('/calendar', function(req,res,next) {
+// 	listCalEvents();
+//   Event.find( function (err, events) {
+//     if (err) return next(err);
+//     res.render('Events/calendar', {events});
+//   });
+// });
+
+function* testFunc(i) {
+  console.log('is this working?');
+  yield i;
+}
+
+var gen = testFunc(42);
+
+router.get('/calendar', function(req, res, next) {
+  console.log(gen.next().value);
   Event.find( function (err, events) {
     if (err) return next(err);
     res.render('Events/calendar', {events});
   });
-});
+})

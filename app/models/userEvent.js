@@ -8,3 +8,5 @@ var UserEventSchema = new Schema({
 	event: { type: Schema.Types.ObjectId, ref: 'event' },
 	calendarEvent: { type: Schema.Types.ObjectId, ref: 'calendarEvent'}
 })
+
+mongoose.model('userEvent', UserEventSchema);
