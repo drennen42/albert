@@ -32,6 +32,7 @@
 </form> --}}
 
 {{!-- {{#if users}} --}}
+<h1>User: {{user.first_name}}</h1>
 <div class="container">
   <h2>Users</h2>
   <table class="table table-striped">
@@ -42,8 +43,10 @@
         <th>Username</th>
         <th>Email</th>
         <th>Phone</th>
+        {{#if SESS_USER.is_admin}}
         <th>Edit</th>
         <th>Delete</th>
+        {{/if}}
       </tr>
     </thead>
     <tbody>
@@ -54,18 +57,22 @@
         <td>{{username}}</td>
         <td><a href="mailto:{{email}}">{{email}}</a></td>
         <td>{{phone}}</td>
-        <td><a href="/users/{{_id}}/update" class="text-center btn btn-primary">Edit</a></td>
+    {{/each}}
+    {{#if SESS_USER.is_admin}}
+        {{#each users}}
+        <td><a href="/users/{{id}}/update" class="text-center btn btn-primary">Edit</a></td>
         <td>
-            <form method="POST" action="/users/{{_id}}/delete">
-                <input type="hidden" name="id" value="{{_id}}">
-                <input class="btn btn-danger" type="submit" value="Delete">
+            <form method="POST" action="/users/{{id}}/delete">
+                <input type="hidden" name="id" value="{{id}}">
+                <input class="btn btn-danger" type="submit" value="Delete {{first_name}}">
                 <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
                 <input type="hidden" name="_csrf" value="{_csrf}">
                 <input type="hidden" name="_method" value="DELETE"> 
             </form>
         </td>
       </tr>
-    {{/each}}
+        {{/each}}
+    {{/if}}
     </tbody>
   </table>
   <a href="/users/new" class="text-center new-event btn btn-primary">Create User</a>

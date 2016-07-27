@@ -61,6 +61,7 @@ module.exports = function(app, config) {
   function getSessUser(req, res, next) {
     if (req.method === 'GET' || req.method == 'POST') { 
       if (req.session.user) {
+        console.log('***** express.js session user: ', req.session.user);
         app.locals.SESS_USER = req.session.user;
         // User.findOne({username: req.body.username}, function(err, user) {
         // User.findOne(req.session.user, function(err, sessUser) {

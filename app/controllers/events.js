@@ -3,6 +3,7 @@ var express = require('express'),
   mongoose = require('mongoose'),
   Event = mongoose.model('event'),
   User = mongoose.model('user'),
+  UserEvent = mongoose.model('userEvent'),
   CasinoGame = mongoose.model('casinoGame'),
   Client = mongoose.model('client'),
   addGoogEvent = require('../../quickstart.js').addNewEvent,
@@ -110,6 +111,31 @@ router.post('/events/new', function (req, res, next) {
         res.send(err);
     }
   });
+
+  newEvent.workers.forEach(function(worker) {
+    console.log('worker: ', worker);
+    console.log('event: ', newEvent);
+    var newUserEvent = new UserEvent({
+      user: worker,
+      event: newEvent
+    });
+    newUserEvent.save(function(err) {
+      if (err) {
+        console.log('save error', err);
+        res.send(err);
+      }
+    });
+  });
+  
+
+
+  // for (var worker in workers) {
+  //   User.findById(worker._id, function(err, user){
+  //     if (err) console.log('error adding event to worker: ', err);
+  //     console.log('*** USER **** : ', user);
+  //     // user.events = user.events.push(newEvent);
+  //   });
+  // };
 
   res.redirect('/events/' + newEvent._id);
 });

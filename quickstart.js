@@ -150,13 +150,13 @@ var addNewEvent = function(newEvent, cb) {
         calendarId: '22t9uds57rnql2chpe44nh2654@group.calendar.google.com',
         sendNotifications: true,
         resource: newEvent,
-      }, function(err, newEvent) {
+      }, function(err, googEvent) {
         if (err) {
           console.log('There was an error contacting the Calendar service: ' + err);
           return;
         }
-        console.log('Event created: %s', newEvent.htmlLink);
-        cb(newEvent);
+        console.log('Event created: %s', googEvent.htmlLink);
+        cb(googEvent);
       });
     });
   });

@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>{{user.first_name}} {{user.last_name}}</h2>
+  <table class="table table-striped user-show-table">
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Start</th>
+        <th>End</th>
+      </tr>
+    </thead>
+    <tbody>
+        {{#each userEvents}}
+        <tr>
+            <td><a href="/events/{{event._id}}">{{event.name}}</a></td>
+            <td>{{event.start}}</td>
+            <td>{{event.end}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+  </table>
+</div>
