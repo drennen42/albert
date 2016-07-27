@@ -9,4 +9,9 @@ var UserEventSchema = new Schema({
 	calendarEvent: { type: Schema.Types.ObjectId, ref: 'calendarEvent'}
 })
 
+
+// AnimalSchema.methods.findSimilarType = function findSimilarType (cb) {
+//   return this.model('Animal').find({ type: this.type }, cb);
+// };
+
 mongoose.model('userEvent', UserEventSchema);

@@ -6,9 +6,9 @@ body {
   }
 }
 
-a {
-  color: #00B7FF;
-}
+// a {
+  // color: #00B7FF;
+// }
 
 
 .google-calendar-container {
@@ -32,4 +32,18 @@ a {
 .google-calendar {
 	height: 800px;
 	width: 100%;
+}
+
+.masthead {
+	height: 450px;
+	width: auto;
+	margin: auto;
+	background-image: url('https://static.pexels.com/photos/4090/time-train-station-clock-deadline.jpg');
+	opacity: 0.4;
+
+}
+
+.user-show-table td, .user-show-table th {
+	vertical-align: middle!important;
+	text-align: center!important;
 }

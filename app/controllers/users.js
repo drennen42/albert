@@ -4,7 +4,9 @@ var express = require('express'),
   mongoose = require('mongoose'),
   nodemailer = require('nodemailer'),
   User = mongoose.model('user'),
-  CasinoGame = mongoose.model('casinoGame');
+  CasinoGame = mongoose.model('casinoGame'),
+  Event = mongoose.model('event'),
+  UserEvent = mongoose.model('userEvent');
 
 function sendEmail(recipient, subject, text, body) {
   var transporter = nodemailer.createTransport('smtps://sched.made.ez%40gmail.com:A1b3rt123@smtp.gmail.com'),
@@ -145,7 +147,7 @@ router.post('/users/:id/update', function (req, res, next) {
     
   User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
     if (err)
-      res.send(err)
+      res.send(err);
 
     res.redirect('/users/' + req.params.id);
   });
@@ -160,16 +162,24 @@ router.get('/users/new', function (req, res, next) {
 
 router.get('/users/:id', function(req, res, next) {
   var games = [];
-  User.findOne({_id: req.params.id}, function(err, user) {
-    if (err) res.send(err);
-    for (var i = 0; i < user.games.length; i++) {
-      console.log('user game[i]: ', user.games[i]);
-      CasinoGame.findById(user.games[i], function(err, game) {
-        if (err) return next(err);
-        games.push(game);
-      });
-    }
 
-    res.render('Users/show', {user: user, games: games});
+  User.findOne({_id: req.params.id})
+    .populate('games')
+    .exec(function(err, user) {
+      if (err) res.send(err);
+    res.render('Users/show', {user});
   });
 });
+
+//   User.findOne({_id: req.params.id}, function(err, user) {
+//     if (err) res.send(err);
+//     for (var i = 0; i < user.games.length; i++) {
+//       console.log('user game[i]: ', user.games[i]);
+//       CasinoGame.findById(user.games[i], function(err, game) {
+//         if (err) return next(err);
+//         games.push(game);
+//       });
+//     };
+//     res.render('Users/show', {user: user, games: games});
+//   });
+// });
