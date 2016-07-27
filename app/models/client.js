@@ -13,7 +13,7 @@ var ClientSchema = new Schema({
         type: String,
         validate: {
             validator: function(v) {
-                return /\d{3}-\d{3}-\d{4}/.test(v) || /\D{0,1}/.test(v);
+                return /\d{3}-\d{3}-\d{4}/.test(v) || /\d{10}/.test(v) || /\D{0,1}/;
             },
             message: '{VALUE} is not a valid phone number!'
         },
@@ -24,7 +24,7 @@ var ClientSchema = new Schema({
         required: [false, 'Client phone number not required'],
         validate: {
             validator: function(v) {
-                return /\d{3}-\d{3}-\d{4}/.test(v) || /\D{0,1}/.test(v);
+                return /\d{3}-\d{3}-\d{4}/.test(v) || /\d{10}/.test(v) || /\D{0,1}/;
             },
             message: '{VALUE} is not a valid phone number!'
         }
@@ -32,7 +32,6 @@ var ClientSchema = new Schema({
     address_street: String,
     address_city: String,
     address_state: String,
-    // address_zip: Number,
     address_zip: {
         type: Number,
         required: [false, 'Client zip code not required'],
@@ -46,7 +45,6 @@ var ClientSchema = new Schema({
     billing_street: String,
     billing_city: String,
     billing_state: String,
-    // billing_zip: Number,
     billing_zip: {
         type: Number,
         validate: {

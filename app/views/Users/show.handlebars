@@ -1,7 +1,6 @@
 <div class="container">
   <h2>{{user.first_name}} {{user.last_name}}</h2>
-  <h1>{{SESS_USER.first_name}}</h1>
-  <table class="table table-striped">
+  <table class="table table-striped user-show-table">
     <thead>
       <tr>
         <th>Firstname</th>
@@ -10,12 +9,16 @@
         <th>Email</th>
         <th>Phone</th>
         <th>Games</th>
+        <th>Admin?</th>
         {{#if SESS_USER.is_admin}}
-        <th>Rank</th>
-        {{/if}}
-        <th>Send Email</th>
         <th>Edit</th>
+        <th>Rank</th>
+        <th>Timesheet</th>
+        <th>Send Email</th>
         <th>Delete</th>
+        {{else if user.is_logged_in}}
+        <th>Edit</th>
+        {{/if}}
       </tr>
     </thead>
     <tbody>
@@ -26,17 +29,18 @@
         <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
         <td>{{user.phone}}</td>
         <td>
-          <table>
-          {{#each games}}
+          <table class="table">
+          {{#each user.games}}
             <tr><td><a href="/casinoGames/{{name}}">{{name}}</a></td></tr>
           {{/each}}
           </table>
         </td>
+        <td>{{user.is_admin}}</td>
         {{#if SESS_USER.is_admin}}
-        <td>{{user.rank}}</td>
-        <td><a href="/users/{{user._id}}/sendEmail" class="btn btn-primary" data-js="send-email-btn">Send Email</a></td>
-        {{/if}}
         <td><a href="/users/{{user._id}}/update" class="btn btn-primary">Edit</a></td>
+        <td>{{user.rank}}</td>
+        <td><a href="/users/{{user._id}}/timesheet" class="btn btn-primary">Timesheet</a></td>
+        <td><a href="/users/{{user._id}}/sendEmail" class="btn btn-primary" data-js="send-email-btn">Send Email</a></td>
         <td>
             <form method="POST" action="/user/{{user._id}}">
                 <input type="hidden" name="id" value="{{user._id}}">
@@ -46,6 +50,9 @@
                 <input type="hidden" name="_method" value="DELETE"> 
             </form>
         </td>
+        {{else if user.is_logged_in}}
+        <td><a href="/users/{{user._id}}/update" class="btn btn-primary">Edit</a></td>
+        {{/if}}
       </tr>
     </tbody>
   </table>
