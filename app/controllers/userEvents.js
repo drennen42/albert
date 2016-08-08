@@ -19,6 +19,7 @@ router.get('/users/:id/events', function(req, res, next) {
       .exec(function(err, userEvents){
         if (err) res.send(err);
         console.log('userEvents: ', userEvents);
+        console.log('userEvents.hours_worked: ', userEvents.hours_worked);
         res.render('Events/events', {events: userEvents});
       // for (var i = 0; i < userEvents.length; i++) {
       //   UserEvent.findOne(userEvents[i])

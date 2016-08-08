@@ -1,15 +1,54 @@
 body {
-  padding: 50px;
+  // padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   @media(max-width: 550px) {
   	padding: 50px 0px;
   }
 }
 
+.navbar {
+	margin: 0;
+}
+
+.display-none {
+	display: none;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.mr1 {
+	margin-right: 6px;
+}
+
+.mr2 {
+	margin-right: 12px;
+}
+
+.ml1{
+	margin-left: 6px;
+}
+
+.pr1 {
+	padding-right: 6px;
+}
+
+.pl1 {
+	padding-left: 6px;
+}
+
 // a {
   // color: #00B7FF;
 // }
 
+.timesheet-total-hours-row {
+	background-color: #F08080!important;
+}
 
 .google-calendar-container {
 	width: 100%;
@@ -34,13 +73,28 @@ body {
 	width: 100%;
 }
 
-.masthead {
-	height: 450px;
-	width: auto;
-	margin: auto;
-	background-image: url('https://static.pexels.com/photos/4090/time-train-station-clock-deadline.jpg');
-	opacity: 0.4;
+.container {
+	width: 100%;
+}
 
+.masthead, .promo {
+	height: 450px;
+	width: 100%;
+	margin: auto;
+	// background-image: url('https://static.pexels.com/photos/4090/time-train-station-clock-deadline.jpg');
+	// background-color: lightblue;
+	opacity: 0.4;
+	// background-size: cover;
+    // background-repeat: no-repeat;
+    // background-position: center center; 
+}
+
+.masthead {
+	background-color: royalblue;
+}
+
+.promo {
+	background-color: lightgreen;
 }
 
 .user-show-table td, .user-show-table th {

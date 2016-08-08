@@ -28,6 +28,10 @@ router.get('/', function (req, res, next) {
     }
 });
 
+router.get('/forgotPassword', function (req, res, next) {
+    res.render('Users/forgotPassword');
+});
+
 router.get('/login', function (req, res, next) {
   res.render('Users/login');
 });

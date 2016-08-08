@@ -1,21 +1,57 @@
+<script type="text/javascript" src="/js/timesheets/timesheets.js"></script>
 <div class="container">
-  <h2>{{user.first_name}} {{user.last_name}}</h2>
+  <div class="timesheet-user-info" data-user-id={{user._id}}><h2>{{user.first_name}} {{user.last_name}}</h2></div>
+  <br>
+
+  <div class="row">
+    <div class="col-sm-2 ml1 pr1">
+      <label for="pay-period-start" class="col-sm-">Pay Period Start Date</label>
+    </div>
+    <div class="col-sm-2 ml1 pr1">
+      <label for="pay-period-end" class="col-sm-">Pay Period End Date</label>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-2">
+      <div class="input-group">
+        <input type="date" data-js="pay-period-start" class="form-control" placeholder="Choose a pay period start date">
+      </div><!-- /input-group -->
+    </div><!-- /.col-sm-3 -->
+    <div class="col-sm-2">
+      <div class="input-group">
+        <input type="date" data-js="pay-period-end" class="form-control" placeholder="Choose a pay period end date">
+        <span class="input-group-btn">
+          <button class="btn btn-default" data-js="pay-period-button" type="button">Go!</button>
+        </span>
+      </div><!-- /input-group -->
+    </div><!-- /.col-sm-3 -->
+  </div><!-- /.row -->
+  <br>
+
   <table class="table table-striped user-show-table">
     <thead>
       <tr>
         <th>Event</th>
         <th>Start</th>
         <th>End</th>
+        <th>Hours</th>
       </tr>
     </thead>
     <tbody>
         {{#each userEvents}}
-        <tr>
+        <tr data-js="userEvent">
             <td><a href="/events/{{event._id}}">{{event.name}}</a></td>
-            <td>{{event.start}}</td>
-            <td>{{event.end}}</td>
+            <td data-start-val={{event.start_date_val}} data-js="userEvent-start">{{event.start_date}}</td>
+            <td data-js="userEvent-end">{{event.end_date}}</td>
+            <td data-js="userEvent-hours-worked">{{hours_worked}}</td>
         </tr>
         {{/each}}
+        <tr class="timesheet-total-hours-row">
+          <td><h4>Total Hours</h4></td>
+          <td></td>
+          <td></td>
+          <td><div class="timesheet-total-hours" data-js="timesheet-total-hours"></div></td>
+        </tr>
     </tbody>
   </table>
 </div>

@@ -143,14 +143,24 @@ router.post('/users/:id/update', function (req, res, next) {
     rank = req.body.rank,
     is_admin = (req.body.is_admin == "true") ? true : false,
     active = (req.body.active == "true") ? true : false;
-    // password = req.body.password;
     
-  User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
-    if (err)
-      res.send(err);
+  if (!!req.body.password) {
+    var password = req.body.password;
 
-    res.redirect('/users/' + req.params.id);
-  });
+    User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, password: password, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+      if (err)
+        res.send(err);
+
+      res.redirect('/users/' + req.params.id);
+    });
+  } else {
+    User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+      if (err)
+        res.send(err);
+
+      res.redirect('/users/' + req.params.id);
+    });
+  };
 });
 
 router.get('/users/new', function (req, res, next) {
