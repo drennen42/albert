@@ -2,7 +2,7 @@
 $(document).ready(function (){
 
 	$(function(){
-	    $(".chosen-select").chosen();
+	    $(".chosen-select").chosen({width: "100%"});
 	});
 
 });

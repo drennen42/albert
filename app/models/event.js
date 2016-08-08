@@ -30,7 +30,13 @@ var EventSchema = new Schema({
     num_employees: Number
 });
 
-
+EventSchema.methods.start_date_val = function start_date_val (cb) {
+    // console.log('this event.start: ', this.event.start);
+    var dateToReturn = this.event.start_date;
+    // console.log('dateToReturn: ', dateToReturn);
+    // console.log('this.start_date: ', this.event);
+    return dateToReturn.valueOf();
+};
     
 
 mongoose.model('event', EventSchema);
