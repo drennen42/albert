@@ -4,21 +4,21 @@ var express = require('express'),
   CasinoGame = mongoose.model('casinoGame');
 
 module.exports = function (app) {
-  app.use('/', router);
+  app.use('/casinoGames', router);
 };
 
-router.get('/casinoGames', function (req, res, next) {
+router.get('/', function (req, res, next) {
   CasinoGame.find( function (err, casinoGames) {
     if (err) return next(err);
     res.render('CasinoGames/casinoGames', {casinoGames});
   });
 });
 
-router.get('/casinoGames/new', function (req, res, next) {
+router.get('/new', function (req, res, next) {
   res.render('CasinoGames/new');
 });
 
-router.post('/casinoGames/new', function (req, res, next) {
+router.post('/new', function (req, res, next) {
   //Retrieve data
   var name = req.body.name && req.body.name.trim();
     
@@ -29,11 +29,11 @@ router.post('/casinoGames/new', function (req, res, next) {
         console.log('save error', err);
     }
 
-    res.redirect('/casinoGames/' + newCasinoGame.name);
+    res.redirect('/' + newCasinoGame.name);
   });
 });
 
-router.get('/casinoGames/:name', function(req, res, next) {
+router.get('/:name', function(req, res, next) {
   CasinoGame.findOne({name: req.params.name}, function(err, casinoGame) {
     if (err)
       res.send(err);
@@ -42,7 +42,7 @@ router.get('/casinoGames/:name', function(req, res, next) {
   });
 });
 
-router.post('/casinoGames/:id', function (req, res, next) {
+router.post('/:id', function (req, res, next) {
 
   CasinoGame.findByIdAndRemove(req.params.id, function(err, casinoGame) {
     if (err)
@@ -50,5 +50,5 @@ router.post('/casinoGames/:id', function (req, res, next) {
 
   });
     
-  res.redirect('/casinoGames');
+  res.redirect('/');
 });

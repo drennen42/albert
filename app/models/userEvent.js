@@ -7,7 +7,10 @@ var mongoose = require('mongoose'),
 var UserEventSchema = new Schema({
 	user: { type: Schema.Types.ObjectId, ref: 'user' },
 	event: { type: Schema.Types.ObjectId, ref: 'event' },
-	calendarEvent: { type: Schema.Types.ObjectId, ref: 'calendarEvent'}
+	calendarEvent: { type: Schema.Types.ObjectId, ref: 'calendarEvent'},
+	waitlist: Boolean,
+	confirmed: Boolean,
+	invited: Boolean
 });
 
 UserEventSchema.methods.hours_worked = function hours_worked (cb) {

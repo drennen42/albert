@@ -34,12 +34,20 @@ body {
 	margin-left: 6px;
 }
 
+.ml2{
+	margin-left: 12px;
+}
+
 .pr1 {
 	padding-right: 6px;
 }
 
 .pl1 {
 	padding-left: 6px;
+}
+
+.pl2 {
+	padding-left: 12px;
 }
 
 // a {
@@ -100,4 +108,36 @@ body {
 .user-show-table td, .user-show-table th {
 	vertical-align: middle!important;
 	text-align: center!important;
+}
+
+.calendar-container {
+	margin-top: 10px;
+	.cal-month {
+		width: 100%;
+		border: 2px solid black;
+	}
+	.calendar {
+		width: 100%;
+	}
+
+	.cal-head {
+		font-size: 20px;
+	}
+	.day {
+		width: 14%;
+		height: 20%;
+		.day-num {
+			vertical-align: top;
+			margin-bottom: 2px;
+		}
+		span{
+			border-bottom: 2px solid black;
+			border-right: 2px solid black;
+		}
+	}
+	tr {
+		td {
+			border: 2px solid black;
+		}
+	}
 }

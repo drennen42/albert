@@ -85,19 +85,29 @@
         <div class="col-sm-2"></div>
     </div>
 
+    {{#if user.is_admin}}
     <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="rank-input" class="col-sm-2">Rank</label>
         <div class="col-sm-6">
-            <input type="text" name="rank" class="form-control" id="rank-input" maxlength="1" placeholder="Rank">
+            <input type="text" name="rank" class="form-control" id="rank-input" maxlength="1" placeholder="Rank" value="{{user.rank}}">
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-sm-2"></div>
+        <label for="hourly-rate-input" class="col-sm-2">Hourly Rate</label>
+        <div class="col-sm-6">
+            <input type="number" name="hourly_rate" class="form-control" id="hourly-rate-input" min="1" step="any" placeholder="Hourly Rate" value="{{user.hourly_rate}}">
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
         <label for="password-input" class="col-sm-2">Password</label>
         <div class="col-sm-6">
-            <input type="text" name="password" class="form-control" id="password-input" maxlength="1" placeholder="Password - Leave blank to keep current password">
+            <input type="password" name="password" class="form-control" id="password-input" placeholder="Password - Leave blank to keep current password">
         </div>
     </div>
 

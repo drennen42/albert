@@ -10,30 +10,38 @@ module.exports = function (app) {
 };
 
 router.get('/users/:id/events', function(req, res, next) {
-  var events = [];
+  if (!req.session.user || !req.session.user.is_admin) {
+      // res.send('Unauthorized!!');
+      res.status(403).render('index', {
+          title: 'Sheduling Made Easy',
+          err: [{message: 'Unauthorized'}]
+        });
+  } else {
+    var events = [];
 
-  User.findOne({_id: req.params.id}, function(err, user) {
-    if (err) res.send(err);
-    UserEvent.find({user: user})
-      .populate('event')
-      .exec(function(err, userEvents){
-        if (err) res.send(err);
-        console.log('userEvents: ', userEvents);
-        console.log('userEvents.hours_worked: ', userEvents.hours_worked);
-        res.render('Events/events', {events: userEvents});
-      // for (var i = 0; i < userEvents.length; i++) {
-      //   UserEvent.findOne(userEvents[i])
-      //     .populate('event');
-      //   events.push(userEvents[i].event);
-      // };
+    User.findOne({_id: req.params.id}, function(err, user) {
+      if (err) res.send(err);
+      UserEvent.find({user: user})
+        .populate('event')
+        .exec(function(err, userEvents){
+          if (err) res.send(err);
+          console.log('userEvents: ', userEvents);
+          console.log('userEvents.hours_worked: ', userEvents.hours_worked);
+          res.render('Events/events', {events: userEvents});
+        // for (var i = 0; i < userEvents.length; i++) {
+        //   UserEvent.findOne(userEvents[i])
+        //     .populate('event');
+        //   events.push(userEvents[i].event);
+        // };
+      });
+
+        // Event.findById(user.events[i], function(err, event) {
+        //   if (err) return next(err);
+        //   events.push(event);
+        // });
+    // };
+
+      // res.render('Events/events', {events});
     });
-
-      // Event.findById(user.events[i], function(err, event) {
-      //   if (err) return next(err);
-      //   events.push(event);
-      // });
-  // };
-
-    // res.render('Events/events', {events});
-  });
+  }
 });

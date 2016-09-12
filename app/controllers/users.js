@@ -34,10 +34,10 @@ function sendEmail(recipient, subject, text, body) {
 
 
 module.exports = function (app) {
-  app.use('/', router);
+  app.use('/users', router);
 };
 
-router.get('/users/:id/sendEmail', function(req, res, next) {
+router.get('/:id/sendEmail', function(req, res, next) {
   User.findById(req.params.id, function(err, user) {
     var emailBody = `<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></head>
 <div class="container">
@@ -60,11 +60,49 @@ router.get('/users/:id/sendEmail', function(req, res, next) {
   });
 });
 
-router.get('/users', function (req, res, next) {
-  User.find( function (err, users) {
-    if (err) return next(err);
-    res.render('Users/users', {users});
+router.post('/forgotPassword', function(req, res, next) {
+  var randomPass = Math.random().toString(36).slice(-8);
+  console.log('request body username: ', req.body.username);
+  User.findOne({ $or: [{username: req.body.username}, {email: req.body.username}]}, function(err, user) {
+    if (err) res.send(err)
+    user.password = randomPass;
+    user.save(function(err) {
+      if (err) res.send(err);
+    
+      var emailBody = `<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></head>
+  <div class="container">
+    <div class="navbar" style="border: 2px solid black; margin: 10px; width:95%">
+      <p style="text-align: center; font-size:20px; color: red; vertical-align: middle;">Scheduling Made EZ</p>
+    </div>
+    <div class="main" style="margin-top: 10px; width:100%;">
+      <div style="width:100%;"><span style="font-size: 20px; text-align: center; color: blue; margin:10px;">Your password has been reset</span></div>
+      <div style="width:100%;"><span style="font-size: 16px; text-align: center; margin:10px;">Your temp password is: ${randomPass}</span></div>
+
+    </div>
+    <div style="margin:10px;"><button type="button"><a href="http://www.schedmdez.com/login" class="btn btn-primary">Login To S.M.EZ</a></button></div>
+  </div>`;
+
+      console.log('send email triggered for: ', user);
+      sendEmail(user.email, 'Scheduling Made EZ Password Reset', 'Hello, ' + user.first_name + '!' + `Your temp password is: ${randomPass}`, '<b>Hello, ' + user.first_name + '!</b>' + emailBody);
+      res.redirect('/login');
+    });
   });
+});
+
+router.get('/', function (req, res, next) {
+  console.log('req session user: ', req.session);
+  if (!req.session.user || !req.session.user.is_admin) {
+      // res.send('Unauthorized!!');
+      res.status(403).render('index', {
+          title: 'Sheduling Made Easy',
+          err: [{message: 'Unauthorized'}]
+        });
+  } else {
+    User.find( function (err, users) {
+      if (err) return next(err);
+      res.render('Users/users', {users});
+    });
+  }
 });
 
 router.post('/users/new', function (req, res, next) {
@@ -76,27 +114,28 @@ router.post('/users/new', function (req, res, next) {
     phone = req.body.phone,
     games = req.body.games,
     rank = req.body.rank,
+    hourly_rate = req.body.hourly_rate,
     active = (req.body.active == "true") ? true : false,
     password = req.body.password;
     
-  var newUser = new User({isAdmin: false, active: active, games: games, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
+  var newUser = new User({isAdmin: false, active: active, games: games, hourly_rate: hourly_rate, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
     
   newUser.save(function (err) {
     if (err) {
         console.log('save error', err);
     }
 
-    res.redirect('/users/' + newUser._id);
+    res.redirect('/' + newUser._id);
   });
 });
 
-router.post('/users/:id/delete', function (req, res, next) {
+router.post('/:id/delete', function (req, res, next) {
   User.findById({id: req.params.id}, function(err, user) {
     if (err)
       res.send(err)
     if (req.session.user._id != user._id && req.session.user.is_admin == false) {
       res.send('Unauthorized!!');
-      res.redirect('/users');
+      res.redirect('/');
     }
   });
 
@@ -107,10 +146,10 @@ router.post('/users/:id/delete', function (req, res, next) {
     console.log('User removed!');
   });
     
-  res.redirect('/users');
+  res.redirect('/');
 });
 
-router.get('/users/:id/update', function (req, res, next) {
+router.get('/:id/update', function (req, res, next) {
   var selectedGames = [],
     otherGames = [];
   User.findById(req.params.id, function(err, user) {
@@ -133,7 +172,7 @@ router.get('/users/:id/update', function (req, res, next) {
   });
 });
 
-router.post('/users/:id/update', function (req, res, next) {
+router.post('/:id/update', function (req, res, next) {
   var first_name = req.body.first_name,
     username = req.body.username,
     last_name = req.body.last_name,
@@ -142,43 +181,52 @@ router.post('/users/:id/update', function (req, res, next) {
     games = req.body.games,
     rank = req.body.rank,
     is_admin = (req.body.is_admin == "true") ? true : false,
+    hourly_rate = req.body.hourly_rate,
     active = (req.body.active == "true") ? true : false;
     
   if (!!req.body.password) {
     var password = req.body.password;
 
-    User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, password: password, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+    User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, hourly_rate: hourly_rate, password: password, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
       if (err)
         res.send(err);
 
-      res.redirect('/users/' + req.params.id);
+      res.redirect('/' + req.params.id);
     });
   } else {
-    User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+    User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, hourly_rate: hourly_rate, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
       if (err)
         res.send(err);
 
-      res.redirect('/users/' + req.params.id);
+      res.redirect('/' + req.params.id);
     });
   };
 });
 
-router.get('/users/new', function (req, res, next) {
+router.get('/new', function (req, res, next) {
   CasinoGame.find( function (err, casinoGames) {
       if (err) return next(err);
       res.render('Users/new', {games: casinoGames});
   });
 });
 
-router.get('/users/:id', function(req, res, next) {
-  var games = [];
+router.get('/:id', function(req, res, next) {
+  if (!req.session.user || !req.session.user.is_admin) {
+      // res.send('Unauthorized!!');
+      res.status(403).render('index', {
+          title: 'Sheduling Made Easy',
+          err: [{message: 'Unauthorized'}]
+        });
+  } else {
+    var games = [];
 
-  User.findOne({_id: req.params.id})
-    .populate('games')
-    .exec(function(err, user) {
-      if (err) res.send(err);
-    res.render('Users/show', {user});
-  });
+    User.findOne({_id: req.params.id})
+      .populate('games')
+      .exec(function(err, user) {
+        if (err) res.send(err);
+      res.render('Users/show', {user});
+    });
+  }
 });
 
 //   User.findOne({_id: req.params.id}, function(err, user) {

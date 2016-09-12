@@ -1,4 +1,5 @@
 var express = require('express'),
+  $ = require('jquery'),
   router = express.Router(),
   mongoose = require('mongoose'),
   Event = mongoose.model('event'),
@@ -15,10 +16,21 @@ module.exports = function (app) {
 };
 
 router.get('/events', function (req, res, next) {
-  Event.find( function (err, events) {
-    if (err) return next(err);
-    res.render('Events/events', {events});
-  });
+  var sessUser = req.session.user;
+  // console.log('request session user, sessUser: ', [req.session, !!sessUser]);
+  Event.find()
+    .populate('games')
+    .populate('client')
+    .populate('workers')
+    .exec(function (err, events) {
+      if (err) return next(err);
+
+      console.log('start date moment: ', events.start_date_moment);
+      // events.end_date_moment();
+      events.moment = moment;
+      console.log('events: ', events);
+      res.render('Events/events', {events: events, sessUser: sessUser});
+    });
 });
 
 router.get('/events/new', function (req, res, next) {
@@ -28,13 +40,25 @@ router.get('/events/new', function (req, res, next) {
       if (err) return next(err);
       User.find( function (err, users) {
         if (err) return next(err);
-        res.render('Events/new', {clients: clients, games: casinoGames, workers: users});
+        res.render('Events/new', {clients: clients, games: casinoGames, workers: users, helpers: {
+          gameName: (name, options) => name.split(' ').join('')
+        }});
       });
     });
   });
 });
 
 router.post('/events/new', function (req, res, next) {
+  var cgs = [];
+
+  // CasinoGame.find({}, function(err, games) {
+  //   if (err) console.log('events/new POST finding casino games error: ', err);
+  //   for (var g = 0; g < games.length; g++) {
+  //     cgs.push(games[g]);
+  //   }
+  // });
+  // console.log('CASINO GAMES: ', cgs);
+
   //Retrieve data
   var name = req.body.name,
     hostname = req.body.hostname,
@@ -117,6 +141,7 @@ router.post('/events/new', function (req, res, next) {
     console.log('event: ', newEvent);
     var newUserEvent = new UserEvent({
       user: worker,
+      hourly_rate: worker.hourly_rate,
       event: newEvent
     });
     newUserEvent.save(function(err) {

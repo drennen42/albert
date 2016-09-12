@@ -1,6 +1,7 @@
 var express = require('express'),
   router = express.Router(),
   mongoose = require('mongoose'),
+  $ = require('jquery'),
   Event = mongoose.model('event'),
   User = mongoose.model('user'),
   CasinoGame = mongoose.model('casinoGame'),
@@ -9,7 +10,7 @@ var express = require('express'),
   listCalEvents = require('../../quickstart.js').listEvents;
 
 module.exports = function (app) {
-  app.use('/', router);
+  app.use('/calendar', router);
 };
 
 // router.get('/calendar', function(req,res,next) {
@@ -20,17 +21,11 @@ module.exports = function (app) {
 //   });
 // });
 
-function* testFunc(i) {
-  console.log('is this working?');
-  yield i;
-}
 
-var gen = testFunc(42);
-
-router.get('/calendar', function(req, res, next) {
-  console.log(gen.next().value);
+router.get('/', function(req, res, next) {
   Event.find( function (err, events) {
     if (err) return next(err);
+    console.log('__dirname: ', __dirname);
     res.render('Events/calendar', {events});
   });
 })

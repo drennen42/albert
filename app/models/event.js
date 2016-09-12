@@ -1,7 +1,8 @@
 // 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    moment = require('moment');
 
 
 
@@ -27,6 +28,9 @@ var EventSchema = new Schema({
     games: [{ type: Schema.Types.ObjectId, ref: 'casinoGame' }],
     workers: [{ type: Schema.Types.ObjectId, ref: 'user' }],
     goog_event_id: String,
+    invited: [{ type: Schema.Types.ObjectId, ref: 'user' }],
+    waitlist: [{ type: Schema.Types.ObjectId, ref: 'user' }],
+    declined: [{ type: Schema.Types.ObjectId, ref: 'user' }],
     num_employees: Number
 });
 
@@ -37,6 +41,14 @@ EventSchema.methods.start_date_val = function start_date_val (cb) {
     // console.log('this.start_date: ', this.event);
     return dateToReturn.valueOf();
 };
-    
+  
+EventSchema.methods.start_date_moment = function start_date_moment (cb) {
+    return moment(this.event.start_date).format('ddd, MMM Do, YYYY');
+};
+
+EventSchema.methods.end_date_moment = function end_date_moment (cb) {
+    return moment(this.event.end_date).format('ddd, MMM Do, YYYY');
+};
+
 
 mongoose.model('event', EventSchema);

@@ -1,8 +1,8 @@
 
-$(document).ready(function (){
+// $(document).ready(function (){
 
-	$(function(){
-	    $(".chosen-select").chosen({width: "100%"});
-	});
+// 	$(function(){
+// 	    $(".chosen-select").chosen({width: "100%"});
+// 	});
 
-});
+// });

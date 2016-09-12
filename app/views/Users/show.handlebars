@@ -9,10 +9,11 @@
         <th>Email</th>
         <th>Phone</th>
         <th>Games</th>
-        <th>Admin?</th>
         {{#if SESS_USER.is_admin}}
+        <th>Admin?</th>
         <th>Edit</th>
         <th>Rank</th>
+        <th>Hourly Rate</th>
         <th>Timesheet</th>
         <th>Send Email</th>
         <th>Delete</th>
@@ -35,10 +36,11 @@
           {{/each}}
           </table>
         </td>
-        <td>{{user.is_admin}}</td>
         {{#if SESS_USER.is_admin}}
+        <td>{{user.is_admin}}</td>
         <td><a href="/users/{{user._id}}/update" class="btn btn-primary">Edit</a></td>
         <td>{{user.rank}}</td>
+        <td>{{user.hourly_rate}}</td>
         <td><a href="/users/{{user._id}}/timesheet" class="btn btn-primary">Timesheet</a></td>
         <td><a href="/users/{{user._id}}/sendEmail" class="btn btn-primary" data-js="send-email-btn">Send Email</a></td>
         <td>

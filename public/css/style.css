@@ -25,11 +25,17 @@ body {
 .ml1 {
   margin-left: 6px; }
 
+.ml2 {
+  margin-left: 12px; }
+
 .pr1 {
   padding-right: 6px; }
 
 .pl1 {
   padding-left: 6px; }
+
+.pl2 {
+  padding-left: 12px; }
 
 .timesheet-total-hours-row {
   background-color: #F08080 !important; }
@@ -69,3 +75,24 @@ body {
 .user-show-table td, .user-show-table th {
   vertical-align: middle !important;
   text-align: center !important; }
+
+.calendar-container {
+  margin-top: 10px; }
+  .calendar-container .cal-month {
+    width: 100%;
+    border: 2px solid black; }
+  .calendar-container .calendar {
+    width: 100%; }
+  .calendar-container .cal-head {
+    font-size: 20px; }
+  .calendar-container .day {
+    width: 14%;
+    height: 20%; }
+    .calendar-container .day .day-num {
+      vertical-align: top;
+      margin-bottom: 2px; }
+    .calendar-container .day span {
+      border-bottom: 2px solid black;
+      border-right: 2px solid black; }
+  .calendar-container tr td {
+    border: 2px solid black; }

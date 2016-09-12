@@ -16,21 +16,21 @@ function authenticate(req, res, next) {
 
 module.exports = function (app) {
   app.use(authenticate);
-  app.use('/', router);
+  app.use('/clients', router);
 };
 
-router.get('/clients', function (req, res, next) {
+router.get('/', function (req, res, next) {
   Client.find( function (err, clients) {
     if (err) return next(err);
     res.render('Clients/clients', {clients});
   });
 });
 
-router.get('/clients/new', function (req, res, next) {
+router.get('/new', function (req, res, next) {
   res.render('Clients/new');
 });
 
-router.post('/clients/new', function (req, res, next) {
+router.post('/new', function (req, res, next) {
   //Retrieve data
   var first_name = req.body.first_name,
     last_name = req.body.last_name,
@@ -72,13 +72,13 @@ router.post('/clients/new', function (req, res, next) {
         if (err) 
           console.log('save error: ', err);
 
-        res.redirect('/clients/' + newClient._id);
+        res.redirect('/' + newClient._id);
       });
     };
   });  
 });
 
-router.get('/clients/:id', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
   Client.findOne({_id: req.params.id}, function(err, client) {
     if (err) res.send(err);
 
@@ -86,7 +86,7 @@ router.get('/clients/:id', function(req, res, next) {
   });
 });
 
-router.post('/clients/:id', function (req, res, next) {
+router.post('/:id', function (req, res, next) {
 
   Client.findByIdAndRemove(req.params.id, function(err, client) {
     if (err)
@@ -94,10 +94,10 @@ router.post('/clients/:id', function (req, res, next) {
 
   });
     
-  res.redirect('/clients');
+  res.redirect('/');
 });
 
-router.get('/clients/:id/events', function(req, res, next) {
+router.get('/:id/events', function(req, res, next) {
   Client.findOne({_id: req.params.id}, function(err, client) {
     if (err)
       res.send(err);
