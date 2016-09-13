@@ -6,6 +6,9 @@ var gulp = require('gulp'),
   browserSync = require('browser-sync').create(),
   browserify = require('browserify'),
   path = require('path'),
+  babel = require('gulp-babel'),
+  fs = require('fs'),
+  source = require('vinyl-source-stream'),
   babelify = require('babelify');
 
 gulp.task('sass', function () {
@@ -21,16 +24,18 @@ gulp.task('watch', function() {
 });
 
 gulp.task('scripts', function() {
-  // console.log('path: ', path.join('./public/js/clients/clients.js'));
-  var name = './public/js/**/*.js';
-  console.log('type of name: ', [typeof name, name]);
-
-  // /Users/alexd/Workspace/Albert/public/js/clients/clients.js
-  return browserify({entries: name, extensions: ['.js']})
+  return browserify({entries: './public/js/**/*.js', extensions: ['.js'], debug: true})
     .transform(babelify)
     .bundle()
+    .pipe(source('bundle.js'))
+    .pipe(gulp.dest('dist'));
+  // return browserify(name)
+    // .transform(babelify)
+    // .bundle()
     // .pipe(source(main.js))
-    .pipe(gulp.dest('.public/main.js'))
+    // return gulp.src('./public/js/**/*.js')
+    // .pipe(babel())
+    // .pipe(gulp.dest('./public'));
 });
 
 gulp.task('develop', function () {
