@@ -3,7 +3,10 @@ var gulp = require('gulp'),
   plumber = require('gulp-plumber'),
   livereload = require('gulp-livereload'),
   sass = require('gulp-sass'),
-  browserSync = require('browser-sync').create();
+  browserSync = require('browser-sync').create(),
+  browserify = require('browserify'),
+  path = require('path'),
+  babelify = require('babelify');
 
 gulp.task('sass', function () {
   gulp.src('./public/css/*.scss')
@@ -14,7 +17,20 @@ gulp.task('sass', function () {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./public/css/*.scss', ['sass']);
+ gulp.src('./public/css/*.scss')
+});
+
+gulp.task('scripts', function() {
+  // console.log('path: ', path.join('./public/js/clients/clients.js'));
+  var name = './public/js/**/*.js';
+  console.log('type of name: ', [typeof name, name]);
+
+  // /Users/alexd/Workspace/Albert/public/js/clients/clients.js
+  return browserify({entries: name, extensions: ['.js']})
+    .transform(babelify)
+    .bundle()
+    // .pipe(source(main.js))
+    .pipe(gulp.dest('.public/main.js'))
 });
 
 gulp.task('develop', function () {
