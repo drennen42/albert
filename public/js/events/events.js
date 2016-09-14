@@ -1,5 +1,7 @@
-// require('moment');
-// console.log('moment: ', moment());
+var $ = require('jquery');
+var moment = require('moment');
+
+
 // function createDay() {
 // 	return `<td class="day">
 // 				<div class="row day-num">
