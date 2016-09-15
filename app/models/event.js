@@ -23,6 +23,7 @@ var EventSchema = new Schema({
     // },
     hostname: String,
     start_date: Date,
+    display_start_date: Date,
     end_date: Date,
     client: { type: Schema.Types.ObjectId, ref: 'client' },
     games: [{ type: Schema.Types.ObjectId, ref: 'casinoGame' }],

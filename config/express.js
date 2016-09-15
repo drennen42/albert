@@ -1,7 +1,6 @@
 var express = require('express');
 var session = require('express-session');
 var glob = require('glob');
-
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -9,6 +8,7 @@ var bodyParser = require('body-parser');
 var compress = require('compression');
 var methodOverride = require('method-override');
 var exphbs  = require('express-handlebars');
+var helpers = require('handlebars-helpers')();
 
 module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
@@ -22,6 +22,7 @@ module.exports = function(app, config) {
   }));
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'handlebars');
+
 
   // app.use(favicon(config.root + '/public/img/favicon.ico'));
   app.use(logger('dev'));

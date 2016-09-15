@@ -20,6 +20,7 @@
     "glob": "^6.0.4",
     "google-auth-library": "^0.9.8",
     "googleapis": "^10.0.0",
+    "handlebars-helpers": "^0.7.5",
     "hbs": "^4.0.0",
     "jquery": "^3.0.0",
     "method-override": "^2.3.0",

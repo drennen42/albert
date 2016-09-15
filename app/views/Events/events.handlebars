@@ -17,24 +17,26 @@
     </thead>
     <tbody>
     {{#each events}}
-      <tr>
-        <td><a href="/events/{{_id}}"> {{name}}</a></td>
+      <tr id="event-row">
+        <td id="event-name"><a href="/events/{{_id}}"> {{name}}</a></td>
         {{!-- <td>{{moment(event.start_date)}}</td>
         <td>{{moment(event.end_date)}}</td> --}}
-        <td>{{start_date}}</td>
-        <td>{{end_date}}</td>
-        <td><a href="/users/{{_id}}">{{client.first_name}}</a></td>
-        <td>
-          <table>
+        <td id="event-start-date">{{moment start_date "ddd, MMM Do, YYYY - h:mm:ss"}}</td>
+        {{!-- <td id="event-start-date">{{start_date}}</td> --}}
+        <td id="event-end-date">{{moment end_date "ddd, MMM DD, YYYY - h:mm:ss"}}</td>
+        {{!-- <td id="event-end-date">{{end_date}}</td> --}}
+        <td id="event-client"><a href="/users/{{_id}}">{{client.first_name}}</a></td>
+        <td id="event-games">
+          <table id="event-games-table">
             {{#each games}}
-            <tr><td><a href="/casinoGames/{{name}}">{{name}}</a></td></tr>
+            <tr id="event-game-row"><td id="event-game"><a href="/casinoGames/{{name}}">{{name}}</a></td></tr>
             {{/each}}
           </table>
         </td>
-         <td>
-          <table>
+         <td id="event-workers">
+          <table id="event-workers-table">
             {{#each workers}}
-            <tr><td><a href="/users/{{_id}}">{{first_name}} {{last_name}}</a></td></tr>
+            <tr id="event-worker-row"><td id="event-worker"><a href="/users/{{_id}}">{{first_name}} {{last_name}}</a></td></tr>
             {{/each}}
             {{#if ../SESS_USER}}
             <tr><td><button type="button" data-waitlist-worker="{{../SESS_USER.id}}" data-waitlist-event="{{_id}}" class="btn btn-primary">Join Waitlist</button></td></tr>

@@ -15,10 +15,9 @@ function init() {
 
 	console.log('today: ', today);
 	console.log('twoWeeksAgo: ', twoWeeksAgo);
-	console.log('I have been re-bundled... and again... OOOOGGAAA BAAALLOOOOGGGAAA');
 	$('[data-js=pay-period-start]').val(twoWeeksAgo.toISOString().slice(0,10));
 	$('[data-js=pay-period-end]').val(today.toISOString().slice(0,10));
-	// console.log('twoWeeksAgo, today: ', [twoWeeksAgo.toISOString().slice(0,10), today.toISOString().slice(0,10)]);
+
 	$userEvents.sort(function(a, b) {
 		var aDate = $(a).children('[data-js=userEvent-start]').attr('data-start-val'),
 			bDate = $(b).children('[data-js=userEvent-start]').attr('data-start-val');
