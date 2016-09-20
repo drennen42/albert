@@ -9,6 +9,7 @@
         <th>Games</th>
         <th>Workers</th>
         {{#if SESS_USER.is_admin}}
+        <th>Waitlist</th>
         <th>Client</th>
         <th>Hostname</th>
         <th>Delete</th>
@@ -17,7 +18,8 @@
     </thead>
     <tbody>
       <tr>
-        <td>{{event.start_date}}</td>
+        {{!-- <td>{{event.start_date}}</td> --}}
+        <td>{{moment event.start_date "ddd, M/D/YYYY h:mm A"}} - {{moment event.end_date "ddd, M/D/YYYY h:mm A"}}</td>
         <td>{{event.name}}</td>
         <td>{{event.description}}</td>
         <td>
@@ -35,6 +37,13 @@
             </table>
         </td>
         {{#if SESS_USER.is_admin}}
+        <td>
+            <table>
+                {{#each event.waitlist}}
+                <tr><td>{{first_name}} {{last_name}}</td></tr>
+                {{/each}}
+            </table>
+        </td>
         <td>{{event.client.first_name}}</td>
         <td>{{event.hostname}}</td>
         <td>

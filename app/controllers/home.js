@@ -34,7 +34,6 @@ module.exports = function (app) {
 
 router.get('/', function (req, res, next) {
     if (req.session.user) {
-      console.log('session user: ', req.session.user);
       // User.findOne({username: req.body.username}, function(err, user) {
       User.findOne(req.session.user, function(err, sessUser) {
         res.render('index', {

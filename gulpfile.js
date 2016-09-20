@@ -39,50 +39,36 @@ function handleErrors () {
   // } else {
   process.exit(1);
   // }
-
-
 };
 
 gulp.task('browserify', function() {
-  console.log('in gulp scripts');
-        console.log('in first function');
-        // glob('./public/js/**/*.js', function(er, files) {
-        //   console.log('globbed files: ', files);
-        // });
-        var scriptFiles = glob.sync('./public/js/**/*.js'),
-              file = 'bundle.js',
-              props = {
-                transform: [[babelify, {presets: ['es2015']}]],
-                // transform: [[babelify, {presets: ['es2015']}]],
-                // transform: [[babelify, {presets: ['es2015'], ignore: /\/public\/js\/middleware\//}]],
-                entries: [scriptFiles]
-              },
-              bundler;
-              console.log('scriptFiles: ', scriptFiles);
+  var scriptFiles = glob.sync('./public/js/**/*.js'),
+      file = 'bundle.js',
+      props = {
+        transform: [[babelify, {presets: ['es2015']}]],
+        entries: [scriptFiles]
+      },
+      bundler;
 
-        bundler = watchify(browserify(props));
+      bundler = watchify(browserify(props));
 
-        function rebundle() {
-          console.log('Rebundling');
-            var stream = bundler.bundle();
-            return stream.on('error', handleErrors)
-                .pipe(source(file))
-                .pipe(streamify(uglify()))
-                .pipe(gulp.dest('./public'));
-        }
+      function rebundle() {
+        var stream = bundler.bundle();
+        return stream.on('error', handleErrors)
+            .pipe(source(file))
+            // .pipe(streamify(uglify()))
+            .pipe(gulp.dest('./public'));
+      }
 
-        // listen for an update and run rebundle
-        bundler.on('update', function() {
-            gutil.log('Rebundle...');
-            return rebundle();
-        });
+      // listen for an update and run rebundle
+      bundler.on('update', function() {
+          gutil.log('Rebundle...');
+          return rebundle();
+      });
 
-        // run it once the first time buildScript is called
-        return rebundle();
-    // };
+      // run it once the first time buildScript is called
+      return rebundle();
 });
-
-// });
 
 gulp.task('develop', function () {
   livereload.listen();
@@ -102,7 +88,8 @@ gulp.task('develop', function () {
 });
 
 gulp.task('browser-sync', function() {
-    browserSync.init({
+    browserSync
+    .init({
         proxy: "localhost:3000",
         reloadDelay: 1000
     });

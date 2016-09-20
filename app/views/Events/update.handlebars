@@ -1,14 +1,9 @@
-<div class="row">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-6"><h1>New Event</h1></div>
-</div>
-<br>
-<form method="POST" action="/events/new">
+<form method="POST" action="/events/{{event._id}}/update">
     <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="event-name-input" class="col-sm-2">Event Name</label>
         <div class="col-sm-6">
-            <input type="text" name="name" class="form-control" id="event-name-input" placeholder="Event Name" autofocus>
+            <input type="text" name="name" class="form-control" id="event-name-input" placeholder="Event Name" autofocus value="{{event.name}}">
         </div>
         <div class="col-sm-2"></div>
     </div>
@@ -17,7 +12,7 @@
         <div class="col-sm-2"></div>
         <label for="description-input" class="col-sm-2">Description</label>
         <div class="col-sm-6">
-            <input type="textarea" name="description" class="form-control" id="description-input" placeholder="What's goin on?">
+            <input type="textarea" name="description" class="form-control" id="description-input" placeholder="What's goin on?" value="{{event.description}}">
         </div>
         <div class="col-sm-2"></div>
     </div>
@@ -26,11 +21,8 @@
         <div class="col-sm-2"></div>
         <label for="start-date-input" class="col-sm-2">Start</label>
         <div class="col-sm-3">
-            <input type="datetime" name="start_date_date" class="form-control" id="start-date-input">
+            <input type="datetime-local" name="start_date_date" class="form-control" id="start-date-input" value="{{moment event.start_date "YYYY-MM-DDTHH:mm"}}">
         </div>
-        {{!-- <div class="col-sm-3">
-            <input type="time" name="start_date_time" class="form-control" id="start-date-input">
-        </div> --}}
         <div class="col-sm-2"></div>
     </div>
 
@@ -38,10 +30,7 @@
         <div class="col-sm-2"></div>
         <label for="end-date-input" class="col-sm-2">End</label>
         <div class="col-sm-3">
-            <input type="date" name="end_date_date" class="form-control" id="end-date-input">
-        </div>
-        <div class="col-sm-3">
-            <input type="time" name="end_date_time" class="form-control" id="end-date-input">
+            <input type="datetime-local" name="end_date_date" class="form-control" id="end-date-input" value="{{moment event.end_date "YYYY-MM-DDTHH:mm"}}">
         </div>
         <div class="col-sm-2"></div>
     </div>
@@ -50,7 +39,7 @@
         <div class="col-sm-2"></div>
         <label for="location-input" class="col-sm-2">Location</label>
         <div class="col-sm-6">
-            <input type="text" name="location" class="form-control" placeholder="Full location address. Ex: 123 Fake St, Unrealtown, IL 66666" id="location-input">
+            <input type="text" name="location" class="form-control" placeholder="Full location address. Ex 123 Fake St, Unrealtown, IL 66666" id="location-input" value="{{event.location}}">
         </div>
         <div class="col-sm-2"></div>
     </div>
@@ -61,6 +50,7 @@
         <div class="col-sm-6">
             <select name="client" data-placeholder="Choose a client" class="chosen-select form-control" id="client-input" placeholder="Client">
                 <option value=""></option>
+                    <option value="{{event.client._id}}" selected>{{event.client.first_name}} {{event.client.last_name}}</option>
                 {{#each clients}}
                     <option value="{{_id}}">{{first_name}} {{last_name}}</option>
                 {{/each}}
@@ -79,45 +69,19 @@
                 <input type="number" name="{{#gameNameLower name}}{{/gameName}}" class="form-control align-center" placeholder="#"></td>
             {{/each}}
             </table>
-
-            {{!-- <select data-placeholder="Choose some games" class="chosen-select form-control" name="games" multiple>
-            <option value=""></option>
-            {{#each games}}
-                <option value={{_id}}>{{name}}</option>
-            {{/each}}
-            </select> --}}
-
-            {{!-- <div class="input-group"> --}}
-              {{!-- <span class="input-group-addon"> --}}
             {{!-- <table>
             {{#each games}}
                 <th class="align-center">{{name}}</th>
             {{/each}}
-                <tr>
-                    {{#each games}}
-                        <td><input type="number" name="{{#gameName name}}{{/gameName}}" class="form-control align-center" placeholder="#"></td>
-                    {{/each}}
-                </tr>
-            </table> --}}
-              {{!-- </span> --}}
-            {{!-- </div><!-- /input-group --> --}}
-
+            <tr>
+                {{#each games}}
+                <td><input type="number" name="{{#gameName name}}{{/gameName}}" class="form-control align-center" placeholder="#"></td>
+              {{/each}}
+              </tr>
+              </table> --}}
         </div>
         <div class="col-sm-2"></div>
     </div>
-
-    {{!-- <div class="form-group row"> --}}
-        {{!-- <div class="col-sm-2"></div> --}}
-        {{!-- <label for="games-input" class="col-sm-2">Games</label> --}}
-        {{!-- <div class="col-sm-6"> --}}
-            {{!-- <div class="col-sm-6"> --}}
-            {{!-- {{#each games}} --}}
-                {{!-- <div class="col-sm-3">{{name}}<input type="number" class="col-sm-3" data-js="number-of-{{name}}" placeholder="How many {{name}}?"></div> --}}
-                {{!-- <div class="col-sm-1"><input type="number" data-js="number-of-{{name}}"></div> --}}
-            {{!-- {{/each}} --}}
-            {{!-- </div> --}}
-       {{!--  </div>
-    </div> --}}
 
     <div class="form-group row">
         <div class="col-sm-2"></div>
@@ -137,19 +101,10 @@
         <div class="col-sm-2"></div>
         <label for="event-hostname-input" class="col-sm-2">Main Contact</label>
         <div class="col-sm-6">
-            <input type="text" name="hostname" class="form-control" id="event-hostname-input" placeholder="Name of main contact">
+            <input type="text" name="hostname" class="form-control" id="event-hostname-input" placeholder="Name of main contact" value="{{event.hostname}}">
         </div>
         <div class="col-sm-2"></div>
     </div>
-
-    {{!-- <div class="form-group row">
-        <div class="col-sm-2"></div>
-        <label for="num-employees-input" class="col-sm-2"># of Employees</label>
-        <div class="col-sm-6">
-            <input type="text" name="num_employees" class="form-control" id="num-employees-input" placeholder="# of Employees">
-        </div>
-        <div class="col-sm-2"></div>
-    </div> --}}
 
     <div class="row">
         <div class="col-sm-4"></div>

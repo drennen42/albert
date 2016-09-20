@@ -6,7 +6,7 @@
   <title>Scheduling Made EZ</title>
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/chosen.min.css">
-  <script type="text/javascript" src="../bundle.js"></script>
+  <script type="text/javascript" src="/bundle.js"></script>
   <link rel="stylesheet" href="/css/style.css">
   {{#if ENV_DEVELOPMENT}}
     <script src="http://localhost:35729/livereload.js"></script>
@@ -14,7 +14,9 @@
 </head>
 <body>
   {{> navbar }}
-  <div class="alert-danger" style="text-align:center">{{> error tagName="h1" }}</div>
+  <div class="alert-danger" style="text-align:center">
+    {{> error tagName="h1" }}
+  </div>
   
   {{{body}}}
 

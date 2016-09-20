@@ -5,25 +5,35 @@ var express = require('express'),
   Event = mongoose.model('event');
 
 function authenticate(req, res, next) {
-  if (req.method == 'GET' || req.method == 'POST') {
-    console.log('session user: ', req.session.user);
-    next();
+  // if ((req.method == 'GET' || req.method == 'POST') && (!!req.session.user && !!req.session.user.is_admin)) {
+  if (!!req.session && !!req.session.user && !!req.session.user.is_admin) {
+    console.log('User ', req.session.user.first_name, ' ', req.session.user.last_name, ' is admin');
+    // var sessUser = req.session.user;
+    // if (!!sessUser && !!sessUser.is_admin) {
+      return next();
+    // } else {
+      // return false;
+    // }
   } else {
-    console.log('request is not a GET nor a POST... ? What?');
-    next();
+    console.log('No session user or the user is not admin');
+    return res.sendStatus(401);
   }
 }
 
 module.exports = function (app) {
-  app.use(authenticate);
-  app.use('/clients', router);
+  app.use('/clients', authenticate, router);
+  // app.use(authenticate);
 };
 
 router.get('/', function (req, res, next) {
-  Client.find( function (err, clients) {
-    if (err) return next(err);
-    res.render('Clients/clients', {clients});
-  });
+  // if (!authenticate(req)) {
+    // res.render('partials/forbidden')
+  // } else {
+    Client.find( function (err, clients) {
+      if (err) return next(err);
+      res.render('Clients/clients', {clients});
+    });
+  // };
 });
 
 router.get('/new', function (req, res, next) {
@@ -87,11 +97,9 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.post('/:id', function (req, res, next) {
-
   Client.findByIdAndRemove(req.params.id, function(err, client) {
     if (err)
       res.send(err);
-
   });
     
   res.redirect('/');
