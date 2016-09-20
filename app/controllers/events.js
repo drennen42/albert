@@ -28,7 +28,11 @@ router.get('/events', function (req, res, next) {
       console.log('start date moment: ', events.start_date_moment);
       // events.end_date_moment();
       events.moment = moment;
-      console.log('events: ', events);
+      // console.log('events: ', events[1].start_date_moment());
+      console.log('event date: ', events[1].start_date );
+      console.log('event date moment: ', moment(events[1].start_date).format('YYYY-MM-DD'));
+      events[1].display_start_date = moment(events[1].start_date).format('YYYY-MM-DD');
+      console.log('events[1].display_start_date: ', events[1].display_start_date);
       res.render('Events/events', {events: events, sessUser: sessUser});
     });
 });
