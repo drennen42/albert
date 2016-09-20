@@ -1,6 +1,7 @@
-<h1> Hello </h1>
-{{#each error}}
-  {{ message }}
+{{> navbar}}
+<h1> Error </h1>
+{{#each err}}
+  {{ message }}<br>
   {{ error.status }}
   {{ error.stack }}  
 {{/each}}

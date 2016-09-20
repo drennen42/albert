@@ -18,7 +18,7 @@ module.exports = function(app, config) {
   app.engine('handlebars', exphbs({
     layoutsDir: config.root + '/app/views/layouts/',
     defaultLayout: 'main',
-    partialsDir: [config.root + '/app/views/partials/']
+    partialsDir: config.root + '/app/views/partials/'
   }));
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'handlebars');
@@ -62,16 +62,7 @@ module.exports = function(app, config) {
   function getSessUser(req, res, next) {
     if (req.method === 'GET' || req.method == 'POST') { 
       if (req.session.user) {
-        console.log('***** express.js session user: ', req.session.user);
         app.locals.SESS_USER = req.session.user;
-        // User.findOne({username: req.body.username}, function(err, user) {
-        // User.findOne(req.session.user, function(err, sessUser) {
-        // res.render('partials/navbar', {
-        //   title: 'Sheduling Made Easy',
-        //   sessUser: req.session.user
-        // });
-      // };
-
         next();
       } else {
         app.locals.SESS_USER = '';

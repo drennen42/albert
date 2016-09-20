@@ -90,7 +90,7 @@ router.post('/forgotPassword', function(req, res, next) {
 });
 
 router.get('/', function (req, res, next) {
-  console.log('req session user: ', req.session);
+  // console.log('req session user: ', req.session);
   if (!req.session.user || !req.session.user.is_admin) {
       // res.send('Unauthorized!!');
       res.status(403).render('index', {
