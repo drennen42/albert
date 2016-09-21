@@ -1,5 +1,4 @@
 var express = require('express'),
-  $ = require('jquery'),
   router = express.Router(),
   mongoose = require('mongoose'),
   Event = mongoose.model('event'),
@@ -8,8 +7,6 @@ var express = require('express'),
   CasinoGame = mongoose.model('casinoGame'),
   Client = mongoose.model('client'),
   EventGame = mongoose.model('eventGame'),
-  addGoogEvent = require('../../quickstart.js').addNewEvent,
-  updateGoogEvent = require('../../quickstart.js').updateNewEvent,
   moment = require('moment');
 
 module.exports = function (app) {
@@ -26,9 +23,7 @@ router.get('/events', function (req, res, next) {
     .populate('waitlist')
     .sort({'start_date': 'descending'})
     .exec(function (err, events) {
-      if (err) return next(err);
-
-      // events.moment = moment;
+      if (err) res.send(err);
       res.render('Events/events', {events: events, sessUser: sessUser});
     });
 });
@@ -43,7 +38,7 @@ router.get('/events/new', function (req, res, next) {
         User.find( function (err, users) {
           if (err) return next(err);
           res.render('Events/new', {clients: clients, games: casinoGames, workers: users, helpers: {
-            gameNameLower: (name, options) => (name.split(' ').join('')).toLowerCase(),
+            // gameNameLower: (name, options) => (name.split(' ').join('')).toLowerCase()
             gameName: (name, options) => name.split(' ').join('')
           }});
         });
@@ -65,7 +60,6 @@ router.post('/events/new', function (req, res, next) {
     games = req.body.games,
     workers = req.body.workers,
     start_date = req.body.start_date_date,
-    // start_date_time = req.body.start_date_time,
     end_date = req.body.end_date_date,
     end_date_time = req.body.end_date_time,
     summary = req.body.summary,
@@ -75,11 +69,10 @@ router.post('/events/new', function (req, res, next) {
     end,
     attendees = [];
 
-  start = moment(start_date);
-  end = moment(`${end_date} ${end_date_time}`, 'YYYY-MM-DD HH:mm').local();
+  console.log('event games: ', games);
 
   var query = User.find({'_id': { $in: workers}}, 'email', function(err, docs){
-    if (err) console.log(err);
+    if (err) res.send(err);
     return docs;
   });
 
@@ -90,41 +83,18 @@ router.post('/events/new', function (req, res, next) {
     };
   });
 
-  var googEvent = {
-    'summary': name,
-    'location': location,
-    'description': description,
-    'start': {dateTime: start.format()},
-    'end': {dateTime: end.format()},
-    'attendees': attendees,
-    // 'visibility': 'private',
-    'reminders': {
-      'useDefault': false,
-      'overrides': [
-        {'method': 'email', 'minutes': 24 * 60},
-        {'method': 'popup', 'minutes': 10},
-      ],
-    },
-  };
-
-  addGoogEvent(googEvent, (x) => {
-    console.log('x: ', x);
-  });
-
   var newEvent = new Event({
     name: name, 
     hostname: hostname, 
     num_employees: num_employees, 
     client: client, 
-    start_date: start.toDate(), 
-    end_date: end.toDate(), 
+    start_date: start_date.toDate(), 
+    end_date: end_date.toDate(), 
     games: games, 
     workers: workers,
     summary: summary,
     location: location,
-    description: description,
-    start: start.toDate(),
-    end: end.toDate(),
+    description: description
   });
 
   newEvent.save(function (err) {
@@ -135,8 +105,6 @@ router.post('/events/new', function (req, res, next) {
   });
 
   newEvent.workers.forEach(function(worker) {
-    console.log('worker: ', worker);
-    console.log('event: ', newEvent);
     var newUserEvent = new UserEvent({
       user: worker,
       hourly_rate: worker.hourly_rate,
@@ -189,11 +157,8 @@ router.post('/events/:id/update', function(req, res, next) {
     end,
     attendees = [];
 
-  start = moment(`${start_date} ${start_date_time}`, 'YYYY-MM-DD HH:mm').local();
-  end = moment(`${end_date} ${end_date_time}`, 'YYYY-MM-DD HH:mm').local();
-
   var query = User.find({'_id': { $in: workers}}, 'email', function(err, docs){
-    if (err) console.log(err);
+    if (err) res.send(err);
     return docs;
   });
 
@@ -204,38 +169,18 @@ router.post('/events/:id/update', function(req, res, next) {
     }
   });
 
-  // var googEvent = {
-  //   'summary': name,
-  //   'location': location,
-  //   'description': description,
-  //   'start': {dateTime: start.format()},
-  //   'end': {dateTime: end.format()},
-  //   'attendees': attendees,
-  //   // 'visibility': 'private',
-  //   'reminders': {
-  //     'useDefault': false,
-  //     'overrides': [
-  //       {'method': 'email', 'minutes': 24 * 60},
-  //       {'method': 'popup', 'minutes': 10},
-  //     ],
-  //   },
-  // };
-
-  // updateGoogEvent(req.params.id, googEvent);
   Event.findOneAndUpdate({_id: req.params.id}, {
     name: name, 
     hostname: hostname, 
     num_employees: num_employees, 
     client: client, 
-    start_date: start.toDate(), 
-    end_date: end.toDate(), 
+    start_date: start_date.toDate(), 
+    end_date: end_date.toDate(), 
     games: games, 
     workers: workers,
     summary: summary,
     location: location,
-    description: description,
-    start: start.toDate(),
-    end: end.toDate(),
+    description: description
   }, function(err, event) {
     if (err) res.send(err);
     res.redirect('/events/' + req.params.id);
