@@ -1,6 +1,5 @@
 var express = require('express'),
   router = express.Router(),
-  $ = require('jquery'),
   mongoose = require('mongoose'),
   nodemailer = require('nodemailer'),
   User = mongoose.model('user'),
@@ -39,22 +38,20 @@ module.exports = function (app) {
 
 router.get('/:id/sendEmail', function(req, res, next) {
   User.findById(req.params.id, function(err, user) {
+    if (err) res.send(err)
     var emailBody = `<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></head>
-<div class="container">
-  <div class="navbar" style="border: 2px solid black; margin: 10px; width:95%">
-    <p style="text-align: center; font-size:20px; color: red; vertical-align: middle;">Scheduling Made EZ</p>
-  </div>
-  <div class="main" style="margin-top: 10px; width:100%;">
-    <div style="width:100%;"><span style="font-size: 20px; text-align: center; color: blue; margin:10px;">This is a test email sent from Scheduling Made EZ!!</span></div>
-    <div style="width:100%; margin-top:10px"><span style="border: 2px solid black; margin:10px;">A Picture Could Go Here</span></div>
-    <div style="width:100%; margin-top:10px;"><span style="border: 2px solid black; margin:10px;">And Another Here</span></div>
-    <div style="width:100%; margin-top:10px;"><span style="border: 2px solid black; margin:10px;">As many as you want</span></div>
-  </div>
-  <div style="margin:10px;"><button type="button"><a href="http://10.0.0.31:3001" class="btn btn-primary">Visit S.M.EZ</a></button></div>
-</div>`;
-    if (err)
-      res.send(err)
-    // console.log('send email triggered for: ', user);
+                    <div class="container">
+                      <div class="navbar" style="border: 2px solid black; margin: 10px; width:95%">
+                        <p style="text-align: center; font-size:20px; color: red; vertical-align: middle;">Scheduling Made EZ</p>
+                      </div>
+                      <div class="main" style="margin-top: 10px; width:100%;">
+                        <div style="width:100%;"><span style="font-size: 20px; text-align: center; color: blue; margin:10px;">This is a test email sent from Scheduling Made EZ!!</span></div>
+                        <div style="width:100%; margin-top:10px"><span style="border: 2px solid black; margin:10px;">A Picture Could Go Here</span></div>
+                        <div style="width:100%; margin-top:10px;"><span style="border: 2px solid black; margin:10px;">And Another Here</span></div>
+                        <div style="width:100%; margin-top:10px;"><span style="border: 2px solid black; margin:10px;">As many as you want</span></div>
+                      </div>
+                      <div style="margin:10px;"><button type="button"><a href="http://10.0.0.31:3001" class="btn btn-primary">Visit S.M.EZ</a></button></div>
+                    </div>`;
     sendEmail(user.email, 'This is a test email from Scheduling Made EZ', 'Hello, ' + user.first_name + '!', '<b>Hello, ' + user.first_name + '!</b>' + emailBody);
     res.redirect('/users/' + user._id);
   });
@@ -70,17 +67,17 @@ router.post('/forgotPassword', function(req, res, next) {
       if (err) res.send(err);
     
       var emailBody = `<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></head>
-  <div class="container">
-    <div class="navbar" style="border: 2px solid black; margin: 10px; width:95%">
-      <p style="text-align: center; font-size:20px; color: red; vertical-align: middle;">Scheduling Made EZ</p>
-    </div>
-    <div class="main" style="margin-top: 10px; width:100%;">
-      <div style="width:100%;"><span style="font-size: 20px; text-align: center; color: blue; margin:10px;">Your password has been reset</span></div>
-      <div style="width:100%;"><span style="font-size: 16px; text-align: center; margin:10px;">Your temp password is: ${randomPass}</span></div>
+                      <div class="container">
+                        <div class="navbar" style="border: 2px solid black; margin: 10px; width:95%">
+                          <p style="text-align: center; font-size:20px; color: red; vertical-align: middle;">Scheduling Made EZ</p>
+                        </div>
+                        <div class="main" style="margin-top: 10px; width:100%;">
+                          <div style="width:100%;"><span style="font-size: 20px; text-align: center; color: blue; margin:10px;">Your password has been reset</span></div>
+                          <div style="width:100%;"><span style="font-size: 16px; text-align: center; margin:10px;">Your temp password is: ${randomPass}</span></div>
 
-    </div>
-    <div style="margin:10px;"><button type="button"><a href="http://www.schedmdez.com/login" class="btn btn-primary">Login To S.M.EZ</a></button></div>
-  </div>`;
+                        </div>
+                        <div style="margin:10px;"><button type="button"><a href="http://www.schedmdez.com/login" class="btn btn-primary">Login To S.M.EZ</a></button></div>
+                      </div>`;
 
       console.log('send email triggered for: ', user);
       sendEmail(user.email, 'Scheduling Made EZ Password Reset', 'Hello, ' + user.first_name + '!' + `Your temp password is: ${randomPass}`, '<b>Hello, ' + user.first_name + '!</b>' + emailBody);
@@ -90,16 +87,14 @@ router.post('/forgotPassword', function(req, res, next) {
 });
 
 router.get('/', function (req, res, next) {
-  // console.log('req session user: ', req.session);
   if (!req.session.user || !req.session.user.is_admin) {
-      // res.send('Unauthorized!!');
       res.status(403).render('index', {
           title: 'Sheduling Made Easy',
           err: [{message: 'Unauthorized'}]
         });
   } else {
     User.find( function (err, users) {
-      if (err) return next(err);
+      if (err) res.send(err);
       res.render('Users/users', {users});
     });
   }
@@ -123,6 +118,7 @@ router.post('/users/new', function (req, res, next) {
   newUser.save(function (err) {
     if (err) {
         console.log('save error', err);
+        res.send(err);
     }
 
     res.redirect('/' + newUser._id);
@@ -131,17 +127,17 @@ router.post('/users/new', function (req, res, next) {
 
 router.post('/:id/delete', function (req, res, next) {
   User.findById({id: req.params.id}, function(err, user) {
-    if (err)
-      res.send(err)
+    if (err) res.send(err)
     if (req.session.user._id != user._id && req.session.user.is_admin == false) {
-      res.send('Unauthorized!!');
-      res.redirect('/');
+      res.status(403).render('index', {
+          title: 'Sheduling Made Easy',
+          err: [{message: 'Unauthorized'}]
+        });
     }
   });
 
   User.findByIdAndRemove(req.params.id, function(err) {
-    if (err)
-      res.send(err);
+    if (err) res.send(err);
     res.send('User removed!');
     console.log('User removed!');
   });
@@ -228,16 +224,3 @@ router.get('/:id', function(req, res, next) {
     });
   }
 });
-
-//   User.findOne({_id: req.params.id}, function(err, user) {
-//     if (err) res.send(err);
-//     for (var i = 0; i < user.games.length; i++) {
-//       console.log('user game[i]: ', user.games[i]);
-//       CasinoGame.findById(user.games[i], function(err, game) {
-//         if (err) return next(err);
-//         games.push(game);
-//       });
-//     };
-//     res.render('Users/show', {user: user, games: games});
-//   });
-// });
