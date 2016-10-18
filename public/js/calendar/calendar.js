@@ -7,52 +7,97 @@ module.exports = function(data) {
 
 	function createFirstWeek(spaceNeeded) {
 		var html = '';
-		// start the row
+
 		html += '<tr class="week">';
 
-		// create blank days in a loop until reach spaceNeeded
 		for (var i = 0; i < Number(spaceNeeded); i++) {
 			html += '<td class="day">-</td>';
 		};
 
-		// create days in a loop until loop iterator + space needed == 7
 		for (var i = 0; (i + 1 + Number(spaceNeeded)) <= 7; i++) {
 			html += `<td class="day" data-js-iso="${moment(data.startDate).add(i, 'd').format('YYYY-MM-DD')}">${moment(data.startDate).add(i, 'd').format('DD')}</td>`;
 		};
 		
-		// close row
 		html += '</tr>';
-
-		// console.log('create first week html: ', html);
 		return html;
 	};
 
-	function createWeek(weekNum, startDay) {
+	function createWeek(weekNum, startDay, monthEvents) {
 		var html = '';
 
-		// start row
 		html += `<tr class="week week-${weekNum}">`;
 
-		// create 7 days in a loop using startDay
 		for (var i = 0; i < 7; i++) {
-			html += `<td class="day" data-js-iso="${moment(startDay).add(i, 'd').format('YYYY-MM-DD')}">${moment(startDay).add(i, 'd').format('DD')}</td>`
+			if (Object.keys(monthEvents).length > 0) {
+				console.log('There are events this month');
+				if (!!monthEvents[moment(startDay).add(i, 'd').format('D')]) {
+					console.log('This day has an event!: ', monthEvents[moment(startDay).add(i, 'd').format('D')]);
+					html += `<td class="day" data-js-iso="${moment(startDay).add(i, 'd').format('YYYY-MM-DD')}">
+								<div class="row container m0">
+								<div class="row">
+									<div class="col-xs-4 cal-day-num">
+										${moment(startDay).add(i, 'd').format('DD')}
+									</div>`;
+
+					for (var x = 0; x < monthEvents[moment(startDay).add(i, 'd').format('D')].length; x++) {
+						html += `<div class="col-xs-12 day-event">
+									<a href="/events/${monthEvents[moment(startDay).add(i, 'd').format('D')][x]._id}">
+										${moment(monthEvents[moment(startDay).add(i, 'd').format('D')][x].start_date).format('ha')} ${monthEvents[moment(startDay).add(i, 'd').format('D')][x].name}
+									</a>
+								</div>`;
+					};
+
+					html += `</div></div></td>`;
+				} else {
+					console.log('No events this day!: ', moment(startDay).add(i, 'd').format('YYYY-MM-DD'));
+					html += `<td class="day" data-js-iso="${moment(startDay).add(i, 'd').format('YYYY-MM-DD')}">
+								<div class="row container m0">
+									<div class="row">
+										<div class="col-xs-4 cal-day-num">
+											${moment(startDay).add(i, 'd').format('DD')}
+										</div>
+									</div>
+								</div>
+							</td>`;
+				};
+			} else {
+				console.log('No events this month!');
+				html += `<td class="day" data-js-iso="${moment(startDay).add(i, 'd').format('YYYY-MM-DD')}">
+							<div class-"row container m0">
+								<div class="row">
+									<div class="col-xs-4 cal-day-num">
+										${moment(startDay).add(i, 'd').format('DD')}
+									</div>
+								</div>
+							</div>
+						</td>`;
+			};
 		};
 
 		html += '</tr>';
-
-		// console.log('create week html: ', html);
 		return html;
 	};
 
 	function createMonth() {
 		var spaceNeeded = data.startDate.weekday(),
 			html = '',
-			nextWeekStartDay = moment(data.startDate).add((7 - spaceNeeded), 'd');
+			nextWeekStartDay = moment(data.startDate).add((7 - spaceNeeded), 'd'),
+			monthEvents = {};
+
+		data.events.map((evt) => {
+			if (!!monthEvents[Number(moment(evt.start_date).date())]) {
+				monthEvents[Number(moment(evt.start_date).date())].push(evt);
+			} else {
+				monthEvents[Number(moment(evt.start_date).date())] = [evt];
+			}
+		});
+
+		console.log('monthEvents: ', monthEvents);
 
 		html += createFirstWeek(spaceNeeded);
 
 		for (var i = 0; i < 4; i++) {
-			html += createWeek(i, nextWeekStartDay);
+			html += createWeek(i, nextWeekStartDay, monthEvents);
 			nextWeekStartDay.add(7, 'd');
 		}
 		// console.log('HTML: ', html);
@@ -61,5 +106,6 @@ module.exports = function(data) {
 
 	// var $calendar = $('.calendar');
 	// console.log('$calendar: ', $calendar);
+	// console.log('Events: ', data.events);
 	return createMonth();
 };

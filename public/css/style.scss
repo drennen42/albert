@@ -22,6 +22,14 @@ body {
 	text-align: right;
 }
 
+.m0 {
+	margin: 0;
+}
+
+.p0 {
+	padding: 0;
+}
+
 .mr1 {
 	margin-right: 6px;
 }
@@ -118,6 +126,20 @@ body {
 	}
 	.calendar {
 		width: 100%;
+
+		.week {
+			min-height: 100px;
+		}
+		
+		.day {
+			min-height: 100px;
+			vertical-align: top;
+			height: 100px;
+
+			.day-event {
+				border-bottom: 1px dotted black;
+			}
+		}
 	}
 
 	.cal-head {
