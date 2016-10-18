@@ -9,6 +9,7 @@ $.each(states, function(i, state) {
 });
 
 function billingSameCheckboxHandler() {
+	console.log('in billingSameCheckboxHandler');
 	if ($('#billing-address-same-input')[0].checked) {
 		$('#billing-street-input').val($('#address-street-input').val());
 		$('#billing-city-input').val($('#address-city-input').val());

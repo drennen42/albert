@@ -12,6 +12,7 @@ var gulp = require('gulp'),
   notify = require('gulp-notify'),
   watchify = require('watchify'),
   gutil = require('gulp-util'),
+  path = require('path'),
   babelify = require('babelify');
 
 gulp.task('sass', function () {
@@ -42,7 +43,10 @@ function handleErrors () {
 };
 
 gulp.task('browserify', function() {
-  var scriptFiles = glob.sync('./public/js/**/*.js'),
+  var fileSrc = path.join('./public/js/**/*.js'),
+        // '' + path.join('.public/views/modules/**/*.js'),
+      // scriptFiles = glob.sync(['./public/js/**/*.js', '.public/views/modules/**/*.js']),
+      scriptFiles = glob.sync(fileSrc),
       file = 'bundle.js',
       props = {
         transform: [[babelify, {presets: ['es2015']}]],

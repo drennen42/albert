@@ -1,12 +1,17 @@
-var moment = require('moment');
+var moment = require('moment'),
+	$ = require('jquery');
 
 function giveMeTheDate() {
-	var thisDay = moment().format('DD'),
-		thisMonth = moment().format('MM'),
+	var thisDay = {'numeric': moment().format('DD'), 'long': moment().format('DDD')},
+		thisMonth = {'numeric': moment().format('MM'), 'long': moment().format('MMMM'), 'short': moment().format('MMM')},
 		thisYear = moment().format('YYYY');
-	return thisDay;
+	return {'day': thisDay, 'month': thisMonth, 'year': thisYear};
 };
+
+
+
 
 module.exports = {
 	giveMeTheDate: giveMeTheDate
 };
+

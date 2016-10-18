@@ -7,9 +7,11 @@ var mongoose = require('mongoose'),
 var UserEventSchema = new Schema({
 	user: { type: Schema.Types.ObjectId, ref: 'user' },
 	event: { type: Schema.Types.ObjectId, ref: 'event' },
+	eventGame: { type: Schema.Types.ObjectId, ref: 'eventGame' },
 	calendarEvent: { type: Schema.Types.ObjectId, ref: 'calendarEvent'},
 	waitlist: Boolean,
 	confirmed: Boolean,
+	hourly_rate: Number,
 	invited: Boolean
 });
 
