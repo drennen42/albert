@@ -14267,9 +14267,9 @@ module.exports = function (data) {
 
 		for (var i = 0; i < 7; i++) {
 			if (Object.keys(monthEvents).length > 0) {
-				console.log('There are events this month');
+				// console.log('There are events this month');
 				if (!!monthEvents[moment(startDay).add(i, 'd').format('D')]) {
-					console.log('This day has an event!: ', monthEvents[moment(startDay).add(i, 'd').format('D')]);
+					// console.log('This day has an event!: ', monthEvents[moment(startDay).add(i, 'd').format('D')]);
 					html += '<td class="day" data-js-iso="' + moment(startDay).add(i, 'd').format('YYYY-MM-DD') + '">\n\t\t\t\t\t\t\t\t<div class="row container m0">\n\t\t\t\t\t\t\t\t<div class="row">\n\t\t\t\t\t\t\t\t\t<div class="col-xs-4 cal-day-num">\n\t\t\t\t\t\t\t\t\t\t' + moment(startDay).add(i, 'd').format('DD') + '\n\t\t\t\t\t\t\t\t\t</div>';
 
 					for (var x = 0; x < monthEvents[moment(startDay).add(i, 'd').format('D')].length; x++) {
@@ -14278,11 +14278,11 @@ module.exports = function (data) {
 
 					html += '</div></div></td>';
 				} else {
-					console.log('No events this day!: ', moment(startDay).add(i, 'd').format('YYYY-MM-DD'));
+					// console.log('No events this day!: ', moment(startDay).add(i, 'd').format('YYYY-MM-DD'));
 					html += '<td class="day" data-js-iso="' + moment(startDay).add(i, 'd').format('YYYY-MM-DD') + '">\n\t\t\t\t\t\t\t\t<div class="row container m0">\n\t\t\t\t\t\t\t\t\t<div class="row">\n\t\t\t\t\t\t\t\t\t\t<div class="col-xs-4 cal-day-num">\n\t\t\t\t\t\t\t\t\t\t\t' + moment(startDay).add(i, 'd').format('DD') + '\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</td>';
 				};
 			} else {
-				console.log('No events this month!');
+				// console.log('No events this month!');
 				html += '<td class="day" data-js-iso="' + moment(startDay).add(i, 'd').format('YYYY-MM-DD') + '">\n\t\t\t\t\t\t\t<div class-"row container m0">\n\t\t\t\t\t\t\t\t<div class="row">\n\t\t\t\t\t\t\t\t\t<div class="col-xs-4 cal-day-num">\n\t\t\t\t\t\t\t\t\t\t' + moment(startDay).add(i, 'd').format('DD') + '\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</td>';
 			};
 		};
@@ -14305,7 +14305,7 @@ module.exports = function (data) {
 			}
 		});
 
-		console.log('monthEvents: ', monthEvents);
+		// console.log('monthEvents: ', monthEvents);
 
 		html += createFirstWeek(spaceNeeded);
 
@@ -14313,13 +14313,9 @@ module.exports = function (data) {
 			html += createWeek(i, nextWeekStartDay, monthEvents);
 			nextWeekStartDay.add(7, 'd');
 		}
-		// console.log('HTML: ', html);
 		return html;
 	};
 
-	// var $calendar = $('.calendar');
-	// console.log('$calendar: ', $calendar);
-	// console.log('Events: ', data.events);
 	return createMonth();
 };
 
@@ -14373,17 +14369,14 @@ function giveMeTheDate() {
 	return { 'day': thisDay, 'month': thisMonth, 'year': thisYear };
 };
 
+// console.log('data game id elements: ', $('[data-game-id]'));
+
+
 module.exports = {
 	giveMeTheDate: giveMeTheDate
 };
 
 },{"jquery":1,"moment":2}],6:[function(require,module,exports){
-// var Calendar = require('./calendar/calendar.js');
-
-// Calendar({dataOne: 'data1', dataTwo: 'dataTwo'});
-"use strict";
-
-},{}],7:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -14461,4 +14454,4 @@ $('[data-js=pay-period-button]').on('click', function () {
 
 init();
 
-},{"jquery":1,"moment":2}]},{},[3,4,5,6,7]);
+},{"jquery":1,"moment":2}]},{},[3,4,5,6]);

@@ -100,7 +100,7 @@ router.get('/', function (req, res, next) {
   }
 });
 
-router.post('/users/new', function (req, res, next) {
+router.post('/new', function (req, res, next) {
   //Retrieve data
   var first_name = req.body.first_name,
     username = req.body.username,
@@ -108,20 +108,21 @@ router.post('/users/new', function (req, res, next) {
     email = req.body.email,
     phone = req.body.phone,
     games = req.body.games,
-    rank = req.body.rank,
+    rank = req.body.rank || 0,
     hourly_rate = req.body.hourly_rate,
     active = (req.body.active == "true") ? true : false,
     password = req.body.password;
     
-  var newUser = new User({isAdmin: false, active: active, games: games, hourly_rate: hourly_rate, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
+  var newUser = new User({isAdmin: false, is_logged_in: true, active: active, games: games, hourly_rate: hourly_rate, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
     
+
   newUser.save(function (err) {
     if (err) {
         console.log('save error', err);
         res.send(err);
     }
-
-    res.redirect('/' + newUser._id);
+    req.session.user = newUser;
+    res.redirect('/users/' + newUser._id);
   });
 });
 
@@ -187,14 +188,14 @@ router.post('/:id/update', function (req, res, next) {
       if (err)
         res.send(err);
 
-      res.redirect('/' + req.params.id);
+      res.redirect('/users/' + req.params.id);
     });
   } else {
     User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, hourly_rate: hourly_rate, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
       if (err)
         res.send(err);
 
-      res.redirect('/' + req.params.id);
+      res.redirect('/users/' + req.params.id);
     });
   };
 });
@@ -214,7 +215,6 @@ router.get('/:id', function(req, res, next) {
           err: [{message: 'Unauthorized'}]
         });
   } else {
-    var games = [];
 
     User.findOne({_id: req.params.id})
       .populate('games')

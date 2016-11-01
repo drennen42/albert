@@ -8,7 +8,7 @@ function giveMeTheDate() {
 	return {'day': thisDay, 'month': thisMonth, 'year': thisYear};
 };
 
-
+// console.log('data game id elements: ', $('[data-game-id]'));
 
 
 module.exports = {

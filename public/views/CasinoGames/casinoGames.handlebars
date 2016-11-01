@@ -4,13 +4,16 @@
     <thead>
       <tr>
         <th>Name</th>
+        {{#if SESS_USER.is_admin}}
         <th>Delete</th>
+        {{/if}}
       </tr>
     </thead>
     <tbody>
     {{#each casinoGames}}
       <tr>
         <td><a href="/casinoGames/{{name}}"> {{name}}</a></td>
+        {{#if SESS_USER.is_admin}}
         <td>
             <form method="POST" action="/casinoGames/{{_id}}">
                 <input type="hidden" name="id" value="{{_id}}">
@@ -20,9 +23,12 @@
                 <input type="hidden" name="_method" value="DELETE"> 
             </form>
         </td>
+        {{/if}}
       </tr>
     {{/each}}
     </tbody>
   </table>
+  {{#if SESS_USER.is_admin}}
   <a href="/casinoGames/new" class="text-center new-casinoGame btn btn-primary">Create a casino Game </a>
+  {{/if}}
 </div>

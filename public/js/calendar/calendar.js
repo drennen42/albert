@@ -29,9 +29,9 @@ module.exports = function(data) {
 
 		for (var i = 0; i < 7; i++) {
 			if (Object.keys(monthEvents).length > 0) {
-				console.log('There are events this month');
+				// console.log('There are events this month');
 				if (!!monthEvents[moment(startDay).add(i, 'd').format('D')]) {
-					console.log('This day has an event!: ', monthEvents[moment(startDay).add(i, 'd').format('D')]);
+					// console.log('This day has an event!: ', monthEvents[moment(startDay).add(i, 'd').format('D')]);
 					html += `<td class="day" data-js-iso="${moment(startDay).add(i, 'd').format('YYYY-MM-DD')}">
 								<div class="row container m0">
 								<div class="row">
@@ -49,7 +49,7 @@ module.exports = function(data) {
 
 					html += `</div></div></td>`;
 				} else {
-					console.log('No events this day!: ', moment(startDay).add(i, 'd').format('YYYY-MM-DD'));
+					// console.log('No events this day!: ', moment(startDay).add(i, 'd').format('YYYY-MM-DD'));
 					html += `<td class="day" data-js-iso="${moment(startDay).add(i, 'd').format('YYYY-MM-DD')}">
 								<div class="row container m0">
 									<div class="row">
@@ -61,7 +61,7 @@ module.exports = function(data) {
 							</td>`;
 				};
 			} else {
-				console.log('No events this month!');
+				// console.log('No events this month!');
 				html += `<td class="day" data-js-iso="${moment(startDay).add(i, 'd').format('YYYY-MM-DD')}">
 							<div class-"row container m0">
 								<div class="row">
@@ -92,7 +92,7 @@ module.exports = function(data) {
 			}
 		});
 
-		console.log('monthEvents: ', monthEvents);
+		// console.log('monthEvents: ', monthEvents);
 
 		html += createFirstWeek(spaceNeeded);
 
@@ -100,12 +100,8 @@ module.exports = function(data) {
 			html += createWeek(i, nextWeekStartDay, monthEvents);
 			nextWeekStartDay.add(7, 'd');
 		}
-		// console.log('HTML: ', html);
 		return html;
 	};
 
-	// var $calendar = $('.calendar');
-	// console.log('$calendar: ', $calendar);
-	// console.log('Events: ', data.events);
 	return createMonth();
 };

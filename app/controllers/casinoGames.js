@@ -43,12 +43,17 @@ router.get('/:name', function(req, res, next) {
 });
 
 router.post('/:id', function (req, res, next) {
+  if (!req.session.user || !req.session.user.is_admin) {
+      res.status(403).render('index', {
+          title: 'Sheduling Made Easy',
+          err: [{message: 'Unauthorized'}]
+        });
+  } else {
+    CasinoGame.findByIdAndRemove(req.params.id, function(err, casinoGame) {
+      if (err)
+        res.send(err);
 
-  CasinoGame.findByIdAndRemove(req.params.id, function(err, casinoGame) {
-    if (err)
-      res.send(err);
-
-  });
-    
+    });
+  }
   res.redirect('/');
 });

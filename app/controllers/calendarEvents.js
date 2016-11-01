@@ -42,8 +42,8 @@ router.get('/:year/:month', function(req, res, next) {
     .sort({'start_date': 'descending'})
     .exec(function (err, events) {
     if (err) res.send(err);
-    console.log('__dirname: ', __dirname);
-    console.log('events: ', events);
+    // console.log('__dirname: ', __dirname);
+    // console.log('events: ', events);
     calendarHtml = Calendar({'startDate': moment(activeMonthMoment).startOf('month'), 'events': events});
     res.render('Events/calendar', {events, activeMonth: activeMonthMoment.format('MMMM YYYY'), dateObj, calendarHtml: calendarHtml});
   });

@@ -15,7 +15,9 @@ var express = require('express'),
   }),
   concatName = (name) => name.split(' ').join(''),
   countGames = (event) => {
+    // console.log('countGames event: ', event);
     // return events.map((event) => {
+      // console.log('*********** countGames event.eventGames *****: ', [event.eventGames, event.eventGames.length]);
       var gameNames = [],
           returnObj = {},
           returnStr = '';
@@ -23,12 +25,14 @@ var express = require('express'),
         gameNames.push(evtGame.game.name);
       });
 
+      // console.log('***** countGames gameNames *****: ', [gameNames, gameNames.length]);
+
       for (var i = 0; i < gameNames.length; i++) {
         returnObj[gameNames[i]] = returnObj[gameNames[i]] || 0;
         returnObj[gameNames[i]] = returnObj[gameNames[i]] + 1;
       }
 
-      Object.keys(returnObj).forEach((k) => returnStr = returnStr + `<tr><td>${returnObj[k]} ${k}</td></tr>`);
+      Object.keys(returnObj).forEach((k) => returnStr += `<tr><td>${returnObj[k]} ${k}</td></tr>`);
       return returnStr;
     // });
   };
@@ -88,7 +92,6 @@ router.post('/events/new', function (req, res, next) {
     end_date = req.body.end_date_date,
     location = req.body.location,
     description = req.body.description;
-    blackjack = req.body["BlackJack"];
 
   var newEvent = new Event({
     name: name,
@@ -105,32 +108,40 @@ router.post('/events/new', function (req, res, next) {
     if (err) res.send(err);
   });
 
-  // to add/save games to the event
-  gameQuery.exec()
-  .then(function(args) {
+    // to add/save games to the event
+  CasinoGame.find(function(err, args){
+    if (err) res.send(err);
     var numGames,
-      gameName;
+        gameID;
 
-    for (var i in args) {
-      gameName = args[i].name.split(' ').join('');
-      numGames = Number(req.body[gameName]);
-      if (numGames > 0) {
+    // for (var i in args) { 
+    for (var i = 0; i < args.length; i++) { // For each game in the database
+      // console.log('i in args: ', [i, args[i]]);
+      gameID = args[i]._id;
+      numGames = Number(req.body[gameID]);  // How many of this game type do we want?
+      // console.log('gameID, numGames, newEvent.name, newEvent.eventGames: ', [gameID, numGames, newEvent.name, newEvent.eventGames]);
+      if (!!numGames && numGames > 0) {
         for (var num = 0; num < numGames; num++) {
           var newEventGame = new EventGame({
-            game: args[i]._id,
+            game: gameID,
             event: newEvent._id
           });
+          newEvent.eventGames.push(newEventGame._id);
 
+          // console.log('newEventGame._id, : ', newEventGame._id);
           newEventGame.save(function (err) {
             if (err) res.send(err);
-            newEvent.eventGames.push(newEventGame);
-          });
+          })
         };
       }
     }
+    newEvent.save(function(err) {
+      if (err) res.send(err);
+    });
   });
-
+  
   res.redirect('/events/' + newEvent._id);
+
 });
 
 router.get('/events/:event_id/addToWaitlist/:worker_id', function(req, res, next) {
@@ -142,7 +153,53 @@ router.get('/events/:event_id/addToWaitlist/:worker_id', function(req, res, next
       .populate('waitlist')
       .exec(function(err, event) {
         if (err) res.send(err);
+        // if (event.waitlist.indexOf(worker) != -1) {
+          // console.log(event._id, ' Waitlist already includes ', worker_id);
+          // res.redirect('/events/' + event_id);
+        // } else {
+          // console.log(event._id, ' Waitlist already includes ', worker_id);
         event.waitlist.push(worker);
+        event.save(function(err){
+          if (err) res.send(err);
+        });
+      res.redirect('/events/' + event_id);
+    });
+  })
+});
+
+// router.get('/events/:event_id/addToWaitlist/:worker_id', function(req, res, next) {
+//   var event_id = req.params.event_id,
+//     worker_id = req.params.worker_id;
+
+//   User.findOne({_id: req.params.worker_id}, function(err, worker) {
+//     Event.findOne({_id: event_id})
+//       .populate('waitlist', function(err, event) {
+//       // .exec(function(err, event) {
+//         if (err) res.send(err);
+//         // if (event.waitlist.indexOf(worker) != -1) {
+//           // console.log(event._id, ' Waitlist already includes ', worker_id);
+//           // res.redirect('/events/' + event_id);
+//         // } else {
+//           // console.log(event._id, ' Waitlist already includes ', worker_id);
+//         event.waitlist.push(worker);
+//         event.save(function(err){
+//           if (err) res.send(err);
+//         });
+//       res.redirect('/events/' + event_id);
+//     });
+//   })
+// });
+
+router.get('/events/:event_id/removeFromWaitlist/:worker_id', function(req, res, next) {
+  var event_id = req.params.event_id,
+    worker_id = req.params.worker_id;
+
+  User.findOne({_id: req.params.worker_id}, function(err, worker) {
+    Event.findOne({_id: event_id})
+      .populate('waitlist')
+      .exec(function(err, event) {
+        if (err) res.send(err);
+        event.waitlist.pop(worker._id);
         event.save(function(err){
           if (err) res.send(err);
         });
@@ -210,6 +267,7 @@ router.get('/events/:id', function(req, res, next) {
     populate: {path: 'game'}
   })
   .exec(function(err, event) {
+    // console.log('this event: ', event);
     if (err) res.send(err);
     // EventGame.find({event: event}).populate('game event').exec(function(err, egs) {
       // if (err) res.send(err);
@@ -228,12 +286,13 @@ router.get('/events/:id', function(req, res, next) {
 
 router.get('/events/:id/games', function(req, res, next) {
   Event.findById(req.params.id)
+  .populate('waitlist')
   .exec(function(err, event) {
     if (err) res.send(err)
     EventGame.find({event: event._id})
     .populate({
       path: 'event',
-      populate: {path: 'workers'}
+      populate: {path: 'workers'},
     })
     .populate({
       path: 'game',
@@ -241,8 +300,9 @@ router.get('/events/:id/games', function(req, res, next) {
     })
     .exec(function(err, evtGames) {
       if (err) res.send(err)
-      console.log('EVTGAMES: ', evtGames);
-      res.render('Events/eventGames', {evtGames});
+        console.log('waitlist: ', event.waitlist);
+      // console.log('EVTGAMES: ', evtGames);
+      res.render('Events/eventGames', {'waitlist': event.waitlist, 'evtGames': evtGames});
     })
   })
 });
