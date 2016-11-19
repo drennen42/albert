@@ -14272,9 +14272,15 @@ module.exports = function (data) {
 					// console.log('This day has an event!: ', monthEvents[moment(startDay).add(i, 'd').format('D')]);
 					html += '<td class="day" data-js-iso="' + moment(startDay).add(i, 'd').format('YYYY-MM-DD') + '">\n\t\t\t\t\t\t\t\t<div class="row container m0">\n\t\t\t\t\t\t\t\t<div class="row">\n\t\t\t\t\t\t\t\t\t<div class="col-xs-4 cal-day-num">\n\t\t\t\t\t\t\t\t\t\t' + moment(startDay).add(i, 'd').format('DD') + '\n\t\t\t\t\t\t\t\t\t</div>';
 
-					for (var x = 0; x < monthEvents[moment(startDay).add(i, 'd').format('D')].length; x++) {
-						html += '<div class="col-xs-12 day-event">\n\t\t\t\t\t\t\t\t\t<a href="/events/' + monthEvents[moment(startDay).add(i, 'd').format('D')][x]._id + '">\n\t\t\t\t\t\t\t\t\t\t' + moment(monthEvents[moment(startDay).add(i, 'd').format('D')][x].start_date).format('ha') + ' ' + monthEvents[moment(startDay).add(i, 'd').format('D')][x].name + '\n\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t</div>';
-					};
+					if (!!data.user) {
+						for (var x = 0; x < monthEvents[moment(startDay).add(i, 'd').format('D')].length; x++) {
+							html += '<div class="col-xs-12 day-event">\n\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\t<a href="/events/' + monthEvents[moment(startDay).add(i, 'd').format('D')][x]._id + '">\n\t\t\t\t\t\t\t\t\t\t\t\t' + moment(monthEvents[moment(startDay).add(i, 'd').format('D')][x].start_date).format('ha') + ' ' + monthEvents[moment(startDay).add(i, 'd').format('D')][x].name + '\n\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t\t<button type="button"><a href="/events/' + monthEvents[moment(startDay).add(i, 'd').format('D')][x]._id + '/addToWaitlist/' + data.user._id + '">+</button>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>';
+						};
+					} else {
+						for (var x = 0; x < monthEvents[moment(startDay).add(i, 'd').format('D')].length; x++) {
+							html += '<div class="col-xs-12 day-event">\n\t\t\t\t\t\t\t\t\t\t<div><a href="/events/' + monthEvents[moment(startDay).add(i, 'd').format('D')][x]._id + '">\n\t\t\t\t\t\t\t\t\t\t\t' + moment(monthEvents[moment(startDay).add(i, 'd').format('D')][x].start_date).format('ha') + ' ' + monthEvents[moment(startDay).add(i, 'd').format('D')][x].name + '\n\t\t\t\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>';
+						};
+					}
 
 					html += '</div></div></td>';
 				} else {
@@ -14325,14 +14331,12 @@ module.exports = function (data) {
 var $ = require('jquery');
 
 var states = [' ', 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', 'AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'];
-console.log('in clients.js');
 $('#billing-address-same-input').on('change', billingSameCheckboxHandler);
 $.each(states, function (i, state) {
 	$('select#address-state-input, select#billing-state-input').append($('<option value=' + state + '>' + state + '</option>'));
 });
 
 function billingSameCheckboxHandler() {
-	console.log('in billingSameCheckboxHandler');
 	if ($('#billing-address-same-input')[0].checked) {
 		$('#billing-street-input').val($('#address-street-input').val());
 		$('#billing-city-input').val($('#address-city-input').val());
@@ -14394,8 +14398,8 @@ function init() {
 	// twoWeeksAgo.setHours(0,0,0,0);
 	// twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
 
-	console.log('today: ', today);
-	console.log('twoWeeksAgo: ', twoWeeksAgo);
+	// console.log('today: ', today);
+	// console.log('twoWeeksAgo: ', twoWeeksAgo);
 	$('[data-js=pay-period-start]').val(twoWeeksAgo.toISOString().slice(0, 10));
 	$('[data-js=pay-period-end]').val(today.toISOString().slice(0, 10));
 

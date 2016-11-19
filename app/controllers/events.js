@@ -289,19 +289,17 @@ router.get('/events/:id/games', function(req, res, next) {
   .populate('waitlist')
   .exec(function(err, event) {
     if (err) res.send(err)
-    EventGame.find({event: event._id})
+    EventGame.find({event: event})
+    .populate('event')
     .populate({
       path: 'event',
       populate: {path: 'workers'},
     })
-    .populate({
-      path: 'game',
-      populate: {path: 'dealer'}
-    })
+    .populate('game')
+    .populate('dealer')
+    .sort({'game': 'ascending'})
     .exec(function(err, evtGames) {
       if (err) res.send(err)
-        console.log('waitlist: ', event.waitlist);
-      // console.log('EVTGAMES: ', evtGames);
       res.render('Events/eventGames', {'waitlist': event.waitlist, 'evtGames': evtGames});
     })
   })
