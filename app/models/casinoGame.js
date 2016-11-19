@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
 
 
 var CasinoGameSchema = new Schema({
-    name: String
+    name: String,
+    dealers: [{ type: Schema.Types.ObjectId, ref: 'user' }] // People who can deal this game
 });
 
 mongoose.model('casinoGame', CasinoGameSchema);

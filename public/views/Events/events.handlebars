@@ -23,29 +23,21 @@
     {{#each events}}
       <tr id="event-row">
         <td id="event-name"><a href="/events/{{_id}}"> {{name}}</a></td>
-        {{!-- <td>{{moment(event.start_date)}}</td>
-        <td>{{moment(event.end_date)}}</td> --}}
         <td id="event-start-date">
           <table>
             <tr><td>{{moment start_date "ddd, M/D/YYYY"}}</td></tr>
             <tr><td>{{moment start_date "h:mm A"}}</td></tr>
           </table>
         </td>
-        {{!-- <td id="event-start-date">{{start_date}}</td> --}}
         <td id="event-end-date">
           <table>
             <tr><td>{{moment end_date "ddd, M/D/YYYY"}}</td></tr>
             <tr><td>{{moment end_date "h:mm A"}}</td></tr>
           </table>
         </td>
-        {{!-- <td id="event-end-date">{{end_date}}</td> --}}
         <td id="event-client"><a href="/users/{{_id}}">{{client.first_name}}</a></td>
         <td id="event-games">
-          <table id="event-games-table">
-            {{#each games}}
-            <tr id="event-game-row"><td id="event-game"><a href="/casinoGames/{{name}}">{{name}}</a></td></tr>
-            {{/each}}
-          </table>
+          <table id="event-games-table">{{#gameCount .}}{{/gameCount}}</table>
         </td>
          <td id="event-workers">
           <table id="event-workers-table">

@@ -16,11 +16,11 @@ module.exports = function(app, config) {
   app.locals.ENV_DEVELOPMENT = env == 'development';
   
   app.engine('handlebars', exphbs({
-    layoutsDir: config.root + '/app/views/layouts/',
+    layoutsDir: config.root + '/public/views/layouts/',
     defaultLayout: 'main',
-    partialsDir: config.root + '/app/views/partials/'
+    partialsDir: config.root + '/public/views/partials/'
   }));
-  app.set('views', config.root + '/app/views');
+  app.set('views', config.root + '/public/views');
   app.set('view engine', 'handlebars');
 
 

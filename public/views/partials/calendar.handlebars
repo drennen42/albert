@@ -1,0 +1,27 @@
+<div class="calendar-container">
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8">
+			<table class="cal-month align-center">
+				<tr>
+					<td><button type="button"><a href="/calendar/{{dateObj.lastMonthYear}}/{{dateObj.lastMonth}}">Prev</a></button></td>
+					<td><h2>{{dateObj.thisMonth}} {{dateObj.thisYear}}</h2></td>
+					<td><button type="button"><a href="/calendar/{{dateObj.nextMonthYear}}/{{dateObj.nextMonth}}">Next</a></button></td>
+				</tr>
+			</table>
+			<table class="calendar">
+				<tr class="cal-head align-center">
+					<td>Su</td>
+					<td>Mo</td>
+					<td>Tu</td>
+					<td>We</td>
+					<td>Th</td>
+					<td>Fr</td>
+					<td>Sa</td>
+				</tr>
+				{{{calendarHtml}}}
+			</table>
+		</div>
+		<div class="col-sm-2"></div>
+	</div>
+</div>

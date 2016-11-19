@@ -9,8 +9,6 @@ var EventSchema = new Schema({
     summary: String,
     location: String,
     description: String,
-    start: Date,
-    end: Date,
     attendees: [{ type: Schema.Types.ObjectId, ref: 'user' }],
     hostname: String,
     start_date: Date,
@@ -21,8 +19,7 @@ var EventSchema = new Schema({
     workers: [{ type: Schema.Types.ObjectId, ref: 'user' }],
     invited: [{ type: Schema.Types.ObjectId, ref: 'user' }],
     waitlist: [{ type: Schema.Types.ObjectId, ref: 'user' }],
-    declined: [{ type: Schema.Types.ObjectId, ref: 'user' }],
-    num_employees: Number
+    declined: [{ type: Schema.Types.ObjectId, ref: 'user' }]
 });
 
 mongoose.model('event', EventSchema);

@@ -5,10 +5,11 @@ var mongoose = require('mongoose'),
     moment = require('moment');
 
 var EventGameSchema = new Schema({
-    amount: Number,
-    game: [{ type: Schema.Types.ObjectId, ref: 'casinoGame' }],
-    event: [{ type: Schema.Types.ObjectId, ref: 'event' }],
-    dealer: [{ type: Schema.Types.ObjectId, ref: 'user' }]
+    game: { type: Schema.Types.ObjectId, ref: 'casinoGame' },
+    event: { type: Schema.Types.ObjectId, ref: 'event' },
+    dealer: { type: Schema.Types.ObjectId, ref: 'user' }, // Dealer assigned to this specific instance of the game.
+    is_open: Boolean,
+    pay_rate: Number
 });
 
 mongoose.model('eventGame', EventGameSchema);

@@ -16,7 +16,7 @@ var UserSchema = new Schema({
     active: Boolean,
     password: {type: String, required: true, bcrypt: true},
     games: [{ type: Schema.Types.ObjectId, ref: 'casinoGame' }],
-    events: [{ type: Schema.Types.ObjectId, ref: 'event'}],
+    events: [{ type: Schema.Types.ObjectId, ref: 'userEvent'}],
     phone: {
         type: String,
         unique: true,

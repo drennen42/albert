@@ -14236,6 +14236,75 @@ return jQuery;
 },{}],3:[function(require,module,exports){
 'use strict';
 
+var $ = require('jquery'),
+    moment = require('moment'),
+    daySpaces = { 'Sun': 0, 'Mon': 1, 'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6 };
+
+module.exports = function (data) {
+	var startDate = moment();
+
+	function createFirstWeek(spaceNeeded) {
+		var html = '';
+		// start the row
+		html += '<tr class="week">';
+
+		// create blank days in a loop until reach spaceNeeded
+		for (var i = 0; i < Number(spaceNeeded); i++) {
+			html += '<td class="day">-</td>';
+		};
+
+		// create days in a loop until loop iterator + space needed == 7
+		for (var i = 0; i + 1 + Number(spaceNeeded) <= 7; i++) {
+			html += '<td class="day" data-js-iso="' + moment(data.startDate).add(i, 'd').format('YYYY-MM-DD') + '">' + moment(data.startDate).add(i, 'd').format('DD') + '</td>';
+		};
+
+		// close row
+		html += '</tr>';
+
+		// console.log('create first week html: ', html);
+		return html;
+	};
+
+	function createWeek(weekNum, startDay) {
+		var html = '';
+
+		// start row
+		html += '<tr class="week week-' + weekNum + '">';
+
+		// create 7 days in a loop using startDay
+		for (var i = 0; i < 7; i++) {
+			html += '<td class="day" data-js-iso="' + moment(startDay).add(i, 'd').format('YYYY-MM-DD') + '">' + moment(startDay).add(i, 'd').format('DD') + '</td>';
+		};
+
+		html += '</tr>';
+
+		// console.log('create week html: ', html);
+		return html;
+	};
+
+	function createMonth() {
+		var spaceNeeded = data.startDate.weekday(),
+		    html = '',
+		    nextWeekStartDay = moment(data.startDate).add(7 - spaceNeeded, 'd');
+
+		html += createFirstWeek(spaceNeeded);
+
+		for (var i = 0; i < 4; i++) {
+			html += createWeek(i, nextWeekStartDay);
+			nextWeekStartDay.add(7, 'd');
+		}
+		// console.log('HTML: ', html);
+		return html;
+	};
+
+	// var $calendar = $('.calendar');
+	// console.log('$calendar: ', $calendar);
+	return createMonth();
+};
+
+},{"jquery":1,"moment":2}],4:[function(require,module,exports){
+'use strict';
+
 var $ = require('jquery');
 
 var states = [' ', 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', 'AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'];
@@ -14246,6 +14315,7 @@ $.each(states, function (i, state) {
 });
 
 function billingSameCheckboxHandler() {
+	console.log('in billingSameCheckboxHandler');
 	if ($('#billing-address-same-input')[0].checked) {
 		$('#billing-street-input').val($('#address-street-input').val());
 		$('#billing-city-input').val($('#address-city-input').val());
@@ -14269,23 +14339,30 @@ function billingSameCheckboxHandler() {
 	}
 }
 
-},{"jquery":1}],4:[function(require,module,exports){
+},{"jquery":1}],5:[function(require,module,exports){
 'use strict';
 
-var moment = require('moment');
+var moment = require('moment'),
+    $ = require('jquery');
 
 function giveMeTheDate() {
-	var thisDay = moment().format('DD'),
-	    thisMonth = moment().format('MM'),
+	var thisDay = { 'numeric': moment().format('DD'), 'long': moment().format('DDD') },
+	    thisMonth = { 'numeric': moment().format('MM'), 'long': moment().format('MMMM'), 'short': moment().format('MMM') },
 	    thisYear = moment().format('YYYY');
-	return thisDay;
+	return { 'day': thisDay, 'month': thisMonth, 'year': thisYear };
 };
 
 module.exports = {
 	giveMeTheDate: giveMeTheDate
 };
 
-},{"moment":2}],5:[function(require,module,exports){
+},{"jquery":1,"moment":2}],6:[function(require,module,exports){
+// var Calendar = require('./calendar/calendar.js');
+
+// Calendar({dataOne: 'data1', dataTwo: 'dataTwo'});
+"use strict";
+
+},{}],7:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -14363,4 +14440,4 @@ $('[data-js=pay-period-button]').on('click', function () {
 
 init();
 
-},{"jquery":1,"moment":2}]},{},[3,4,5]);
+},{"jquery":1,"moment":2}]},{},[3,4,5,6,7]);
