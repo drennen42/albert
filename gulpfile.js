@@ -1,3 +1,5 @@
+// gulp-concat, gulp-minify-css
+
 var gulp = require('gulp'),
   nodemon = require('gulp-nodemon'),
   plumber = require('gulp-plumber'),
@@ -13,18 +15,31 @@ var gulp = require('gulp'),
   watchify = require('watchify'),
   gutil = require('gulp-util'),
   path = require('path'),
-  babelify = require('babelify');
+  babelify = require('babelify'),
+  cleanCSS = require('gulp-clean-css'),
+  concat = require('gulp-concat');
 
 gulp.task('sass', function () {
-  gulp.src('./public/css/*.scss')
+  // console.log('path: ', path.join('./public/sass/**/*.scss'));
+  gulp.src(['./public/sass/*.scss', './public/sass/**/*.scss'])
     .pipe(plumber())
+    .pipe(concat('style.min.css'))
     .pipe(sass())
-    .pipe(gulp.dest('./public/css'))
+    .pipe(cleanCSS())
+    // .pipe(uglify())
+    .pipe(gulp.dest('./public/css/'))
+    // .pipe(gulp.dest('public/css'))
     .pipe(livereload());
 });
 
 gulp.task('watch', function() {
- gulp.src('./public/css/*.scss')
+  // gulp.src('./public/css/*.scss')
+  livereload.listen();
+  gulp.watch('./public/scss/*.scss', ['sass']);
+  gulp.watch('./public/scss/**/*.scss', ['sass']);
+  gulp.watch('./public/js/*.js', ['browserify']);
+  gulp.watch('./public/js/**/*.js', ['browserify']);
+
 });
 
 function handleErrors () {
@@ -78,7 +93,7 @@ gulp.task('develop', function () {
   livereload.listen();
   nodemon({
     script: 'app.js',
-    ext: 'js coffee handlebars',
+    ext: 'js handlebars scss css',
     stdout: false
   }).on('readable', function () {
     this.stdout.on('data', function (chunk) {

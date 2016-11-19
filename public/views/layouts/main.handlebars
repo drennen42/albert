@@ -1,20 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Scheduling Made EZ</title>
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/chosen.min.css">
   <script type="text/javascript" src="/bundle.js"></script>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.min.css">
+  {{!-- <link rel="stylesheet" href="/css/style.min.css"> --}}
   {{#if ENV_DEVELOPMENT}}
     <script src="http://localhost:35729/livereload.js"></script>
   {{/if}}
 </head>
 <body>
   {{> navbar }}
-  <div class="alert-danger" style="text-align:center">
+  <div class="alert-danger alert-dismissable" style="text-align:center">
     {{> error tagName="h1" }}
   </div>
   

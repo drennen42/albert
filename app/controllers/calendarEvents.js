@@ -35,15 +35,16 @@ router.get('/:year/:month', function(req, res, next) {
       nextMonth = moment(activeMonth).add(1, 'month'),
       nextMonthYear = nextMonth.year(),
       dateObj = {'thisMonth': thisMonth, 'thisYear': thisYear, 'lastMonth': lastMonth.format('MM'), 'lastMonthYear': lastMonthYear, 'nextMonth': nextMonth.format('MM'), 'nextMonthYear': nextMonthYear},
-      calendarHtml = Calendar({'startDate': moment(activeMonthMoment).startOf('month')});
+      calendarHtml;
 
   Event.find()
     .where('start_date').gte(activeMonthStartDate.toISOString()).lte(activeMonthEndDate.toISOString())
     .sort({'start_date': 'descending'})
     .exec(function (err, events) {
     if (err) res.send(err);
-    console.log('__dirname: ', __dirname);
-    console.log('events: ', events);
+    // console.log('__dirname: ', __dirname);
+    // console.log('events: ', events);
+    calendarHtml = Calendar({'startDate': moment(activeMonthMoment).startOf('month'), 'events': events});
     res.render('Events/calendar', {events, activeMonth: activeMonthMoment.format('MMMM YYYY'), dateObj, calendarHtml: calendarHtml});
   });
 });

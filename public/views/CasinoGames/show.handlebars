@@ -4,12 +4,15 @@
     <thead>
       <tr>
         <th>Name</th>
+        {{#if SESS_USER.is_admin}}
         <th>Delete</th>
+        {{/if}}
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>{{casinoGame.name}}</td>
+        {{#if SESS_USER.is_admin}}
         <td>
             <form method="POST" action="/casinoGames/{{_id}}">
                 <input type="hidden" name="id" value="{{_id}}">
@@ -19,6 +22,7 @@
                 <input type="hidden" name="_method" value="DELETE"> 
             </form>
         </td>
+        {{/if}}
       </tr>
     </tbody>
   </table>

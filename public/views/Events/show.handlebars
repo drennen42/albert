@@ -10,6 +10,7 @@
         <th>Workers</th>
         {{#if SESS_USER.is_logged_in}}
         <th>Join Waitlist</th>
+        <th>Leave Waitlist</th>
         {{/if}}
         {{#if SESS_USER.is_admin}}
         <th>Waitlist</th>
@@ -21,7 +22,7 @@
     </thead>
     <tbody>
       <tr>
-        <td>{{moment event.start_date "ddd, M/D/YYYY h:mm A"}} - {{moment event.end_date "ddd, M/D/YYYY h:mm A"}}</td>
+        <td>{{moment event.start_date "ddd, M/D h:mm A"}} - {{moment event.end_date "h:mm A"}}</td>
         <td>{{event.name}}</td>
         <td>{{event.description}}</td>
         <td>
@@ -38,8 +39,13 @@
         </td>
         {{#if SESS_USER.is_logged_in}}
         <td>
-            <a href="/events/{{event._id}}/addToWaitlist/{{../SESS_USER._id}}">
-                <button type="button" data-waitlist-worker="{{../SESS_USER._id}}" data-waitlist-event="{{_id}}" class="btn btn-primary">Join Waitlist</button>
+            <a href="/events/{{event._id}}/addToWaitlist/{{SESS_USER._id}}">
+                <button type="button" data-waitlist-worker="{{SESS_USER._id}}" data-waitlist-event="{{_id}}" class="btn btn-primary">Join Waitlist</button>
+            </a>
+        </td>
+        <td>
+            <a href="/events/{{event._id}}/removeFromWaitlist/{{SESS_USER._id}}">
+                <button type="button" data-waitlist-worker="{{SESS_USER._id}}" data-waitlist-event="{{_id}}" class="btn btn-primary">Leave Waitlist</button>
             </a>
         </td>
         {{/if}}

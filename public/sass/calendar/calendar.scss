@@ -1,0 +1,50 @@
+.calendar-container {
+	margin-top: 10px;
+	.cal-month {
+		// width: 100%;
+		border: 2px solid black;
+		vertical-align: center;
+
+		button {
+			vertical-align: center;
+		}
+	}
+	.calendar {
+		// width: 100%;
+
+		.week {
+			min-height: 100px;
+		}
+		
+		.day {
+			min-height: 100px;
+			vertical-align: top;
+			height: 100px;
+
+			.day-event {
+				border-bottom: 1px dotted black;
+			}
+		}
+	}
+
+	.cal-head {
+		font-size: 20px;
+	}
+	.day {
+		width: 14%;
+		height: 20%;
+		.day-num {
+			vertical-align: top;
+			margin-bottom: 2px;
+		}
+		span{
+			border-bottom: 2px solid black;
+			border-right: 2px solid black;
+		}
+	}
+	tr {
+		td {
+			border: 2px solid black;
+		}
+	}
+}
