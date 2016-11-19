@@ -39,13 +39,27 @@ module.exports = function(data) {
 										${moment(startDay).add(i, 'd').format('DD')}
 									</div>`;
 
-					for (var x = 0; x < monthEvents[moment(startDay).add(i, 'd').format('D')].length; x++) {
-						html += `<div class="col-xs-12 day-event">
-									<a href="/events/${monthEvents[moment(startDay).add(i, 'd').format('D')][x]._id}">
-										${moment(monthEvents[moment(startDay).add(i, 'd').format('D')][x].start_date).format('ha')} ${monthEvents[moment(startDay).add(i, 'd').format('D')][x].name}
-									</a>
-								</div>`;
-					};
+					if (!!data.user) {
+						for (var x = 0; x < monthEvents[moment(startDay).add(i, 'd').format('D')].length; x++) {
+							html += `<div class="col-xs-12 day-event">
+										<div>
+											<a href="/events/${monthEvents[moment(startDay).add(i, 'd').format('D')][x]._id}">
+												${moment(monthEvents[moment(startDay).add(i, 'd').format('D')][x].start_date).format('ha')} ${monthEvents[moment(startDay).add(i, 'd').format('D')][x].name}
+											</a>
+											<button type="button"><a href="/events/${monthEvents[moment(startDay).add(i, 'd').format('D')][x]._id}/addToWaitlist/${data.user._id}">+</button>
+										</div>
+									</div>`;
+						};
+					} else {
+						for (var x = 0; x < monthEvents[moment(startDay).add(i, 'd').format('D')].length; x++) {
+							html += `<div class="col-xs-12 day-event">
+										<div><a href="/events/${monthEvents[moment(startDay).add(i, 'd').format('D')][x]._id}">
+											${moment(monthEvents[moment(startDay).add(i, 'd').format('D')][x].start_date).format('ha')} ${monthEvents[moment(startDay).add(i, 'd').format('D')][x].name}
+										</a>
+										</div>
+									</div>`;
+						};
+					}
 
 					html += `</div></div></td>`;
 				} else {

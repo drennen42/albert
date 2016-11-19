@@ -13,8 +13,8 @@ function init() {
 	// twoWeeksAgo.setHours(0,0,0,0);
 	// twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
 
-	console.log('today: ', today);
-	console.log('twoWeeksAgo: ', twoWeeksAgo);
+	// console.log('today: ', today);
+	// console.log('twoWeeksAgo: ', twoWeeksAgo);
 	$('[data-js=pay-period-start]').val(twoWeeksAgo.toISOString().slice(0,10));
 	$('[data-js=pay-period-end]').val(today.toISOString().slice(0,10));
 

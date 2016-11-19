@@ -44,7 +44,7 @@ router.get('/:year/:month', function(req, res, next) {
     if (err) res.send(err);
     // console.log('__dirname: ', __dirname);
     // console.log('events: ', events);
-    calendarHtml = Calendar({'startDate': moment(activeMonthMoment).startOf('month'), 'events': events});
+    calendarHtml = Calendar({'startDate': moment(activeMonthMoment).startOf('month'), 'events': events, 'user': req.session.user});
     res.render('Events/calendar', {events, activeMonth: activeMonthMoment.format('MMMM YYYY'), dateObj, calendarHtml: calendarHtml});
   });
 });

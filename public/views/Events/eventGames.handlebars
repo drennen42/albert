@@ -1,94 +1,61 @@
-<table>
-	<th>Game</th>
-	<th>Dealer</th>
-	<th>Set Dealer</th>
-{{#each evtGames}}
-	<tr>
-		<td>{{game.name}}</td>
-		<td>{{game.dealer.first_name}}</td>
-		<td><button></button></td>
-	</tr>
-{{/each}}
-</table>
-
-
-<div class="row">
-    <div class="col-sm-4"></div>
-    <div class="col-sm-6"><h1>New Event</h1></div>
-</div>
-<br>
-<form method="POST" action="/events/new">
-    <div class="form-group row">
-        <div class="col-sm-2"></div>
-        <label for="event-name-input" class="col-sm-2">Event Name</label>
-        <div class="col-sm-6">
-            <input type="text" name="name" class="form-control" id="event-name-input" placeholder="Event Name" autofocus>
+<div class="row container event-games align-center">
+    <div class="col-xs-12">
+        <div class="row align-center">
+            <div class="col-xs-3"><h3>Game</h3></div>
+            <div class="col-xs-3"><h3>Current Worker</h3></div>
+            <div class="col-xs-3"><h3>Available</h3></div>
+            <div class="col-xs-3"><h3>Assign Worker</h3></div>
         </div>
-        <div class="col-sm-2"></div>
     </div>
+    <br>
+    <div class="row container align-center">
+        <div class="col-xs-12">
+            {{#each evtGames}}
+                <div class="row align-center">
+                    <div class="col-xs-3">{{game.name}}</div>
+                    <div class="col-xs-3">
 
-    <div class="form-group row">
-        <div class="col-sm-2"></div>
-        <label for="client-input" class="col-sm-2">Waitlist</label>
-        <div class="col-sm-6">
-            <select name="client" data-placeholder="Choose a client" class="chosen-select form-control" id="client-input" placeholder="Client">
-                <option value=""></option>
-                {{#each waitlist}}
-                    <option value="{{_id}}">{{first_name}} {{last_name}}</option>
-                {{/each}}
-            </select>
-        </div>
-        <div class="col-sm-2"></div>
-    </div>
 
-    <div class="row">
-        <div class="col-sm-2"></div>
-        <label class="col-sm-2">Games</label>
-        <div class="col-sm-6">
-            <table>
-            {{#each games}}
-                <td>
-                    <div class="form-group">
-                        <label for="{{_id}}">{{#gameName name}}{{/gameName}}</label>
-                        <input type="number" data-game-id="{{_id}}" name="{{_id}}" class="form-control align-center" placeholder="#">
+                    <form method="POST" action="/eventGame/{{_id}}/deleteDealer">
+                        <div>{{dealer.first_name}} {{dealer.last_name}}</div>
+                        <input type="hidden" name="deleteDealer" value={{dealer._id}}>
+                        <input class="btn btn-danger" type="submit" value="Delete {{dealer.first_name}}">
+                        <input type="hidden" name="_csrf" value="{_csrf}">
+                        <input type="hidden" name="_method" value="DELETE"> 
+                    </form>
+
+
+
+
+                        {{!-- <form method="POST" action="/eventGame/{{_id}}/deleteDealer">
+                            <div class="form-group row">
+                                <div class="col-xs-9">{{dealer.first_name}} {{dealer.last_name}}</div>
+                                <div class="col-xs-3">
+                                    <button type="submit">x</button>
+                                </div>
+                            </div>
+                        </form> --}}
+
+
                     </div>
-                    {{!-- <div class="form-group" hidden>
-                        <label for="{{_id}}">{{#gameName name}}{{/gameName}}</label>
-                        <input type="number" data-game-id="{{_id}}" name="{{_id}}" class="form-control align-center" placeholder="#">
-                    </div> --}}
-                </td>
+                    <div class="col-xs-6">
+                        <form method="POST" action="/eventGame/{{_id}}/addDealer">
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <select name="dealer" data-placeholder="Choose a client" class="chosen-select form-control" id="dealer-input" placeholder="Dealers">
+                                        <option value=""></option>
+                                        {{#each ../waitlist}}
+                                            <option value="{{_id}}">{{first_name}} {{last_name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            {{!-- <button type="submit">Assign</button> --}}
+                            <div class="col-xs-6"><button type="submit">Assign</button></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             {{/each}}
-            </table>
         </div>
-        <div class="col-sm-2"></div>
     </div>
-
-    <div class="form-group row">
-        <div class="col-sm-2"></div>
-        <label for="workers-input" class="col-sm-2">Workers</label>
-        <div class="col-sm-6">
-            <select multiple data-placeholder="Choose some workers" class="form-control chosen-select" name="workers">
-            <option value=""></option>
-            {{#each workers}}
-                <option value={{_id}}>{{first_name}} {{last_name}}</option>
-            {{/each}}
-            </select>
-        </div>
-        <div class="col-sm-2"></div>
-    </div>
-
-    <div class="form-group row">
-        <div class="col-sm-2"></div>
-        <label for="event-hostname-input" class="col-sm-2">Main Contact</label>
-        <div class="col-sm-6">
-            <input type="text" name="hostname" class="form-control" id="event-hostname-input" placeholder="Name of main contact">
-        </div>
-        <div class="col-sm-2"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-4"></div>
-        <button type="submit" class="btn btn-primary col-sm-6">Create Event</button>
-    </div>
-
-</form>
+</div>
