@@ -1,10 +1,15 @@
+<div class="row container">
+<div class="col-xs-12 align-center">
+    <h2>Games for Event: {{event.name}}</h2>
+</div>
+</div>
 <div class="row container event-games align-center">
     <div class="col-xs-12">
         <div class="row align-center">
-            <div class="col-xs-3"><h3>Game</h3></div>
-            <div class="col-xs-3"><h3>Current Worker</h3></div>
-            <div class="col-xs-3"><h3>Available</h3></div>
-            <div class="col-xs-3"><h3>Assign Worker</h3></div>
+            <div class="col-xs-3"><h3>Game</h3><hr></div>
+            <div class="col-xs-3"><h3>Current Worker</h3><hr></div>
+            <div class="col-xs-3"><h3>Available</h3><hr></div>
+            <div class="col-xs-3"><h3>Assign Worker</h3><hr></div>
         </div>
     </div>
     <br>
@@ -14,27 +19,19 @@
                 <div class="row align-center">
                     <div class="col-xs-3">{{game.name}}</div>
                     <div class="col-xs-3">
-
-
-                    <form method="POST" action="/eventGame/{{_id}}/deleteDealer">
-                        <div>{{dealer.first_name}} {{dealer.last_name}}</div>
-                        <input type="hidden" name="deleteDealer" value={{dealer._id}}>
-                        <input class="btn btn-danger" type="submit" value="Delete {{dealer.first_name}}">
-                        <input type="hidden" name="_csrf" value="{_csrf}">
-                        <input type="hidden" name="_method" value="DELETE"> 
-                    </form>
-
-
-
-
-                        {{!-- <form method="POST" action="/eventGame/{{_id}}/deleteDealer">
-                            <div class="form-group row">
-                                <div class="col-xs-9">{{dealer.first_name}} {{dealer.last_name}}</div>
-                                <div class="col-xs-3">
-                                    <button type="submit">x</button>
-                                </div>
-                            </div>
-                        </form> --}}
+                        <div class="col-xs-9 align-right">
+                            <a href="/users/{{dealer._id}}">{{dealer.first_name}} {{dealer.last_name}}</a>
+                        </div>
+                        <div class="col-xs-3 align-left">
+                            {{#if dealer}}
+                            <form method="POST" action="/eventGame/{{_id}}/deleteDealer">
+                                <input type="hidden" name="deleteDealer" value={{dealer._id}}>
+                                <input class="btn btn-danger" type="submit" value="x">
+                                <input type="hidden" name="_csrf" value="{_csrf}">
+                                <input type="hidden" name="_method" value="DELETE"> 
+                            </form>
+                            {{/if}}
+                        </div>
 
 
                     </div>

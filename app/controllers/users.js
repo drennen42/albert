@@ -211,13 +211,13 @@ router.get('/new', function (req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-  if (!req.session.user || !req.session.user.is_admin) {
-      // res.send('Unauthorized!!');
-      res.status(403).render('index', {
-          title: 'Sheduling Made Easy',
-          err: [{message: 'Unauthorized'}]
-        });
-  } else {
+  // if (!req.session.user || !req.session.user.is_admin) {
+  //     // res.send('Unauthorized!!');
+  //     res.status(403).render('index', {
+  //         title: 'Sheduling Made Easy',
+  //         err: [{message: 'Unauthorized'}]
+  //       });
+  // } else {
 
     User.findOne({_id: req.params.id})
       .populate('games')
@@ -225,7 +225,7 @@ router.get('/:id', function(req, res, next) {
         if (err) res.send(err);
       res.render('Users/show', {user});
     });
-  }
+  // }
 });
 
 router.get('/:id/calendar', function (req, res, next) {
