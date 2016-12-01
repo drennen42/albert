@@ -32,16 +32,16 @@ router.post('/:id/addDealer', function (req, res, next) {
 });
 
 router.post('/:id/deleteDealer', function(req, res, next) {
-	console.log('INSIDE DELETE DEALER FUNCTION');
 	EventGame.findById(req.params.id)
 	.populate('event')
 	.populate('dealer')
 	.exec(function (err, evtGame) {
 		if (err) res.send(err);
 		
-		User.findOneAndUpdate({_id: req.body.deleteDealer}, function(err, user) {
+		User.findOne({_id: req.body.deleteDealer}, function(err, user) {
+			console.log('Dealer to be deleted: ', user);
 			if (err) res.send(err);
-			// evtGame.dealer ;
+			evtGame.dealer = null;
 			evtGame.is_open = true;
 			evtGame.event.waitlist.push(user);
 			evtGame.event.save((err) => {if (err) res.send(err);});

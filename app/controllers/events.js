@@ -15,26 +15,20 @@ var express = require('express'),
   }),
   concatName = (name) => name.split(' ').join(''),
   countGames = (event) => {
-    // console.log('countGames event: ', event);
-    // return events.map((event) => {
-      // console.log('*********** countGames event.eventGames *****: ', [event.eventGames, event.eventGames.length]);
-      var gameNames = [],
-          returnObj = {},
-          returnStr = '';
-      event.eventGames.map((evtGame) => {
-        gameNames.push(evtGame.game.name);
-      });
+    var gameNames = [],
+        returnObj = {},
+        returnStr = '';
+    event.eventGames.map((evtGame) => {
+      gameNames.push(evtGame.game.name);
+    });
 
-      // console.log('***** countGames gameNames *****: ', [gameNames, gameNames.length]);
+    for (var i = 0; i < gameNames.length; i++) {
+      returnObj[gameNames[i]] = returnObj[gameNames[i]] || 0;
+      returnObj[gameNames[i]] = returnObj[gameNames[i]] + 1;
+    }
 
-      for (var i = 0; i < gameNames.length; i++) {
-        returnObj[gameNames[i]] = returnObj[gameNames[i]] || 0;
-        returnObj[gameNames[i]] = returnObj[gameNames[i]] + 1;
-      }
-
-      Object.keys(returnObj).forEach((k) => returnStr += `<tr><td>${returnObj[k]} ${k}</td></tr>`);
-      return returnStr;
-    // });
+    Object.keys(returnObj).forEach((k) => returnStr += `<tr><td>${returnObj[k]} ${k}</td></tr>`);
+    return returnStr;
   };
 
 module.exports = function (app) {
@@ -300,7 +294,7 @@ router.get('/events/:id/games', function(req, res, next) {
     .sort({'game': 'ascending'})
     .exec(function(err, evtGames) {
       if (err) res.send(err)
-      res.render('Events/eventGames', {'waitlist': event.waitlist, 'evtGames': evtGames});
+      res.render('Events/eventGames', {'waitlist': event.waitlist, 'evtGames': evtGames, 'event': event});
     })
   })
 });
