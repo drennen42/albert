@@ -6,6 +6,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN npm install
-
-CMD ["gulp", "develop"]
+CMD "NODE_ENV=test"
+CMD "PORT=$PORT"
+CMD ["npm", "install"]
+CMD ["npm", "start"]

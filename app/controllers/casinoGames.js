@@ -29,13 +29,12 @@ router.post('/new', function (req, res, next) {
         console.log('save error', err);
     }
 
-    // res.redirect('/' + newCasinoGame.name);
-    res.redirect('/' + newCasinoGame._id);
+    res.redirect('/casinoGames/' + newCasinoGame._id);
   });
 });
 
-router.get('/:name', function(req, res, next) {
-  CasinoGame.findOne({name: req.params.name}, function(err, casinoGame) {
+router.get('/:id', function(req, res, next) {
+  CasinoGame.findById(req.params.id, function(err, casinoGame) {
     if (err)
       res.send(err);
 

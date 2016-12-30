@@ -26,7 +26,7 @@ gulp.task('sass', function () {
     .pipe(concat('style.min.css'))
     .pipe(sass())
     .pipe(cleanCSS())
-    // .pipe(uglify())
+    // .pipe(uglify())cvb
     .pipe(gulp.dest('./public/css/'))
     // .pipe(gulp.dest('public/css'))
     .pipe(livereload());
@@ -35,8 +35,8 @@ gulp.task('sass', function () {
 gulp.task('watch', function() {
   // gulp.src('./public/css/*.scss')
   livereload.listen();
-  gulp.watch('./public/scss/*.scss', ['sass']);
-  gulp.watch('./public/scss/**/*.scss', ['sass']);
+  gulp.watch('./public/sass/*.scss', ['sass']);
+  gulp.watch('./public/sass/**/*.scss', ['sass']);
   gulp.watch('./public/js/*.js', ['browserify']);
   gulp.watch('./public/js/**/*.js', ['browserify']);
 
@@ -116,7 +116,7 @@ gulp.task('browser-sync', function() {
 
 gulp.task('default', [
   'sass',
-  'browserify',
   'develop',
+  'browserify',
   'watch'
 ]);

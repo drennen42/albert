@@ -4,7 +4,7 @@
 </div>
 <br>
 
-<form method="POST" action="/clients/new">
+<form method="POST" class="new-client-form" action="/clients/new">
     <div class="form-group row">
     <div class="col-sm-2"></div>
         <label for="company-input" class="col-sm-2">Company</label>
@@ -70,28 +70,17 @@
         </div>
     </div>
 
-{{!--     <div class="form-group row">
-    <div class="col-sm-2"></div>
-        <label for="address-state-input" class="col-sm-2">State</label>
-        <div class="col-sm-6">
-            <input type="text" name="address_state" class="form-control" id="address-state-input" placeholder="State">
-        </div>
-    </div> --}}
-
     <div class="form-group row">
     <div class="col-sm-2"></div>
         <label for="address-state-input" class="col-sm-2">State</label>
-        <div class="col-sm-6">
-            <select name="address_state" data-placeholder="Choose a state" class="chosen-select form-control" id="address-state-input" placeholder="State">
-                <option value=""></option>
+        <div class="col-sm-2">
+            <select name="address_state" data-placeholder="Choose a state" single class="chosen-select form-control" id="address-state-input">
+                <option data-placeholder="State"></option>
             </select>
         </div>
-    </div>
 
-    <div class="form-group row">
-    <div class="col-sm-2"></div>
-        <label for="address-zip-input" class="col-sm-2">Zipcode</label>
-        <div class="col-sm-6">
+        <label for="address-zip-input" class="col-sm-1 align-right">Zipcode</label>
+        <div class="col-sm-3">
             <input type="text" name="address_zip" class="form-control" id="address-zip-input" placeholder="Zipcode">
         </div>
     </div>
@@ -125,17 +114,14 @@
     <div class="form-group row">
     <div class="col-sm-2"></div>
         <label for="billing-state-input" class="col-sm-2">State</label>
-        <div class="col-sm-6">
+        <div class="col-sm-2">
             <select name="billing_state" data-placeholder="Choose a state" class="chosen-select form-control" id="billing-state-input" placeholder="State">
-                <option value=""></option>
+                <option data-placeholder="State" value=""></option>
             </select>
         </div>
-    </div>
 
-    <div class="form-group row">
-    <div class="col-sm-2"></div>
-        <label for="billing-zip-input" class="col-sm-2">Zipcode</label>
-        <div class="col-sm-6">
+        <label for="billing-zip-input" class="col-sm-1 align-right">Zipcode</label>
+        <div class="col-sm-3">
             <input type="text" name="billing_zip" class="form-control" id="billing-zip-input" placeholder="Zipcode">
         </div>
     </div>

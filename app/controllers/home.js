@@ -59,7 +59,12 @@ router.get('/login', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
   User.findOne({$or: [{username: req.body.username}, {email: req.body.username}]}, function(err, user) {
-    if (err) res.send(err)
+    if (err || !user) {
+      res.status(403).render('Users/login', {
+          title: 'Sheduling Made Easy',
+          err: [{message: 'Username and/or password incorrect'}]
+        });
+    } else {
 
     // user.verifyPassword(req.body.password, function(err, valid) {
     //   if (err) {
@@ -79,6 +84,7 @@ router.post('/login', function (req, res, next) {
         res.redirect('/');
       // };
     // });
+  }
   });
 });
 

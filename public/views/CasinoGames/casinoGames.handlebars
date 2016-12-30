@@ -12,7 +12,7 @@
     <tbody>
     {{#each casinoGames}}
       <tr>
-        <td><a href="/casinoGames/{{name}}"> {{name}}</a></td>
+        <td><a href="/casinoGames/{{_id}}"> {{name}}</a></td>
         {{#if SESS_USER.is_admin}}
         <td>
             <form method="POST" action="/casinoGames/{{_id}}">
