@@ -16,7 +16,12 @@ function authenticate(req, res, next) {
     // }
   } else {
     console.log('No session user or the user is not admin');
-    return res.sendStatus(401);
+    // res.redirect('/');
+    res.status(403).render('index', {
+          title: 'Sheduling Made Easy',
+          err: [{message: 'Unauthorized'}]
+        });
+    // return res.sendStatus(401);
   }
 }
 
@@ -76,13 +81,14 @@ router.post('/new', function (req, res, next) {
 
   newClient.validate(function(err) {
     if (err) {
+      console.log('New Client error: ', err);
       res.render('Clients/new', {err: err.errors});
     } else {
       newClient.save(function (err) {
         if (err) 
           console.log('save error: ', err);
 
-        res.redirect('/' + newClient._id);
+        res.redirect('/clients/' + newClient._id);
       });
     };
   });  
@@ -102,7 +108,7 @@ router.post('/:id', function (req, res, next) {
       res.send(err);
   });
     
-  res.redirect('/');
+  res.redirect('/clients');
 });
 
 router.get('/:id/events', function(req, res, next) {

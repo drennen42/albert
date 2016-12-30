@@ -10,11 +10,9 @@ var config = {
       name: 'albert'
     },
     port: process.env.PORT || 3000,
-    // db: 'mongodb://localhost:32768/albert'
-    // db: 'mongodb://mongo:32768/albert'
-    db: 'mongodb://mongo:27017/albert'
-    // db: 'mongodb://127.0.0.1:27017/albert'
-    // db: mongo.db('mongodb://' + process.env.MONGODB_PORT_27017_TCP_ADDR + ':' + process.env.MONGODB_PORT_27017_TCP_PORT + '/albert')
+    db: 'mongodb://localhost:27017/albert'
+    // db: '../data/db/'
+    // db: 'mongodb://mongo:27017/albert'
   },
 
   test: {
@@ -23,11 +21,8 @@ var config = {
       name: 'albert'
     },
     port: process.env.PORT || 3000,
-    // db: 'mongodb://localhost:32768/albert'
-    // db: 'mongodb://mongo:32768/albert'
+    // db: 'mongodb://localhost:27017/albert'
     db: 'mongodb://mongo:27017/albert'
-    // db: 'mongodb://127.0.0.1:27017/albert'
-    // db: mongo.db('mongodb://' + process.env.MONGODB_PORT_27017_TCP_ADDR + ':' + process.env.MONGODB_PORT_27017_TCP_PORT + '/albert')
   },
 
   production: {
@@ -36,11 +31,8 @@ var config = {
       name: 'albert'
     },
     port: process.env.PORT || 3000,
-    // db: 'mongodb://localhost:32768/albert'
-    // db: 'mongodb://mongo:32768/albert'
+    // db: 'mongodb://localhost:27017/albert'
     db: 'mongodb://mongo:27017/albert'
-    // db: 'mongodb://127.0.0.1:27017/albert'
-    // db: mongo.db('mongodb://' + process.env.MONGODB_PORT_27017_TCP_ADDR + ':' + process.env.MONGODB_PORT_27017_TCP_PORT + '/albert')
   }
 };
 
