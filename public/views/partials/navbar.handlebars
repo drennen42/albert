@@ -1,5 +1,5 @@
 <nav class="navbar navbar-inverse">
-  <div class="container">
+  <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -16,7 +16,7 @@
       <ul class="nav navbar-nav">
         {{#if SESS_USER}}
         {{#if SESS_USER.is_admin}}
-        <li><a href="/users">Users<span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="/users">Users<span class="sr-only">(current)</span></a></li>
         <li><a href="/clients">Clients</a></li>
         <li><a href="/events/new">Create Event</a></li>
         {{/if}}
@@ -26,17 +26,33 @@
         <li><a href="/casinoGames">Casino Games</a></li>
 
       </ul>
+
+
       <ul class="nav navbar-nav navbar-right">
         {{#if SESS_USER}}
-          <li><a href="/users/{{SESS_USER._id}}">{{SESS_USER.username}}</a></li>
-          <li><a>|</a></li>
-          <li><a href="/logout">Logout</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{SESS_USER.username}} <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/users/{{SESS_USER._id}}">Profile</li>
+              <li role="separator" class="divider"></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </li>
+
         {{else}}
-          <li><a href="/login">Dealer Login</a></li>
-          <li><a>|</a></li>
-          <li><a href="/login">Admin Login</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/login">Dealer Login</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="/login">Admin Login</a></li>
+            </ul>
+          </li>
+          <li><a href="/users/new">Sign Up</a></li>
         {{/if}}
       </ul>
+
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

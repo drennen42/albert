@@ -1,11 +1,11 @@
 version: '2'
 services:
   albert:
-    build: .
+    image: drennen42/albert-web:v1.2.0
     ports:
       - "3000:3000"
     restart: "always"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
   mongo:
     image: mongo

@@ -10,22 +10,34 @@
       </tr>
     </thead>
     <tbody>
-    {{#each casinoGames}}
+
+
+    {{#if SESS_USER.is_admin}}
+      {{#each casinoGames}}
+        <tr>
+          <td><a href="/casinoGames/{{_id}}"> {{name}}</a></td>
+          <td>
+              <form method="POST" action="/casinoGames/{{_id}}">
+                  <input type="hidden" name="id" value="{{_id}}">
+                  <input class="btn btn-danger" type="submit" value="Delete {{name}}">
+                  <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
+                  <input type="hidden" name="_csrf" value="{_csrf}">
+                  <input type="hidden" name="_method" value="DELETE"> 
+              </form>
+          </td>
+        </tr>
+      {{/each}}
+
+    {{else}}
+      {{#each casinoGames}}
       <tr>
         <td><a href="/casinoGames/{{_id}}"> {{name}}</a></td>
-        {{#if SESS_USER.is_admin}}
-        <td>
-            <form method="POST" action="/casinoGames/{{_id}}">
-                <input type="hidden" name="id" value="{{_id}}">
-                <input type="submit" value="Delete">
-                <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
-                <input type="hidden" name="_csrf" value="{_csrf}">
-                <input type="hidden" name="_method" value="DELETE"> 
-            </form>
-        </td>
-        {{/if}}
       </tr>
-    {{/each}}
+      {{/each}}
+
+    {{/if}}
+
+
     </tbody>
   </table>
   {{#if SESS_USER.is_admin}}

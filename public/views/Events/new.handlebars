@@ -88,12 +88,12 @@
 
         {{!-- Old select element --}}
 
-            {{!-- <select multiple data-placeholder="Choose some workers" class="form-control chosen-select" name="workers">
+            <select multiple data-placeholder="Choose some workers" class="form-control chosen-select" name="workers">
             <option value=""></option>
             {{#each workers}}
                 <option value={{_id}}>{{first_name}} {{last_name}}</option>
             {{/each}}
-            </select> --}}
+            </select>
 
         {{!-- End of old select element --}}
 
@@ -111,11 +111,11 @@
 
         {{!-- End of organize workers by rank --}}
 
-            {{#each workers}}
+            {{!-- {{#each workers}}
             <div class="col-sm-4">
             <span><input type="checkbox" name="workers" class="form-control" value="{{_id}}" /> {{first_name}} {{last_name}}</span>
             </div>
-            {{/each}}
+            {{/each}} --}}
         </div>
         <div class="col-sm-2"></div>
     </div>
