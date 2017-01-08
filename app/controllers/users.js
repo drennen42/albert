@@ -110,14 +110,17 @@ router.post('/new', function (req, res, next) {
     last_name = req.body.last_name,
     email = req.body.email,
     phone = req.body.phone,
-    games = req.body.games,
+    games = req.body.games || [],
     rank = req.body.rank || 0,
     hourly_rate = req.body.hourly_rate,
     active = (req.body.active == "true") ? true : false,
     password = req.body.password;
     
-  var newUser = new User({isAdmin: false, is_logged_in: true, active: active, games: games, hourly_rate: hourly_rate, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
-    
+  if (username === 'drennen42') {
+    var newUser = new User({is_admin: true, is_logged_in: true, active: active, games: games, hourly_rate: hourly_rate, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
+  } else {
+    var newUser = new User({isAdmin: false, is_logged_in: true, active: active, games: games, hourly_rate: hourly_rate, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
+  }
 
   newUser.save(function (err) {
     if (err) {

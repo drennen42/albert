@@ -72,7 +72,7 @@
         <div class="col-sm-2"></div>
         <label for="game-input" class="col-sm-2">Games</label>
         <div class="col-sm-6">
-            <select data-placeholder="Choose some games" class="chosen-select form-control" name="games" multiple>
+            <select data-placeholder="Choose some games" class="chosen-select form-control" multiple name="games">
             <option value=""></option>
             {{#each selectedGames}}
                 <option value={{_id}} selected>{{name}}</option>

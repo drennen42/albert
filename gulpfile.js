@@ -26,7 +26,8 @@ gulp.task('sass', function () {
     .pipe(concat('style.min.css'))
     .pipe(sass())
     .pipe(cleanCSS())
-    // .pipe(uglify())cvb
+    // .pipe(uglify())
+    // .pipe(streamify(uglify()))
     .pipe(gulp.dest('./public/css/'))
     // .pipe(gulp.dest('public/css'))
     .pipe(livereload());
@@ -37,7 +38,7 @@ gulp.task('watch', function() {
   livereload.listen();
   gulp.watch('./public/sass/*.scss', ['sass']);
   gulp.watch('./public/sass/**/*.scss', ['sass']);
-  gulp.watch('./public/js/*.js', ['browserify']);
+  // gulp.watch('./public/js/*.js', ['browserify']);
   gulp.watch('./public/js/**/*.js', ['browserify']);
 
 });
@@ -62,7 +63,7 @@ gulp.task('browserify', function() {
         // '' + path.join('.public/views/modules/**/*.js'),
       // scriptFiles = glob.sync(['./public/js/**/*.js', '.public/views/modules/**/*.js']),
       scriptFiles = glob.sync(fileSrc),
-      file = 'bundle.js',
+      file = 'bundle.min.js',
       props = {
         transform: [[babelify, {presets: ['es2015']}]],
         entries: [scriptFiles]
@@ -75,7 +76,7 @@ gulp.task('browserify', function() {
         var stream = bundler.bundle();
         return stream.on('error', handleErrors)
             .pipe(source(file))
-            // .pipe(streamify(uglify()))
+            .pipe(streamify(uglify()))
             .pipe(gulp.dest('./public'));
       }
 

@@ -3,6 +3,9 @@ var path = require('path'),
     assert = require('assert'),
     env = process.env.NODE_ENV || 'development';
 
+console.log('current ENV is: ', env);
+console.log('current process.env.NODE_ENV is: ', process.env.NODE_ENV);
+
 var config = {
   development: {
     root: rootPath,
