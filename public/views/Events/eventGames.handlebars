@@ -39,7 +39,7 @@
                         <form method="POST" action="/eventGame/{{_id}}/addDealer">
                             <div class="form-group row">
                                 <div class="col-sm-6">
-                                    <select name="dealer" data-placeholder="Choose a client" class="chosen-select form-control" id="dealer-input" placeholder="Dealers">
+                                    <select name="dealer" data-placeholder="Choose a worker" class="chosen-select form-control" id="dealer-input" placeholder="Dealers">
                                         <option value=""></option>
                                         {{#each ../waitlist}}
                                             <option value="{{_id}}">{{first_name}} {{last_name}}</option>

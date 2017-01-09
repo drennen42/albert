@@ -197,6 +197,7 @@ router.post('/:id/update', function (req, res, next) {
     games = req.body.games,
     rank = req.body.rank,
     is_admin = (req.body.is_admin == "true") ? true : false,
+    is_developer = (req.body.is_developer == "true") ? true : false,
     active = (req.body.active == "true") ? true : false;
     
     if (!!req.body.hourly_rate) {
@@ -207,12 +208,12 @@ router.post('/:id/update', function (req, res, next) {
     var password = req.body.password;
 
     if (!!hourly_rate) {
-      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, hourly_rate: hourly_rate, password: password, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, is_developer: is_developer, hourly_rate: hourly_rate, password: password, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
         if (err) return next(err);
         res.redirect('/users/' + req.params.id);
       });
     } else {
-      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, password: password, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, is_developer: is_developer, password: password, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
         if (err) return next(err);
         res.redirect('/users/' + req.params.id);
       });
@@ -220,12 +221,12 @@ router.post('/:id/update', function (req, res, next) {
 
   } else {
     if (!!hourly_rate) {
-      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, hourly_rate: hourly_rate, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, is_developer: is_developer, hourly_rate: hourly_rate, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
         if (err) return next(err);
         res.redirect('/users/' + req.params.id);
       });
     } else {
-      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, is_developer: is_developer, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
         if (err) return next(err);
         res.redirect('/users/' + req.params.id);
       });
