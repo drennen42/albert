@@ -37,14 +37,25 @@ module.exports = function(app, config) {
 
   if (app.get('env') === 'production') {
     app.set('trust proxy', 1) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
-  };
+    app.use(session({
+      resave: true,
+      saveUninitialized: true,
+      secret: 'I will never tell!',
+      // cookie: {
+      //   httpOnly: true,
+      //   secure: true
+      // }
+    }));
 
-  app.use(session({
-    resave: false,
-    saveUninitialized: false,
-    secret: 'I will never tell!'
-  }));
+
+    // sess.cookie.secure = true // serve secure cookies
+  } else {
+    app.use(session({
+      resave: false,
+      saveUninitialized: false,
+      secret: 'I will never tell!'
+    }));
+  };
 
   // Session-persisted message middleware
 

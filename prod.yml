@@ -1,7 +1,7 @@
 version: '2'
 services:
   albert:
-    image: drennen42/albert-web:v1.2.0
+    image: drennen42/albert-web:v1.2.2
     ports:
       - "3000:3000"
     restart: "always"
