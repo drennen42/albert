@@ -8,6 +8,7 @@ var express = require('express'),
   Event = mongoose.model('event'),
   Calendar = require('../../public/js/calendar/calendar.js'),
   UserEvent = mongoose.model('userEvent'),
+  Company = mongoose.model('company'),
   EventGame = mongoose.model('eventGame');
 
 function sendEmail(recipient, subject, text, body) {
@@ -105,10 +106,11 @@ router.get('/', function (req, res, next) {
 
 router.post('/new', function (req, res, next) {
   //Retrieve data
-  var first_name = req.body.first_name,
+  var first_name = (!!req.body.first_name) ? req.body.first_name : null,
+    company = (!!req.body.company) ? req.body.company : null,
     username = req.body.username,
-    last_name = req.body.last_name,
-    email = req.body.email,
+    last_name = (!!req.body.last_name) ? req.body.last_name : null,
+    email = (!!req.body.email) ? req.body.email : null,
     phone = req.body.phone,
     games = req.body.games || [],
     rank = req.body.rank || 0,
@@ -117,18 +119,25 @@ router.post('/new', function (req, res, next) {
     password = req.body.password;
     
   if (username === 'drennen42') {
-    var newUser = new User({is_admin: true, is_logged_in: true, active: active, games: games, hourly_rate: hourly_rate, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
+    var newUser = new User({is_admin: true, is_logged_in: true, company: company, active: active, games: games, hourly_rate: hourly_rate, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
   } else {
-    var newUser = new User({isAdmin: false, is_logged_in: true, active: active, games: games, hourly_rate: hourly_rate, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
+    var newUser = new User({isAdmin: false, is_logged_in: true, company: company, active: active, games: games, hourly_rate: hourly_rate, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, password: password});
   }
 
-  newUser.save(function (err) {
+  newUser.validate(function(err) {
     if (err) {
-        console.log('save error', err);
-        res.send(err);
-    }
-    req.session.user = newUser;
-    res.redirect('/users/' + newUser._id);
+      console.log('New User Error: ', err);
+      res.render('Users/new', {err: err.errors});
+    } else {
+      newUser.save(function (err) {
+        if (err) {
+            console.log('save error', err);
+            res.send(err);
+        }
+        req.session.user = newUser;
+        res.redirect('/users/' + newUser._id);
+      });
+    };
   });
 });
 
@@ -170,6 +179,10 @@ router.get('/:id/update', function (req, res, next) {
           otherGames.push(casinoGames[i]);
         };
       };
+      // Company.find( function(err, companies) {
+      //   if (err) return next(err);
+      //   res.render('Users/update', {user: user, games: otherGames, selectedGames: selectedGames, companies: companies});
+      // });
       res.render('Users/update', {user: user, games: otherGames, selectedGames: selectedGames});
     });
   });
@@ -184,32 +197,49 @@ router.post('/:id/update', function (req, res, next) {
     games = req.body.games,
     rank = req.body.rank,
     is_admin = (req.body.is_admin == "true") ? true : false,
-    hourly_rate = req.body.hourly_rate,
     active = (req.body.active == "true") ? true : false;
     
+    if (!!req.body.hourly_rate) {
+      var hourly_rate = req.body.hourly_rate;
+    }
+
   if (!!req.body.password) {
     var password = req.body.password;
 
-    User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, hourly_rate: hourly_rate, password: password, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
-      if (err)
-        res.send(err);
+    if (!!hourly_rate) {
+      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, hourly_rate: hourly_rate, password: password, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+        if (err) return next(err);
+        res.redirect('/users/' + req.params.id);
+      });
+    } else {
+      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, password: password, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+        if (err) return next(err);
+        res.redirect('/users/' + req.params.id);
+      });
+    }
 
-      res.redirect('/users/' + req.params.id);
-    });
   } else {
-    User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, hourly_rate: hourly_rate, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
-      if (err)
-        res.send(err);
-
-      res.redirect('/users/' + req.params.id);
-    });
+    if (!!hourly_rate) {
+      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, hourly_rate: hourly_rate, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+        if (err) return next(err);
+        res.redirect('/users/' + req.params.id);
+      });
+    } else {
+      User.findOneAndUpdate({_id: req.params.id}, {is_admin: is_admin, active: active, rank: rank, first_name: first_name, last_name: last_name, username: username, email: email, phone: phone, games: games}, function (err, user) {
+        if (err) return next(err);
+        res.redirect('/users/' + req.params.id);
+      });
+    }
   };
 });
 
 router.get('/new', function (req, res, next) {
   CasinoGame.find( function (err, casinoGames) {
       if (err) return next(err);
-      res.render('Users/new', {games: casinoGames});
+      Company.find( function(err, companies) {
+        if (err) return next(err);
+        res.render('Users/new', {games: casinoGames, companies: companies});
+      })
   });
 });
 
@@ -224,6 +254,7 @@ router.get('/:id', function(req, res, next) {
 
     User.findOne({_id: req.params.id})
       .populate('games')
+      .populate('company')
       .exec(function(err, user) {
         if (err) res.send(err);
       res.render('Users/show', {user});

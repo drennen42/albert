@@ -1,0 +1,105 @@
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-6"><h1>New Company</h1></div>
+</div>
+<br>
+
+<form method="POST" class="new-company-form" action="/companies/new">
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="company-name-input" class="col-sm-2">Company</label>
+        <div class="col-sm-6">
+            <input type="text" name="company_name" class="form-control" id="company-name-input" placeholder="Company" autofocus>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <label for="representative-input" class="col-sm-2">Representative</label>
+        <div class="col-sm-6">
+            <select name="representative" data-placeholder="Company Representative / Manager" class="chosen-select form-control" id="representative-input" placeholder="Representative">
+                <option value=""></option>
+                {{#each users}}
+                    <option value="{{_id}}">{{first_name}} {{last_name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="address-street-input" class="col-sm-2">Street Address</label>
+        <div class="col-sm-6">
+            <input type="text" name="address_street" class="form-control" id="address-street-input" placeholder="Street Address">
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="address-city-input" class="col-sm-2">City</label>
+        <div class="col-sm-6">
+            <input type="text" name="address_city" class="form-control" id="address-city-input" placeholder="City">
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="address-state-input" class="col-sm-2">State</label>
+        <div class="col-sm-2">
+            <select name="address_state" data-placeholder="Choose a state" single class="chosen-select form-control" id="address-state-input">
+                <option data-placeholder="State"></option>
+            </select>
+        </div>
+
+        <label for="address-zip-input" class="col-sm-1 align-right">Zipcode</label>
+        <div class="col-sm-3">
+            <input type="text" name="address_zip" class="form-control" id="address-zip-input" placeholder="Zipcode">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <label for="billing-address-same-input" class="col-sm-2">Billing Address Same?</label>
+        <div class="col-sm-6">
+            <input type="checkbox" id="billing-address-same-input" name="billing-address-same" value="true">&nbsp;Yes
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="billing-street-input" class="col-sm-2">Billing Street</label>
+        <div class="col-sm-6">
+            <input type="text" name="billing_street" class="form-control" id="billing-street-input" placeholder="Billing Street Address">
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="billing-city-input" class="col-sm-2">Billing City</label>
+        <div class="col-sm-6">
+            <input type="text" name="billing_city" class="form-control" id="billing-city-input" placeholder="Billing City">
+        </div>
+    </div>
+
+    <div class="form-group row">
+    <div class="col-sm-2"></div>
+        <label for="billing-state-input" class="col-sm-2">State</label>
+        <div class="col-sm-2">
+            <select name="billing_state" data-placeholder="Choose a state" class="chosen-select form-control" id="billing-state-input" placeholder="State">
+                <option data-placeholder="State" value=""></option>
+            </select>
+        </div>
+
+        <label for="billing-zip-input" class="col-sm-1 align-right">Zipcode</label>
+        <div class="col-sm-3">
+            <input type="text" name="billing_zip" class="form-control" id="billing-zip-input" placeholder="Zipcode">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <button type="submit" class="btn btn-primary col-sm-6">Create Company</button>
+    </div>
+
+</form>

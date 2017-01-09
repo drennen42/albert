@@ -68,6 +68,20 @@
         </div>
     </div>
 
+    {{!-- <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <label for="company-input" class="col-sm-2">Company</label>
+        <div class="col-sm-6">
+            <select name="company" data-placeholder="Company" class="chosen-select form-control" id="company-input" placeholder="company">
+                <option value=""></option>
+                {{#each companies}}
+                    <option value="{{_id}}">{{name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="col-sm-2"></div>
+    </div> --}}
+
     <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="game-input" class="col-sm-2">Games</label>
@@ -85,7 +99,8 @@
         <div class="col-sm-2"></div>
     </div>
 
-    {{#if user.is_admin}}
+    {{#if SESS_USER}}
+    {{#if SESS_USER.is_admin}}
     <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="rank-input" class="col-sm-2">Rank</label>
@@ -101,6 +116,7 @@
             <input type="number" name="hourly_rate" class="form-control" id="hourly-rate-input" min="1" step="any" placeholder="Hourly Rate" value="{{user.hourly_rate}}">
         </div>
     </div>
+    {{/if}}
     {{/if}}
 
     <div class="form-group row">

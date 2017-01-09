@@ -1,0 +1,30 @@
+<div class="container">
+  <h2>Companies</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Representative</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each companies}}
+      <tr>
+        <td><a href="/companies/{{_id}}">{{name}}</a></td>
+        <td><a href="/users/{{representative._id}}">{{representative.first_name}} {{representative.last_name}}</a></td>
+        <td>
+            <form method="POST" action="/companies/{{_id}}">
+                <input type="hidden" name="id" value="{{_id}}">
+                <input type="submit" value="Delete">
+                <!--If we don't at the Cross-Site Request Forgey token, this POST will be rejected-->
+                <input type="hidden" name="_csrf" value="{_csrf}">
+                <input type="hidden" name="_method" value="DELETE"> 
+            </form>
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+  <a class="btn btn-primary" href="/companies/new" role="button">New Company</a>
+</div>
