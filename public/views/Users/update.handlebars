@@ -12,6 +12,8 @@
         </div>
     </div>
 
+    {{#if SESS_USER}}
+    {{#if SESS_USER.is_admin}}
     <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="make-admin-input" class="col-sm-2">Is Admin?</label>
@@ -23,6 +25,22 @@
             {{/if}}
         </div>
     </div>
+
+    {{#if SESS_USER.is_developer}}
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <label for="make-developer-input" class="col-sm-2">Is Developer?</label>
+        <div class="col-sm-6">
+            {{#if user.is_admin}}
+            <input type="checkbox" id="make-developer-input" name="is_developer" value="true" checked>&nbsp;Yes
+            {{else}}
+            <input type="checkbox" id="make-developer-input" name="is_developer" value="true">&nbsp;Yes
+            {{/if}}
+        </div>
+    </div>
+    {{/if}}
+    {{/if}}
+    {{/if}}
 
     <div class="form-group row">
         <div class="col-sm-2"></div>
@@ -85,7 +103,8 @@
         <div class="col-sm-2"></div>
     </div>
 
-    {{#if user.is_admin}}
+    {{#if SESS_USER}}
+    {{#if SESS_USER.is_admin}}
     <div class="form-group row">
         <div class="col-sm-2"></div>
         <label for="rank-input" class="col-sm-2">Rank</label>
@@ -101,6 +120,7 @@
             <input type="number" name="hourly_rate" class="form-control" id="hourly-rate-input" min="1" step="any" placeholder="Hourly Rate" value="{{user.hourly_rate}}">
         </div>
     </div>
+    {{/if}}
     {{/if}}
 
     <div class="form-group row">

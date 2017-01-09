@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>{{user.first_name}} {{user.last_name}}</h2>
+  <h2>{{user.first_name}} {{user.last_name}} - {{user.company.name}}</h2>
   <table class="table table-striped user-show-table">
     <thead>
       <tr>
@@ -30,11 +30,11 @@
         <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
         <td>{{user.phone}}</td>
         <td>
-          <table class="table">
-          {{#each user.games}}
-            <tr><td><a href="/casinoGames/{{name}}">{{name}}</a></td></tr>
-          {{/each}}
-          </table>
+            <ul class="user-games-list">
+                {{#each user.games}}
+                    <li><a href="/casinoGames/{{name}}">{{name}}</a></li>
+                {{/each}}
+            </ul>
         </td>
         {{#if SESS_USER.is_admin}}
         <td>{{user.is_admin}}</td>

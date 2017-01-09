@@ -24,6 +24,9 @@
         <li><a href="/events">Events</a></li>
         <li><a href="/calendar">Calendar</a></li>
         <li><a href="/casinoGames">Casino Games</a></li>
+        {{#if SESS_USER.is_developer}}
+        <li><a href="/companies">Companies</a></li>
+        {{/if}}
 
       </ul>
 

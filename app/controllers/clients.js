@@ -8,20 +8,13 @@ function authenticate(req, res, next) {
   // if ((req.method == 'GET' || req.method == 'POST') && (!!req.session.user && !!req.session.user.is_admin)) {
   if (!!req.session && !!req.session.user && !!req.session.user.is_admin) {
     console.log('User ', req.session.user.first_name, ' ', req.session.user.last_name, ' is admin');
-    // var sessUser = req.session.user;
-    // if (!!sessUser && !!sessUser.is_admin) {
       return next();
-    // } else {
-      // return false;
-    // }
   } else {
     console.log('No session user or the user is not admin');
-    // res.redirect('/');
     res.status(403).render('index', {
           title: 'Sheduling Made Easy',
           err: [{message: 'Unauthorized'}]
         });
-    // return res.sendStatus(401);
   }
 }
 
