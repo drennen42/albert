@@ -49,7 +49,13 @@ router.get('/events', function (req, res, next) {
     .sort({'start_date': 'descending'})
     .exec(function (err, events) {
       if (err) res.send(err);
-      res.render('Events/events', {events: events, sessUser: sessUser, helpers: {gameName: concatName, gameCount: countGames}});
+
+      User.find(sessUser)
+      .populate('events')
+      .exec(function(err, suser) {
+        if (err) res.send(err);
+        res.render('Events/events', {events: events, sessUser: sessUser, suser: suser, helpers: {gameName: concatName, gameCount: countGames}});
+      });
     });
 });
 
@@ -251,6 +257,9 @@ router.post('/events/:id/update', function(req, res, next) {
 });
 
 router.get('/events/:id', function(req, res, next) {
+  var sessUser = (!!req.session.user) ? req.session.user._id : null,
+    is_worker = false,
+    on_waitlist = false;
   Event.findOne({_id: req.params.id})
   .populate('client')
   .populate('workers')
@@ -261,26 +270,27 @@ router.get('/events/:id', function(req, res, next) {
     populate: {path: 'game'}
   })
   .exec(function(err, event) {
-    // console.log('this event: ', event);
     if (err) res.send(err);
-    // EventGame.find({event: event}).populate('game event').exec(function(err, egs) {
-      // if (err) res.send(err);
-      // event.eventGames = egs;
-      // event.populate('eventGames');
-      // event.save(function(err){
-        // if (err) res.send(err);
-      // });
-      // event.populate('eventGames');
-      // console.log('EVENT: ', event);
-    // });
-
-    res.render('Events/show', {event, helpers: {gameName: concatName, gameCount: countGames}});
+    if (!!sessUser) {
+      event.workers.map((x) => {
+        if (x._id.toString() === sessUser.toString()) {
+          is_worker = true;
+        };
+      });
+      event.waitlist.map((x) => {
+        if (x._id.toString() === sessUser.toString()) {
+          on_waitlist = true;
+        };
+      });
+    };
+    res.render('Events/show', {event, is_worker: is_worker, on_waitlist: on_waitlist, helpers: {gameName: concatName, gameCount: countGames}});
   });
 });
 
 router.get('/events/:id/games', function(req, res, next) {
   Event.findById(req.params.id)
   .populate('waitlist')
+  .populate('workers')
   .exec(function(err, event) {
     if (err) res.send(err)
     EventGame.find({event: event})
@@ -288,13 +298,14 @@ router.get('/events/:id/games', function(req, res, next) {
     .populate({
       path: 'event',
       populate: {path: 'workers'},
+      populate: {path: 'waitlist'}
     })
     .populate('game')
     .populate('dealer')
     .sort({'game': 'ascending'})
     .exec(function(err, evtGames) {
       if (err) res.send(err)
-      res.render('Events/eventGames', {'waitlist': event.waitlist, 'evtGames': evtGames, 'event': event});
+      res.render('Events/eventGames', {'waitlist': event.waitlist, 'workers': event.workers, 'evtGames': evtGames, 'event': event});
     })
   })
 });

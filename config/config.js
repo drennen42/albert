@@ -3,9 +3,6 @@ var path = require('path'),
     assert = require('assert'),
     env = process.env.NODE_ENV || 'development';
 
-console.log('current ENV is: ', env);
-console.log('current process.env.NODE_ENV is: ', process.env.NODE_ENV);
-
 var config = {
   development: {
     root: rootPath,
@@ -14,8 +11,6 @@ var config = {
     },
     port: process.env.PORT || 3000,
     db: 'mongodb://localhost:27017/albert'
-    // db: '../data/db/'
-    // db: 'mongodb://mongo:27017/albert'
   },
 
   test: {
@@ -34,7 +29,6 @@ var config = {
       name: 'albert'
     },
     port: process.env.PORT || 3000,
-    // db: 'mongodb://localhost:27017/albert'
     db: 'mongodb://mongo:27017/albert'
   }
 };

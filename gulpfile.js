@@ -33,7 +33,7 @@ gulp.task('sass', function () {
     .pipe(livereload());
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', ['develop'], function() {
   // gulp.src('./public/css/*.scss')
   livereload.listen();
   gulp.watch('./public/sass/*.scss', ['sass']);
@@ -58,7 +58,7 @@ function handleErrors () {
   // }
 };
 
-gulp.task('browserify', function() {
+gulp.task('browserify', ['sass'], function() {
   var fileSrc = path.join('./public/js/**/*.js'),
         // '' + path.join('.public/views/modules/**/*.js'),
       // scriptFiles = glob.sync(['./public/js/**/*.js', '.public/views/modules/**/*.js']),
@@ -90,7 +90,7 @@ gulp.task('browserify', function() {
       return rebundle();
 });
 
-gulp.task('develop', function () {
+gulp.task('develop', ['browserify'], function () {
   livereload.listen();
   nodemon({
     script: 'app.js',
@@ -117,7 +117,7 @@ gulp.task('browser-sync', function() {
 
 gulp.task('default', [
   'sass',
-  'develop',
   'browserify',
+  'develop',
   'watch'
 ]);
