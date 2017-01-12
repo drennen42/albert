@@ -4,3 +4,4 @@ public/components
 client_secret.json
 npm-debug.log
 public/bundle.min.js
+public/css/style.min.css
